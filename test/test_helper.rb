@@ -1,5 +1,18 @@
 ENV["RAILS_ENV"] ||= "test"
-require_relative "../config/environment"
+
+# Ensure the test database exists: if missing, auto-run db:prepare and retry.
+begin
+  require_relative "../config/environment"
+rescue => e
+  if e.class.name == "ActiveRecord::NoDatabaseError"
+    warn "[test] Database not found. Running `bin/rails db:prepare` for test environment..."
+    system({"RAILS_ENV" => "test"}, "bin/rails db:prepare")
+    require_relative "../config/environment"
+  else
+    raise
+  end
+end
+
 require "rails/test_help"
 
 module ActiveSupport
