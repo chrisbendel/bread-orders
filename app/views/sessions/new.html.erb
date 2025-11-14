@@ -1,10 +1,10 @@
 <% content_for :title, "Sign in" %>
 
-<div class="stack gap-3">
+<div class="stack gap-lg">
   <p>Sign in with your email address. We'll send you a magic link to sign in.</p>
 
   <%= form_with url: session_path, method: :post, data: { turbo: true } do |f| %>
-    <div class="stack gap-2">
+    <div class="stack gap-sm">
       <div>
         <label for="email">Email</label>
         <input type="email" name="email" id="email" required class="w-100" autocomplete="email" />

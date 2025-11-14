@@ -1,7 +1,7 @@
 <% content_for :title, @owner.username %>
 
-<div class="stack gap-3">
-  <h2 class="fs-4"><%= @owner.username %></h2>
+<div class="stack gap-lg">
+  <h2 class="fs-lg"><%= @owner.username %></h2>
   <p>This is <%= @owner.username %>'s public page. Upcoming orders will appear here.</p>
   <% unless authenticated? %>
     <p>
