@@ -1,0 +1,7 @@
+<% content_for :title, "Dashboard" %>
+
+<div class="stack gap-3">
+  <h2 class="fs-4">Welcome, <%= @user.username %></h2>
+  <p>Your public page is available at: <%= link_to owner_url(@user.username), owner_path(@user.username) %></p>
+  <p>This is a placeholder dashboard. You'll be able to create and manage orders here.</p>
+</div>

@@ -20,22 +20,24 @@ Template
 - Feature: NAME
   - Status: planned | in-progress | shipped | deprecated
   - Summary: 1-2 lines
-  - Owner: OWNER
   - Links: [Issue #], [PR], [Docs]
 
 Initial list
 - Feature: Orders CRUD
   - Status: planned
   - Summary: Basic models, forms, and list pages for bread orders.
-  - Owner: YOU
   - Links:
+ - Feature: Passwordless authentication
+  - Status: shipped
+  - Summary: Email-based magic link sign-in. Each user has a unique username used as their public page URL (/:username).
+  - Links: [PR]
 
 ## Roadmap
 Use Now / Next / Later buckets; keep items small. Include an indicative date if helpful.
 
 - Now
   - Orders CRUD MVP
-  - Basic authentication (if needed)
+  - Basic authentication (passwordless magic links) — foundation for notifications ✓
 
 - Next
   - Customer profiles
@@ -49,6 +51,7 @@ Use Now / Next / Later buckets; keep items small. Include an indicative date if 
 Record key decisions with rationale. One line each, link to PR/issue.
 
 - 2025-11-13 Decision: Adopt mobile-first UI with raw HTML + minimal CSS utilities (Flexbox) — Rationale: Optimize for phone usage (~99% users), reduce complexity and dependencies, focus on speed and clarity — Links: #
+- 2025-11-13 Decision: Implement native Rails passwordless auth (signed_id magic links) initially instead of adding a gem — Rationale: smallest viable surface, Rails 8 built-ins, easy to evolve. URLs use username instead of slug. — Links: [PR]
 
 ## Maintenance workflow
 - For any user-facing change, update this file in the same PR.

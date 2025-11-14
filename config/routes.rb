@@ -10,5 +10,13 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  resource :session, only: [:new, :create, :destroy]
+  get "/auth", to: "sessions#show", as: :magic_link # consumes token
+
+  get "/dashboard", to: "dashboard#index", as: :dashboard
+
+  # Public owner page by username at top-level
+  get "/:username", to: "owners#show", as: :owner
+
+  root to: "sessions#new"
 end
