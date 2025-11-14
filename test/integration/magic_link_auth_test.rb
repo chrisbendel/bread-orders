@@ -9,7 +9,7 @@ class MagicLinkAuthTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     # Request magic link
-    post session_path, params: { email: "person@example.com" }
+    post session_path, params: {email: "person@example.com"}
     assert_redirected_to new_session_path
 
     # Email was sent
@@ -19,7 +19,7 @@ class MagicLinkAuthTest < ActionDispatch::IntegrationTest
 
     # Extract the magic link URL from the email body
     body = mail.html_part&.body&.to_s || mail.body.to_s
-    url = body[/href=\"(http[^\"]+)\"/, 1] || body[/\bhttp[^\s<]+/]
+    url = body[/href="(http[^"]+)"/, 1] || body[/\bhttp[^\s<]+/]
     assert url.present?, "Expected magic link URL in email body"
 
     # Follow magic link
@@ -28,7 +28,7 @@ class MagicLinkAuthTest < ActionDispatch::IntegrationTest
 
     follow_redirect!
     assert_response :success
-    assert_match /Welcome/, @response.body
+    assert_match(/Welcome/, @response.body)
 
     # Sign out
     delete session_path

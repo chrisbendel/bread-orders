@@ -4,7 +4,7 @@ ENV["RAILS_ENV"] ||= "test"
 begin
   require_relative "../config/environment"
 rescue => e
-  if e.class.name == "ActiveRecord::NoDatabaseError"
+  if e.instance_of?(ActiveRecord::NoDatabaseError)
     warn "[test] Database not found. Running `bin/rails db:prepare` for test environment..."
     system({"RAILS_ENV" => "test"}, "bin/rails db:prepare")
     require_relative "../config/environment"

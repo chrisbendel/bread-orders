@@ -4,7 +4,7 @@ class UserTest < ActiveSupport::TestCase
   test "normalizes email and generates username" do
     user = User.create!(email: "  Alice@Example.COM  ")
     assert_equal "alice@example.com", user.email
-    assert_match /alice/, user.username
+    assert_match(/alice/, user.username)
   end
 
   test "ensures unique username" do
