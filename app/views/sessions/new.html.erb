@@ -1,0 +1,16 @@
+<% content_for :title, "Sign in" %>
+
+<div class="stack">
+  <p>Sign in with your email address. We'll send you a code to sign in.</p>
+
+  <%= form_with url: session_path, method: :post, local: true do |f| %>
+    <div>
+      <%= f.label :email %><br>
+      <%= f.email_field :email, required: true, autofocus: true %>
+    </div>
+
+    <div>
+      <%= f.submit "Send login code" %>
+    </div>
+  <% end %>
+</div>
