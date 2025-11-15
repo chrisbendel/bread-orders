@@ -7,6 +7,12 @@
     --container: 720px;
 }
 
+form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
 /* Type scale (optional helpers) */
 .fs-sm {
     font-size: 0.875rem;
