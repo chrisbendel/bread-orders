@@ -3,34 +3,67 @@ class SessionsController < ApplicationController
     redirect_to dashboard_path if authenticated?
   end
 
+  # POST /session (send code)
   def create
-    email = params[:email].to_s.strip.downcase
-    if email.blank?
-      redirect_to new_session_path, alert: "Please enter your email." and return
+    email = params.require(:email).downcase.strip
+    user = User.find_by(email: email)
+
+    if user.nil?
+      # Optionally: create a user on first request if your flow allowed that.
+      # render :new with error to avoid leaking which emails exist
+      flash.now[:alert] = "If an account exists for that email, you'll receive a code."
+      return render :new, status: :ok
     end
 
-    user = User.find_or_initialize_by(email: email)
-    user.save! if user.new_record?
+    begin
+      login_code = LoginCode.generate_for(user)
+    rescue
+      # rate-limit hit, etc.
+      flash.now[:alert] = "Too many requests. Please wait a bit and try again."
+      return render :new, status: :too_many_requests
+    end
 
-    SessionMailer.with(user: user).magic_link.deliver_later
+    # Send the code asynchronously in production:
+    SessionMailer.with(user: user).login_code(user, login_code.plain_code).deliver_later
 
-    redirect_to new_session_path, notice: "Check your email for a sign-in link."
+    # You could store something like last_sent_email in session to prefill the verification form
+    session[:login_email] = user.email
+
+    redirect_to verify_session_path, notice: "We've sent a code to #{user.email}. It expires in 10 minutes."
   end
 
-  # Magic link endpoint: /auth?token=...
-  def show
-    token = params[:token].to_s
-    user = User.find_signed(token, purpose: :magic_login)
-    if user
-      sign_in user
-      redirect_to dashboard_path, notice: "Signed in successfully."
+  # GET /session/verify (show code entry)
+  def verify
+    @prefill_email = session[:login_email]
+  end
+
+  # POST /session/confirm (submit code)
+  def confirm
+    email = params.require(:email).downcase.strip
+    code = params.require(:code).to_s.strip
+
+    user = User.find_by(email: email)
+
+    if user.nil?
+      flash.now[:alert] = "Invalid code or email."
+      return render :verify, status: :unauthorized
+    end
+
+    login_code = LoginCode.active_for_user(user).order(created_at: :desc).first
+    if login_code && login_code.verify(code)
+      # sign in user — replace with your app helper if you have one
+      session[:user_id] = user.id
+      session.delete(:login_email)
+      redirect_to root_path, notice: "Signed in!"
     else
-      redirect_to new_session_path, alert: "That link is invalid or has expired."
+      flash.now[:alert] = "Invalid code or expired. Request a new code if needed."
+      @prefill_email = email
+      render :verify, status: :unauthorized
     end
   end
 
   def destroy
-    sign_out
-    redirect_to root_path, notice: "Signed out."
+    session.delete(:user_id)
+    redirect_to root_path, notice: "Signed out"
   end
 end

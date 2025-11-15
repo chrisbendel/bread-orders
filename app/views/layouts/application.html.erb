@@ -19,7 +19,7 @@
   <link rel="apple-touch-icon" href="/icon.png">
 
   <%# Normalize.css via CDN to standardize default styles across browsers %>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-oHDEc8XedUuWv4aENcy+XUG6uHgnIY7qDpiRnwV0wOYAV/QXp1S8MaqkOawx2UY8ailqXF/w3W0XkZ4a6P+qVg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-oHDEc8XedUuWv4aENcy+XUG6uHgnIY7qDpiRnwV0wOYAV/QXp1S8MaqkOawx2UY8ailqXF/w3W0XkZ4a6P+qVg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
   <%# Includes all stylesheet files in app/assets/stylesheets %>
   <%= stylesheet_link_tag :application, "data-turbo-track": "reload" %>
@@ -53,6 +53,7 @@
 </main>
 
 <footer class="container p-lg">
-  <small>&copy; <%= Time.current.year %> Bread Orders</small></footer>
+  <small>&copy; <%= Time.current.year %> Bread Orders</small>
+</footer>
 </body>
 </html>

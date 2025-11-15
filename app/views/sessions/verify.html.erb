@@ -1,0 +1,23 @@
+<h1>Enter your login code</h1>
+
+<p>We sent a 6-digit code to <strong><%= @prefill_email %></strong>. It expires in 10 minutes.</p>
+
+<%= form_with url: confirm_session_path, method: :post, local: true do |f| %>
+  <div>
+    <%= label_tag :email %><br>
+    <%= email_field_tag :email, @prefill_email, required: true %>
+  </div>
+
+  <div>
+    <%= label_tag :code, "6-digit code" %><br>
+    <%= text_field_tag :code, nil, required: true, maxlength: 6, pattern: "\\d{6}", autocomplete: "one-time-code" %>
+  </div>
+
+  <div>
+    <%= submit_tag "Sign in" %>
+  </div>
+<% end %>
+
+<p>
+  <%= link_to "Resend code", new_session_path %>
+</p>

@@ -2,34 +2,83 @@
    Note: normalize.css is loaded via CDN in the application layout. */
 
 :root {
-  --space-sm: 0.5rem;
-  --space-lg: 1rem;
-  --container: 720px;
+    --space-sm: 0.5rem;
+    --space-lg: 1rem;
+    --container: 720px;
 }
 
 /* Type scale (optional helpers) */
-.fs-sm { font-size: 0.875rem; }
-.fs-lg { font-size: 1.25rem; }
+.fs-sm {
+    font-size: 0.875rem;
+}
+
+.fs-lg {
+    font-size: 1.25rem;
+}
 
 /* Layout */
-.container { max-width: var(--container); margin-inline: auto; }
-.stack { display: flex; flex-direction: column; gap: var(--space-sm); }
+.container {
+    max-width: var(--container);
+    margin-inline: auto;
+}
+
+.stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.group {
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-sm);
+}
 
 /* Spacing */
-.p-sm { padding: var(--space-sm); }
-.p-lg { padding: var(--space-lg); }
-.gap-sm { gap: var(--space-sm); }
-.gap-lg { gap: var(--space-lg); }
-.w-100 { width: 100%; }
+.p-sm {
+    padding: var(--space-sm);
+}
+
+.p-lg {
+    padding: var(--space-lg);
+}
+
+.gap-sm {
+    gap: var(--space-sm);
+}
+
+.gap-lg {
+    gap: var(--space-lg);
+}
+
+.w-100 {
+    width: 100%;
+}
 
 /* Flex */
-.flex { display: flex; }
-.inline-flex { display: inline-flex; }
-.items-center { align-items: center; }
-.justify-between { justify-content: space-between; }
-.justify-center { justify-content: center; }
+.flex {
+    display: flex;
+}
+
+.inline-flex {
+    display: inline-flex;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.justify-center {
+    justify-content: center;
+}
 
 /* Responsive */
 @media (min-width: 768px) {
-  :root { --container: 960px; }
+    :root {
+        --container: 960px;
+    }
 }

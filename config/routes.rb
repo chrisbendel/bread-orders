@@ -11,7 +11,10 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   resource :session, only: [:new, :create, :destroy]
-  get "/auth", to: "sessions#show", as: :magic_link # consumes token
+  resource :session, only: [:new, :create, :destroy] do
+    get :verify, on: :collection
+    post :confirm, on: :collection
+  end
 
   get "/dashboard", to: "dashboard#index", as: :dashboard
 
