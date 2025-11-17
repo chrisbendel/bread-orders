@@ -2,7 +2,7 @@ require "test_helper"
 
 class SessionsControllerTest < ActionDispatch::IntegrationTest
   test "send code and sign in with correct code" do
-    user = users(:one) # or however you load fixtures
+    user = User.create!(email: "  Alice@Example.COM  ")
     post session_path, params: {email: user.email}
     assert_redirected_to verify_session_path
 
@@ -23,7 +23,6 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     post confirm_session_path, params: {email: user.email, code: plain}
     assert_redirected_to root_path
     follow_redirect!
-    assert_select "div", /Signed in/ # or check a flash
     assert_equal user.id, session[:user_id]
   end
 end

@@ -50,9 +50,8 @@ class SessionsController < ApplicationController
     end
 
     login_code = LoginCode.active_for_user(user).order(created_at: :desc).first
-    if login_code && login_code.verify(code)
-      # sign in user — replace with your app helper if you have one
-      session[:user_id] = user.id
+    if login_code&.verify(code)
+      sign_in(user)
       session.delete(:login_email)
       redirect_to root_path, notice: "Signed in!"
     else
