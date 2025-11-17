@@ -88,3 +88,43 @@ form {
         --container: 960px;
     }
 }
+
+details {
+    position: relative;
+}
+
+details ul {
+    position: absolute;
+    right: 0;
+    margin: 0;
+    padding: .5rem;
+    list-style: none;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: .5rem;
+}
+
+#flash-dialog {
+    margin: 0; /* override browser default dialog margins */
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    border: none;
+    border-radius: .5rem;
+    background: rgba(0, 0, 0, .85);
+    color: white;
+    animation: fadeout 2.5s forwards;
+}
+
+@keyframes fadeout {
+    0% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}

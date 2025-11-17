@@ -19,7 +19,7 @@
   <link rel="apple-touch-icon" href="/icon.png">
 
   <%# Normalize.css via CDN to standardize default styles across browsers %>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-oHDEc8XedUuWv4aENcy+XUG6uHgnIY7qDpiRnwV0wOYAV/QXp1S8MaqkOawx2UY8ailqXF/w3W0XkZ4a6P+qVg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
   <%# Includes all stylesheet files in app/assets/stylesheets %>
   <%= stylesheet_link_tag :application, "data-turbo-track": "reload" %>
@@ -27,49 +27,31 @@
 </head>
 
 <body>
-<header class="container p-lg">
-  <div class="flex items-center justify-between">
-    <h1 class="fs-lg"><%= content_for(:title) || "Bread Orders" %></h1>
-    <nav class="flex gap-lg">
-      <% if authenticated? %>
-        <span>Signed in as <%= current_user.username %></span>
-        <%= link_to "Dashboard", dashboard_path %>
-        <%= button_to "Sign out", session_path, method: :delete %>
-      <% else %>
-        <%= link_to "Sign in", new_session_path %>
-      <% end %>
-    </nav>
-  </div>
-</header>
+<%= render "application/header" %>
 
 <main class="container p-lg">
   <% if flash.any? %>
-    <dialog id="flash-dialog" class="flash-dialog">
+    <dialog id="flash-dialog">
       <% flash.each do |type, message| %>
-        <p class="<%= type %>"><%= message %></p>
+        <p><%= message %></p>
       <% end %>
     </dialog>
 
     <script>
-        const d = document.getElementById("flash-dialog");
-        if (d) {
-            d.show();
-            setTimeout(() => d.close(), 2500);
-        }
+        (() => {
+            const d = document.getElementById("flash-dialog");
+            if (d) {
+                d.show();
+                setTimeout(() => d.close(), 2500);
+            }
+        })();
     </script>
   <% end %>
 
-  <%# if notice %>
-  <!--    <p class="notice"><%#= notice %></p>-->
-  <%# end %>
-  <%# if alert %>
-  <!--    <p class="alert"><%#= alert %></p>-->
-  <%# end %>
   <%= yield %>
 </main>
 
 <footer class="container p-lg">
-  <small>&copy; <%= Time.current.year %> Bread Orders</small>
 </footer>
 </body>
 </html>
