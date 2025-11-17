@@ -6,13 +6,10 @@ class SessionsController < ApplicationController
   # POST /session (send code)
   def create
     email = params.require(:email).downcase.strip
-    user = User.find_by(email: email)
+    user = User.find_or_initialize_by(email: email)
 
-    if user.nil?
-      # Optionally: create a user on first request if your flow allowed that.
-      # render :new with error to avoid leaking which emails exist
-      flash.now[:alert] = "If an account exists for that email, you'll receive a code."
-      return render :new, status: :ok
+    if user.new_record?
+      user.save!
     end
 
     begin

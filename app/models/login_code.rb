@@ -2,7 +2,7 @@ class LoginCode < ApplicationRecord
   belongs_to :user
 
   CODE_TTL = 10.minutes
-  # How many codes can be requested in this window
+  # How many codes can be requested in this window?
   REQUEST_LIMIT_WINDOW = 1.hour
   REQUEST_LIMIT_COUNT = 5
 
