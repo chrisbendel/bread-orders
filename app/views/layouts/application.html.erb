@@ -1,38 +1,57 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= content_for(:title) || "Bread Orders" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Bread Orders">
-    <meta name="mobile-web-app-capable" content="yes">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title><%= content_for(:title) || "Bread Orders" %></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Bread Orders">
+  <meta name="mobile-web-app-capable" content="yes">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-      <%= yield :head %>
+  <%= yield :head %>
 
-      <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-      <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+  <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+  <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
-      <link rel="icon" href="/icon.png" type="image/png">
-      <link rel="icon" href="/icon.svg" type="image/svg+xml">
-      <link rel="apple-touch-icon" href="/icon.png">
+  <link rel="icon" href="/icon.png" type="image/png">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :application, "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-  </head>
+  <%# Normalize.css via CDN to standardize default styles across browsers %>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
-  <body class="bg-base">
-    <header class="container p-3">
-      <h1 class="fs-5"><%= content_for(:title) || "Bread Orders" %></h1>
-    </header>
+  <%# Includes all stylesheet files in app/assets/stylesheets %>
+  <%= stylesheet_link_tag :application, "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+</head>
 
-    <main class="container p-3">
-      <%= yield %>
-    </main>
+<body>
+<%= render "application/header" %>
 
-    <footer class="container p-3 muted">
-      <small>&copy; <%= Time.current.year %> Bread Orders</small></footer>
-  </body>
+<main class="container p-lg">
+  <% if flash.any? %>
+    <dialog id="flash-dialog">
+      <% flash.each do |type, message| %>
+        <p><%= message %></p>
+      <% end %>
+    </dialog>
+
+    <script>
+        (() => {
+            const d = document.getElementById("flash-dialog");
+            if (d) {
+                d.show();
+                setTimeout(() => d.close(), 2500);
+            }
+        })();
+    </script>
+  <% end %>
+
+  <%= yield %>
+</main>
+
+<footer class="container p-lg">
+</footer>
+</body>
 </html>

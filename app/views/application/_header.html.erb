@@ -1,0 +1,24 @@
+<header class="container p-lg">
+  <div class="flex items-center justify-between">
+    <h1 class="fs-lg"><%= content_for(:title) || "Bread Orders" %></h1>
+    <nav>
+      <% if authenticated? %>
+        <details>
+          <summary>
+            <%= current_user.username %>
+          </summary>
+
+          <ul class="stack">
+            <li><%= link_to "Dashboard", dashboard_path %></li>
+            <li>
+              <hr/>
+            </li>
+            <li><%= button_to "Sign out", session_path, method: :delete %></li>
+          </ul>
+        </details>
+      <% else %>
+        <%= link_to "Sign in", new_session_path %>
+      <% end %>
+    </nav>
+  </div>
+</header>

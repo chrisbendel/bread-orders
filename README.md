@@ -1,24 +1,47 @@
-# README
+# Bread Orders — Quickstart
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Keep this short and handy. Add more as we go.
 
-Things you may want to cover:
+- Requirements: Ruby, Bundler, PostgreSQL, Chrome/Chromedriver (for system tests)
+- Stack: Rails 8.1, Postgres, Importmap, Turbo/Stimulus, Propshaft
 
-* Ruby version
+Setup
+- bundle install
+- bin/rails db:prepare
 
-* System dependencies
+Run
+- bin/rails s  # http://localhost:3000
 
-* Configuration
+Auth (passwordless)
+- Visit / and enter your email to get a magic sign‑in link
+- Click the link to sign in and go to /dashboard
 
-* Database creation
+Tests
+- bin/rails test               # all tests
+- bin/rails test test/models   # models only
+- bin/rails test TEST=path/to/test_file.rb
 
-* Database initialization
+Lint / Format
+- bundle exec standardrb
+- bundle exec standardrb --fix
 
-* How to run the test suite
+Security checks
+- bundle exec bundler-audit update && bundle exec bundler-audit check
+- bundle exec brakeman -q -w2
 
-* Services (job queues, cache servers, search engines, etc.)
+Useful Rails commands
+- bin/rails routes
+- bin/rails console
+- bin/rake -T
 
-* Deployment instructions
+Notes
+- Emails use test delivery in test env; in dev/prod set host via config.action_mailer.default_url_options
+- Public owner pages are at /:username
+- Background jobs/cache/cable use solid_queue/solid_cache/solid_cable (DB-backed)
 
-* ...
+Troubleshooting
+- If tests complain about missing DB: run bin/rails db:prepare
+- Ensure a local Postgres user with privileges or set DATABASE_URL
+
+Later
+- Document deployments (Docker/Kamal), workers, and environment variables

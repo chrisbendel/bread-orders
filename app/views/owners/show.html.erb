@@ -1,0 +1,11 @@
+<% content_for :title, @owner.username %>
+
+<div class="stack gap-lg">
+  <h2 class="fs-lg"><%= @owner.username %></h2>
+  <p>This is <%= @owner.username %>'s public page. Upcoming orders will appear here.</p>
+  <% unless authenticated? %>
+    <p>
+      Are you <%= @owner.username %>? <%= link_to "Sign in to manage your orders", new_session_path %>.
+    </p>
+  <% end %>
+</div>
