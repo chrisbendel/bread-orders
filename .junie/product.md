@@ -49,9 +49,11 @@ Use Now / Next / Later buckets; keep items small. Include an indicative date if 
 - Next
     - Customer profiles
     - Order fulfillment workflow (statuses, assignments)
+    - Custom shop name and logo
+    - Custom markdown/html editor for shop description?
 
 - Later
-    - Payments integration
+    - Payment integration
     - Reporting/export
 
 ## Decisions log
