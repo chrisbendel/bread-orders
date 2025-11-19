@@ -24,21 +24,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
-
     steps:
-      - name: Install packages
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y libpq-dev
-
       - name: Checkout code
         uses: actions/checkout@v5
 
@@ -47,10 +33,12 @@ jobs:
         with:
           bundler-cache: true
 
+      - name: Install SQLite dependencies
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y sqlite3 libsqlite3-dev
+
       - name: Prepare DB and run tests
         env:
           RAILS_ENV: test
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/bread_orders_test
         run: |
           bin/rails db:prepare
           bin/rails test
