@@ -23,7 +23,6 @@ RUN apt-get update -qq && \
 ENV BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="development:test" \
-    LITESTACK_DATA_PATH="/data" \
     RAILS_ENV="production"
 
 
