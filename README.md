@@ -53,4 +53,4 @@ Troubleshooting
 
 Later
 
-- Document deployments (Docker/Kamal), workers, and environment variables
+- Document deployments 
