@@ -13,7 +13,7 @@ Project snapshot
 - Testing: Minitest (+ system tests via Capybara + Selenium)
 - Lint/Style: standardrb
 - Security tools: bundler-audit, brakeman
-- Deployment tooling: kamal (optional)
+- Deployment tooling: fly.io
 
 1) Getting started
 
@@ -73,8 +73,6 @@ Project snapshot
 
 9) Deployment
 
-- Dockerfile is provided for containerization.
-- Kamal is included; see kamal docs for setup. Typical flow: bundle exec kamal setup then bundle exec kamal deploy
 - Ensure environment variables (RAILS_MASTER_KEY, etc.) are configured in the target environment.
 
 10) Coding conventions
