@@ -46,7 +46,7 @@
 
 ## Environment variables/credentials
 
-- bin/rails credentials:edit --environment production
+- `EDITOR="vim" bin/rails credentials:edit --environment production`
 
 ## Deployments
 
