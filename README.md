@@ -44,6 +44,10 @@
 
 - If tests complain about missing DB: run bin/rails db:prepare
 
+## Environment variables/credentials
+
+- bin/rails credentials:edit --environment production
+
 ## Deployments
 
 - `fly deploy` to deploy
