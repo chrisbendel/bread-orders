@@ -11,14 +11,12 @@
 
 ## Auth (passwordless)
 
-- Visit / and enter your email to get a magic sign‑in link
-- Click the link to sign in and go to /dashboard
+- Visit / and enter your email to sign in with OTP
 
 ## Tests
 
 - bin/rails test # all tests
 - bin/rails test test/models # models only
-- bin/rails test TEST=path/to/test_file.rb
 
 ## Lint / Format
 
