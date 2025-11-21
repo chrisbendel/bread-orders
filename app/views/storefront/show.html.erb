@@ -1,0 +1,8 @@
+<h1><%= @store.name %></h1>
+<p><%= @store.description %></p>
+
+<h2>Open Orders</h2>
+
+<% @orders.each do |order| %>
+  <p><%= link_to order.title, order_path(order) %></p>
+<% end %>

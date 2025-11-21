@@ -37,7 +37,6 @@
 ## Notes
 
 - Emails use test delivery in test env; in dev/prod set host via config.action_mailer.default_url_options
-- Public owner pages are at /:username
 - Background jobs/cache/cable use solid_queue/solid_cache/solid_cable (DB-backed)
 
 ## Troubleshooting

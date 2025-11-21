@@ -10,26 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_15_142608) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_21_191330) do
   create_table "login_codes", force: :cascade do |t|
     t.string "code_digest", null: false
     t.datetime "created_at", null: false
     t.datetime "expires_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "used_at"
-    t.bigint "user_id", null: false
+    t.integer "user_id", null: false
     t.index ["user_id", "created_at"], name: "index_login_codes_on_user_id_and_created_at"
     t.index ["user_id"], name: "index_login_codes_on_user_id"
+  end
+
+  create_table "stores", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "name"
+    t.string "slug"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["slug"], name: "index_stores_on_slug", unique: true
+    t.index ["user_id"], name: "index_stores_on_user_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", null: false
     t.datetime "updated_at", null: false
-    t.string "username", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   add_foreign_key "login_codes", "users"
+  add_foreign_key "stores", "users"
 end

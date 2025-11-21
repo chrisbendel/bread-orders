@@ -7,16 +7,15 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
-  resource :session, only: [:new, :create, :destroy]
   resource :session, only: [:new, :create, :destroy] do
     get :verify, on: :collection
     post :confirm, on: :collection
   end
 
-  get "/dashboard", to: "dashboard#index", as: :dashboard
+  resource :store, only: [:new, :create, :show, :edit, :update]
+  get "/s/:slug", to: "storefront#show", as: :storefront
 
-  # Public owner page by username at top-level
-  get "/:username", to: "owners#show", as: :owner
+  get "/dashboard", to: "dashboard#index", as: :dashboard
 
   root to: "sessions#new"
 end
