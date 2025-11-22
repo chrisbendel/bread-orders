@@ -32,11 +32,9 @@ Initial list
 - Feature: Orders CRUD
     - Status: planned
     - Summary: Basic models, forms, and list pages for bread orders.
-    - Links:
 - Feature: Passwordless authentication
     - Status: shipped
-    - Summary: Email-based OTP code sign-in. Each user has a unique username used as their public page URL (/:username).
-    - Links: [PR]
+    - Summary: Email-based OTP code sign-in.
 
 ## Roadmap
 

@@ -1,11 +1,11 @@
-<header class="container p-lg">
+<header class="">
   <div class="flex items-center justify-between">
     <h1 class="fs-lg"><%= content_for(:title) || "Bread Orders" %></h1>
     <nav>
       <% if authenticated? %>
         <details>
           <summary>
-            <%= current_user.username %>
+            <%= current_user.email %>
           </summary>
 
           <ul class="stack">

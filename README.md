@@ -37,12 +37,15 @@
 ## Notes
 
 - Emails use test delivery in test env; in dev/prod set host via config.action_mailer.default_url_options
-- Public owner pages are at /:username
 - Background jobs/cache/cable use solid_queue/solid_cache/solid_cable (DB-backed)
 
 ## Troubleshooting
 
 - If tests complain about missing DB: run bin/rails db:prepare
+
+## Environment variables/credentials
+
+- `EDITOR="vim" bin/rails credentials:edit --environment production`
 
 ## Deployments
 

@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
     end
 
     # Send the code asynchronously in production:
-    SessionMailer.with(user: user).login_code(user, login_code.plain_code).deliver_later
+    SessionMailer.with(user: user).login_code(user, login_code.plain_code).deliver_now
 
     # You could store something like last_sent_email in session to prefill the verification form
     session[:login_email] = user.email

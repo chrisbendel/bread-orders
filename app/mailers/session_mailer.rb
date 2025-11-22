@@ -1,5 +1,5 @@
 class SessionMailer < ApplicationMailer
-  default from: "no-reply@orders.example"
+  default from: "bread@bread-orders.fly.dev"
 
   def login_code(user, plain_code)
     @user = user

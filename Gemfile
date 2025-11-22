@@ -62,3 +62,5 @@ end
 gem "standard", "~> 1.51"
 
 gem "dockerfile-rails", ">= 1.7", group: :development
+
+gem "resend", "~> 1.0"
