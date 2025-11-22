@@ -1,4 +1,4 @@
-<h1>Edit Store</h1>
+<h3>Edit Store</h3>
 
 <%= form_with model: @store, url: store_path do |f| %>
   <div>
@@ -19,5 +19,7 @@
     <%= f.text_area :description %>
   </div>
 
-  <%= f.submit "Save changes" %>
+  <div>
+    <%= f.submit "Save changes" %>
+  </div>
 <% end %>
