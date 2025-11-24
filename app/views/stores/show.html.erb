@@ -1,0 +1,12 @@
+<h1><%= @store.name %></h1>
+
+<p><strong>Slug:</strong> <%= @store.slug %></p>
+
+<% if @store.description.present? %>
+  <p><%= @store.description %></p>
+<% end %>
+
+<div class="group">
+  <%= link_to "Edit store", edit_store_path %> |
+  <%= button_to "Delete store", store_path, method: :delete, data: { confirm: "Are you sure?" } %>
+</div>

@@ -1,7 +1,20 @@
 <% content_for :title, "Dashboard" %>
 
-<div class="stack gap-lg">
-  <h2 class="fs-lg">Welcome, <%= @user.username %></h2>
-  <p>Your public page is available at: <%= link_to owner_url(@user.username), owner_path(@user.username) %></p>
-  <p>This is a placeholder dashboard. You'll be able to create and manage orders here.</p>
+<div class="stack">
+  <% if @user.store %>
+    <section>
+      <h2>Your Store</h2>
+      <p><%= link_to "View Store", store_path %></p>
+      <p><%= link_to "Edit Store Settings", edit_store_path %></p>
+    </section>
+  <% else %>
+    <section>
+      <h2>Create Your Store</h2>
+      <%= link_to "Set up your store", new_store_path %>
+    </section>
+  <% end %>
+
+  <p>
+    TODO show upcoming orders for regular users, etc
+  </p>
 </div>

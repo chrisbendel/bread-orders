@@ -1,0 +1,25 @@
+<h3>Edit Store</h3>
+
+<%= form_with model: @store, url: store_path do |f| %>
+  <div>
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.label :slug, "Store URL" %><br>
+    <%= f.text_field :slug, disabled: @store.active_orders? %>
+    <% if @store.active_orders? %>
+      <p class="text-muted">Slug cannot be changed while you have active orders.</p>
+    <% end %>
+  </div>
+
+  <div>
+    <%= f.label :description %><br>
+    <%= f.text_area :description %>
+  </div>
+
+  <div>
+    <%= f.submit "Save changes" %>
+  </div>
+<% end %>

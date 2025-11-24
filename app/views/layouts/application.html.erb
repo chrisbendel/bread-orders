@@ -26,10 +26,10 @@
   <%= javascript_importmap_tags %>
 </head>
 
-<body>
+<body class="container">
 <%= render "application/header" %>
 
-<main class="container p-lg">
+<main>
   <% if flash.any? %>
     <dialog id="flash-dialog">
       <% flash.each do |type, message| %>
@@ -51,7 +51,7 @@
   <%= yield %>
 </main>
 
-<footer class="container p-lg">
+<footer>
 </footer>
 </body>
 </html>

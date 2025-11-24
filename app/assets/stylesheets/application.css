@@ -26,6 +26,7 @@ form {
 .container {
     max-width: var(--container);
     margin-inline: auto;
+    padding: .5rem;
 }
 
 .stack {
