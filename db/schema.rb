@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_21_191330) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_25_141006) do
+  create_table "events", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "name"
+    t.datetime "orders_close_at"
+    t.datetime "orders_open_at"
+    t.datetime "pickup_at"
+    t.integer "store_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["store_id"], name: "index_events_on_store_id"
+  end
+
   create_table "login_codes", force: :cascade do |t|
     t.string "code_digest", null: false
     t.datetime "created_at", null: false
@@ -40,6 +52,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_21_191330) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "events", "stores"
   add_foreign_key "login_codes", "users"
   add_foreign_key "stores", "users"
 end

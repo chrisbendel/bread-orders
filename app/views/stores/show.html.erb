@@ -6,6 +6,8 @@
   <p><%= @store.description %></p>
 <% end %>
 
+<%= link_to "Events", store_events_path %>
+
 <div class="group">
   <%= link_to "Edit store", edit_store_path %> |
   <%= button_to "Delete store", store_path, method: :delete, data: { confirm: "Are you sure?" } %>

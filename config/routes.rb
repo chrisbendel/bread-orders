@@ -12,7 +12,10 @@ Rails.application.routes.draw do
     post :confirm, on: :collection
   end
 
-  resource :store, only: [:new, :create, :show, :edit, :update]
+  resource :store, only: [:new, :create, :show, :edit, :update] do
+    resources :events, module: :stores
+  end
+
   get "/s/:slug", to: "storefront#show", as: :storefront
 
   get "/dashboard", to: "dashboard#index", as: :dashboard

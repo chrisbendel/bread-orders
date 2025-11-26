@@ -1,0 +1,31 @@
+<h1>Events for <%= @store.name %></h1>
+
+<p>
+  <%= link_to "Create Event", new_store_event_path %>
+</p>
+
+<table>
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Starts</th>
+    <th>Ends</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @events.each do |event| %>
+    <tr>
+      <td><%= link_to event.name, store_event_path(id: event) %></td>
+      <td><%= event.orders_open_at&.to_formatted_s(:long) %></td>
+      <td><%= event.orders_close_at&.to_formatted_s(:long) %></td>
+      <td>
+        <%= link_to "Edit", edit_store_event_path(id: event) %> |
+        <%= link_to "Delete", store_event_path(id: event),
+                    method: :delete,
+                    data: { confirm: "Are you sure?" } %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

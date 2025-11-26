@@ -7,6 +7,10 @@
     --container: 720px;
 }
 
+.logo-dashboard-url {
+    width: 3rem;
+}
+
 form {
     display: flex;
     flex-direction: column;
