@@ -4,12 +4,12 @@
 
 <p>
   <strong>Orders open at:</strong>
-  <%= @event.orders_open_at&.to_formatted_s(:long) %>
+  <%= nice_date(@event.orders_open_at) %>
 </p>
 
 <p>
   <strong>Orders close at:</strong>
-  <%= @event.orders_close_at&.to_formatted_s(:long) %>
+  <%= nice_date(@event.orders_close_at) %>
 </p>
 
 <hr>
