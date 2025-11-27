@@ -9,9 +9,9 @@
 
 - bin/rails s # http://localhost:3000
 
-## Auth (passwordless)
+## Frontend resources
 
-- Visit / and enter your email to sign in with OTP
+- [Boxicons](https://v2.boxicons.com/) with [web components](https://v2.boxicons.com/usage#web-component) for icons
 
 ## Tests
 
