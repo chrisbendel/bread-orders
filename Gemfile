@@ -59,7 +59,7 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "standard", "~> 1.51"
+gem "standard", "~> 1.52"
 
 gem "dockerfile-rails", ">= 1.7", group: :development
 
