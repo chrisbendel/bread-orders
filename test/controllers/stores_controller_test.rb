@@ -64,7 +64,7 @@ class StoresControllerTest < ActionDispatch::IntegrationTest
 
   test "update updates store" do
     store = Store.create!(name: "Mine", slug: "mine", user: @user)
-    patch store_path, params: { store: { name: "Updated" } }
+    patch store_path, params: {store: {name: "Updated"}}
 
     assert_redirected_to store_path
     assert_equal "Updated", store.reload.name

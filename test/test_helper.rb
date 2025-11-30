@@ -4,13 +4,11 @@ ENV["RAILS_ENV"] ||= "test"
 begin
   require_relative "../config/environment"
 rescue => e
-  if e.instance_of?(ActiveRecord::NoDatabaseError)
-    warn "[test] Database not found. Running `bin/rails db:prepare` for test environment..."
-    system({ "RAILS_ENV" => "test" }, "bin/rails db:prepare")
-    require_relative "../config/environment"
-  else
-    raise
-  end
+  raise unless e.instance_of?(ActiveRecord::NoDatabaseError)
+
+  warn "[test] Database not found. Running `bin/rails db:prepare` for test environment..."
+  system({"RAILS_ENV" => "test"}, "bin/rails db:prepare")
+  require_relative "../config/environment"
 end
 
 require "rails/test_help"
@@ -19,7 +17,7 @@ module ActiveSupport
   class TestCase
     # Run tests in parallel with specified workers
     parallelize(workers: :number_of_processors)
-    
+
     self.use_transactional_tests = true
 
     def sign_in_as(user)
@@ -27,16 +25,18 @@ module ActiveSupport
       # Ensure a clean mailbox for reliable extraction
       ActionMailer::Base.deliveries.clear
 
-      post session_path, params: { email: user.email }
+      post session_path, params: {email: user.email}
       assert_response :redirect
 
       # Extract the generated login code from the last delivered email
       mail = ActionMailer::Base.deliveries.last
       raise "No login email sent" unless mail
 
-      body_text = [mail.subject, mail.text_part&.body&.to_s, mail.html_part&.body&.to_s, mail.body&.to_s].compact.join("\n")
+      body_text = [mail.subject, mail.text_part&.body&.to_s, mail.html_part&.body&.to_s,
+        mail.body&.to_s].compact.join("\n")
       code_match = body_text.match(/\b\d{6}\b/)
       raise "Login code not found in email" unless code_match
+
       code = code_match[0]
 
       # Step 2: Confirm login
@@ -48,6 +48,5 @@ module ActiveSupport
 
       user
     end
-
   end
 end

@@ -393,7 +393,7 @@ DEPENDENCIES
   solid_cache
   solid_queue
   sqlite3 (>= 2.1)
-  standard (~> 1.51)
+  standard
   stimulus-rails
   thruster
   turbo-rails

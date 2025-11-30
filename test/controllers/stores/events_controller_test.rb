@@ -56,7 +56,7 @@ class Stores::EventsControllerTest < ActionDispatch::IntegrationTest
 
   test "POST create with invalid params renders new with 422" do
     assert_no_difference "@store.events.count" do
-      post store_events_path, params: { event: { name: "" } }
+      post store_events_path, params: {event: {name: ""}}
     end
     assert_response :unprocessable_entity
     assert_select "form"
@@ -70,7 +70,7 @@ class Stores::EventsControllerTest < ActionDispatch::IntegrationTest
 
   test "PATCH update updates event and redirects" do
     patch store_event_path(@event), params: {
-      event: { name: "Updated Name" }
+      event: {name: "Updated Name"}
     }
 
     assert_redirected_to store_event_path(@event)
@@ -80,7 +80,7 @@ class Stores::EventsControllerTest < ActionDispatch::IntegrationTest
 
   test "PATCH update with invalid data renders edit with 422" do
     patch store_event_path(@event), params: {
-      event: { name: "" }
+      event: {name: ""}
     }
 
     assert_response :unprocessable_entity
