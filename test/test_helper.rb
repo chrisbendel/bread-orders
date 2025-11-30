@@ -6,7 +6,7 @@ begin
 rescue => e
   if e.instance_of?(ActiveRecord::NoDatabaseError)
     warn "[test] Database not found. Running `bin/rails db:prepare` for test environment..."
-    system({"RAILS_ENV" => "test"}, "bin/rails db:prepare")
+    system({ "RAILS_ENV" => "test" }, "bin/rails db:prepare")
     require_relative "../config/environment"
   else
     raise
@@ -19,11 +19,35 @@ module ActiveSupport
   class TestCase
     # Run tests in parallel with specified workers
     parallelize(workers: :number_of_processors)
+    
+    self.use_transactional_tests = true
 
-    # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-    # Not using fixtures, creating records inline in tests
-    # fixtures :all
+    def sign_in_as(user)
+      # Step 1: Send login email and generate a login code
+      # Ensure a clean mailbox for reliable extraction
+      ActionMailer::Base.deliveries.clear
 
-    # Add more helper methods to be used by all tests here...
+      post session_path, params: { email: user.email }
+      assert_response :redirect
+
+      # Extract the generated login code from the last delivered email
+      mail = ActionMailer::Base.deliveries.last
+      raise "No login email sent" unless mail
+
+      body_text = [mail.subject, mail.text_part&.body&.to_s, mail.html_part&.body&.to_s, mail.body&.to_s].compact.join("\n")
+      code_match = body_text.match(/\b\d{6}\b/)
+      raise "Login code not found in email" unless code_match
+      code = code_match[0]
+
+      # Step 2: Confirm login
+      post confirm_session_path, params: {
+        email: user.email,
+        code: code
+      }
+      assert_response :redirect
+
+      user
+    end
+
   end
 end

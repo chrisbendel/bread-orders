@@ -35,7 +35,7 @@
   <% if flash.any? %>
     <dialog id="flash-dialog">
       <% flash.each do |type, message| %>
-        <p><%= message %></p>
+        <p class="<%= type %>"><%= message %></p>
       <% end %>
     </dialog>
 
