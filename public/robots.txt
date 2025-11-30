@@ -1,1 +1,90 @@
-# See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+# Allow major search engines
+User-agent: Googlebot
+Disallow:
+
+User-agent: Bingbot
+Disallow:
+
+User-agent: DuckDuckBot
+Disallow:
+
+# Block all known AI/LLM crawlers
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: Anthropic-ai
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+user-agent: FacebookBot
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
+
+User-agent: Bytespider   # TikTok
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Omgilibot
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: AI2Bot
+Disallow: /
+
+# Block spammy scrapers & known bad actors
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: dotbot
+Disallow: /
+
+User-agent: Yandex
+Disallow: /
+
+User-agent: Baiduspider
+Disallow: /
+
+# Block all aggressive bots by default
+User-agent: *
+Disallow: /session
+Disallow: /session/*
+Disallow: /confirm_session
+Disallow: /store
+Disallow: /store/*
+Disallow: /stores
+Disallow: /stores/*
+Disallow: /users
+Disallow: /users/*
+Disallow: /rails
+Disallow: /rails/*
+Crawl-delay: 10
+
+# Allow storefront pages to be indexed
+Allow: /s/
+Allow: /s/*
+
+# Sitemap (optional, add only if you generate one)
+# Sitemap: https://yourdomain.com/sitemap.xml

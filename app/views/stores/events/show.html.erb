@@ -1,0 +1,23 @@
+<h1><%= @event.name %></h1>
+
+<div class="stack">
+
+  <h3><%= @event.description %></h3>
+
+  <p>
+    <strong>Orders open at:</strong>
+    <%= nice_date(@event.orders_open_at) %>
+  </p>
+
+  <p>
+    <strong>Orders close at:</strong>
+    <%= nice_date(@event.orders_close_at) %>
+  </p>
+</div>
+
+<hr>
+
+<p>
+  <%= link_to "Edit Event", edit_store_event_path(id: @event) %> |
+  <%= link_to "Back to Events", store_events_path %>
+</p>
