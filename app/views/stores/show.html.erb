@@ -1,6 +1,4 @@
-<h1><%= @store.name %></h1>
-
-<p><strong>Slug:</strong> <%= @store.slug %></p>
+<h1><%= @store.name %> (<%= @store.slug %>)</h1>
 
 <% if @store.description.present? %>
   <p><%= @store.description %></p>

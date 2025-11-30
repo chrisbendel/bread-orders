@@ -7,7 +7,8 @@ class Stores::EventsController < ApplicationController
     @events = @store.events.order(orders_open_at: :asc)
   end
 
-  def show; end
+  def show
+  end
 
   def new
     @event = @store.events.new
@@ -22,7 +23,8 @@ class Stores::EventsController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+  end
 
   def update
     if @event.update(event_params)

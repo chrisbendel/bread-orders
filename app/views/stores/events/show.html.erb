@@ -1,16 +1,19 @@
 <h1><%= @event.name %></h1>
 
-<p><strong>Description:</strong> <%= @event.description %></p>
+<div class="stack">
 
-<p>
-  <strong>Orders open at:</strong>
-  <%= nice_date(@event.orders_open_at) %>
-</p>
+  <h3><%= @event.description %></h3>
 
-<p>
-  <strong>Orders close at:</strong>
-  <%= nice_date(@event.orders_close_at) %>
-</p>
+  <p>
+    <strong>Orders open at:</strong>
+    <%= nice_date(@event.orders_open_at) %>
+  </p>
+
+  <p>
+    <strong>Orders close at:</strong>
+    <%= nice_date(@event.orders_close_at) %>
+  </p>
+</div>
 
 <hr>
 

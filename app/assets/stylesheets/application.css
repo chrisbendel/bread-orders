@@ -1,21 +1,15 @@
 /* Minimal utilities — keep HTML defaults, add only tiny helpers.
    Note: normalize.css is loaded via CDN in the application layout. */
 
-:root {
-    --space-sm: 0.5rem;
-    --space-lg: 1rem;
-    --container: 720px;
-}
-
 form {
     display: flex;
     flex-direction: column;
-    gap: var(--space-sm);
+    gap: .25rem;
 }
 
 /* Layout */
 .container {
-    max-width: var(--container);
+    max-width: 720px;
     margin-inline: auto;
     padding: .5rem;
 }
@@ -23,13 +17,13 @@ form {
 .stack {
     display: flex;
     flex-direction: column;
-    gap: var(--space-sm);
+    gap: .25rem;
 }
 
 .group {
     display: flex;
     flex-direction: row;
-    gap: var(--space-sm);
+    gap: .25rem;
 }
 
 /* Flex */
@@ -47,13 +41,6 @@ form {
 
 .justify-center {
     justify-content: center;
-}
-
-/* Responsive */
-@media (min-width: 768px) {
-    :root {
-        --container: 960px;
-    }
 }
 
 details {
