@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     resources :events, module: :stores
   end
 
-  get "/unsubscribe/:token", to: "unsubscribes#show", as: :unsubscribe
+  get "unsub/:token", to: "public_unsubscribes#unsubscribe", as: :unsubscribe
 
   get "/s/:slug", to: "storefront#show", as: :storefront
 
