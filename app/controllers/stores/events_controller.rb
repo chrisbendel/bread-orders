@@ -16,7 +16,11 @@ class Stores::EventsController < ApplicationController
 
   def create
     @event = @store.events.new(event_params)
+
     if @event.save
+      @store.notifications.includes(:user).find_each do |notification|
+        StoreMailer.new_event(@store, @event, notification).deliver_later
+      end
       redirect_to store_event_path(@event), notice: "Event created."
     else
       render :new, status: :unprocessable_entity

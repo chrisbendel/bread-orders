@@ -1,13 +1,13 @@
 <div class="group justify-between items-center">
   <h4><%= @store.name %></h4>
 
-  <% if @subscription.present? %>
-    <%= button_to storefront_subscription_path(@store.slug), method: :delete, class: "group items-center" do %>
+  <% if @notification.present? %>
+    <%= button_to storefront_notification_path(@store.slug), method: :delete, class: "group items-center" do %>
       <box-icon name="bell" type="solid" size="sm"></box-icon>
       <span class="font-medium">Unsubscribe</span>
     <% end %>
   <% else %>
-    <%= button_to storefront_subscription_path(@store.slug), method: :post, class: "group items-center" do %>
+    <%= button_to storefront_notification_path(@store.slug), method: :post, class: "group items-center" do %>
       <box-icon name="bell" size="sm"></box-icon>
       <span class="font-medium">Subscribe</span>
     <% end %>

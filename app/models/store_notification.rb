@@ -1,4 +1,4 @@
-class StoreSubscription < ApplicationRecord
+class StoreNotification < ApplicationRecord
   belongs_to :user
   belongs_to :store
 

@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   get "/s/:slug", to: "storefront#show", as: :storefront
 
   scope "/s/:slug", module: :storefront, as: :storefront do
-    resource :subscription, only: [:create, :destroy]
+    resource :notification, only: [:create, :destroy]
   end
 
   get "/dashboard", to: "dashboard#index", as: :dashboard
