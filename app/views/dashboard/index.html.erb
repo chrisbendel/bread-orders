@@ -2,22 +2,21 @@
 
 <h1>Dashboard</h1>
 
-<div class="stack">
-  <% if @user.store %>
-    <section>
-      <h2>Your Store</h2>
-      <p><%= link_to "View Store", store_path %></p>
-      <p><%= link_to "Edit Store Settings", edit_store_path %></p>
-    </section>
-  <% else %>
-    <section>
-      <h2>Create Your Store</h2>
-      <%= link_to "Set up your store", new_store_path %>
-    </section>
-  <% end %>
+<% if @user.store %>
+  <section>
+    <h2>Your Store</h2>
+    <p><%= link_to "View Public Storefront", storefront_path(@user.store.slug) %></p>
+    <p><%= link_to "View Store", store_path %></p>
+    <p><%= link_to "Edit Store Settings", edit_store_path %></p>
+  </section>
+<% else %>
+  <section>
+    <h2>Create Your Store</h2>
+    <%= link_to "Set up your store", new_store_path %>
+  </section>
+<% end %>
 
-  <h4>TODOs</h4>
-  <ul>
-    <li>Show upcoming orders</li>
-  </ul>
-</div>
+<h4>TODOs</h4>
+<ul>
+  <li>Show upcoming orders</li>
+</ul>

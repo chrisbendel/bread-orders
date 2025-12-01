@@ -1,9 +1,25 @@
-<h1><%= @store.name %></h1>
-<p><%= @store.description %></p>
+<div class="group justify-between items-center">
+  <h4><%= @store.name %></h4>
 
-<!--TODO add orders later-->
-<!--<h2>Open Orders</h2>-->
+  <% if @subscription.present? %>
+    <%= button_to storefront_subscription_path(@store.slug), method: :delete, class: "group items-center" do %>
+      <box-icon name="bell" type="solid" size="sm"></box-icon>
+      <span class="font-medium">Unsubscribe</span>
+    <% end %>
+  <% else %>
+    <%= button_to storefront_subscription_path(@store.slug), method: :post, class: "group items-center" do %>
+      <box-icon name="bell" size="sm"></box-icon>
+      <span class="font-medium">Subscribe</span>
+    <% end %>
+  <% end %>
+</div>
 
-<%# @orders.each do |order| %>
-<!--  <p><%#= link_to order.title, order_path(order) %></p>-->
-<%# end %>
+<% if @store.description.present? %>
+  <p><%= @store.description %></p>
+<% end %>
+
+<h4>Upcoming Events</h4>
+<% @events.each do |event| %>
+  <p><%= event.name %></p>
+  <p>Pickup on <%= nice_date(event.pickup_at) %></p>
+<% end %>

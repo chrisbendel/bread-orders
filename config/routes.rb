@@ -17,7 +17,13 @@ Rails.application.routes.draw do
     resources :events, module: :stores
   end
 
+  get "/unsubscribe/:token", to: "unsubscribes#show", as: :unsubscribe
+
   get "/s/:slug", to: "storefront#show", as: :storefront
+
+  scope "/s/:slug", module: :storefront, as: :storefront do
+    resource :subscription, only: [:create, :destroy]
+  end
 
   get "/dashboard", to: "dashboard#index", as: :dashboard
 

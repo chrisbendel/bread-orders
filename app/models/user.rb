@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_one :store, dependent: :destroy
+  has_many :store_subscriptions
 
   before_validation :normalize_email
 
