@@ -12,7 +12,11 @@ Rails.application.routes.draw do
     post :confirm, on: :collection
   end
 
-  resource :store, only: [:new, :create, :show, :edit, :update]
+  # Singular store for member actions (a user owns at most one store)
+  resource :store, only: [:new, :create, :show, :edit, :update, :destroy] do
+    resources :events, module: :stores
+  end
+
   get "/s/:slug", to: "storefront#show", as: :storefront
 
   get "/dashboard", to: "dashboard#index", as: :dashboard

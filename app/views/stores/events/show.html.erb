@@ -1,0 +1,9 @@
+<h2><%= @event.name %></h2>
+<h4><%= @event.description %></h4>
+<h4>Orders open <%= nice_date(@event.orders_open_at) %> - <%= nice_date(@event.orders_close_at) %></h4>
+<hr>
+
+<p>
+  <%= link_to "Edit Event", edit_store_event_path(id: @event) %> |
+  <%= link_to "Back to Events", store_events_path %>
+</p>

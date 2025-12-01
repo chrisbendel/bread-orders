@@ -1,30 +1,15 @@
 /* Minimal utilities — keep HTML defaults, add only tiny helpers.
    Note: normalize.css is loaded via CDN in the application layout. */
 
-:root {
-    --space-sm: 0.5rem;
-    --space-lg: 1rem;
-    --container: 720px;
-}
-
 form {
     display: flex;
     flex-direction: column;
-    gap: var(--space-sm);
-}
-
-/* Type scale (optional helpers) */
-.fs-sm {
-    font-size: 0.875rem;
-}
-
-.fs-lg {
-    font-size: 1.25rem;
+    gap: .25rem;
 }
 
 /* Layout */
 .container {
-    max-width: var(--container);
+    max-width: 720px;
     margin-inline: auto;
     padding: .5rem;
 }
@@ -32,43 +17,18 @@ form {
 .stack {
     display: flex;
     flex-direction: column;
-    gap: var(--space-sm);
+    gap: .25rem;
 }
 
 .group {
     display: flex;
     flex-direction: row;
-    gap: var(--space-sm);
-}
-
-/* Spacing */
-.p-sm {
-    padding: var(--space-sm);
-}
-
-.p-lg {
-    padding: var(--space-lg);
-}
-
-.gap-sm {
-    gap: var(--space-sm);
-}
-
-.gap-lg {
-    gap: var(--space-lg);
-}
-
-.w-100 {
-    width: 100%;
+    gap: .25rem;
 }
 
 /* Flex */
 .flex {
     display: flex;
-}
-
-.inline-flex {
-    display: inline-flex;
 }
 
 .items-center {
@@ -81,13 +41,6 @@ form {
 
 .justify-center {
     justify-content: center;
-}
-
-/* Responsive */
-@media (min-width: 768px) {
-    :root {
-        --container: 960px;
-    }
 }
 
 details {
@@ -128,4 +81,25 @@ details ul {
     100% {
         opacity: 0;
     }
+}
+
+thead th {
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 2px solid #e5e5e5;
+}
+
+tbody td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+tbody tr:hover {
+    background: #fafafa;
+}
+
+td:last-child,
+th:last-child {
+    text-align: right;
+    white-space: nowrap;
 }
