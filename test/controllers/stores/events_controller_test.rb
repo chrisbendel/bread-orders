@@ -26,7 +26,7 @@ class Stores::EventsControllerTest < ActionDispatch::IntegrationTest
   test "GET show displays the event" do
     get store_event_path(@event)
     assert_response :success
-    assert_select "h1", @event.name
+    assert_select "h2", @event.name
   end
 
   test "GET new renders form" do
