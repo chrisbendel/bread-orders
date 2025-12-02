@@ -4,7 +4,6 @@
 
 <% if @user.store %>
   <section>
-    <h2>Your Store</h2>
     <p><%= link_to "View Public Storefront", storefront_path(@user.store.slug) %></p>
     <p><%= link_to "View Store", store_path %></p>
     <p><%= link_to "Edit Store Settings", edit_store_path %></p>
@@ -16,7 +15,4 @@
   </section>
 <% end %>
 
-<h4>TODOs</h4>
-<ul>
-  <li>Show upcoming orders</li>
-</ul>
+<% @user.store.events %>
