@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_25_141006) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_01_155223) do
   create_table "events", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
@@ -34,6 +34,18 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_25_141006) do
     t.index ["user_id"], name: "index_login_codes_on_user_id"
   end
 
+  create_table "store_notifications", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "store_id", null: false
+    t.string "unsubscribe_token"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["store_id"], name: "index_store_notifications_on_store_id"
+    t.index ["unsubscribe_token"], name: "index_store_notifications_on_unsubscribe_token", unique: true
+    t.index ["user_id", "store_id"], name: "index_store_notifications_on_user_and_store", unique: true
+    t.index ["user_id"], name: "index_store_notifications_on_user_id"
+  end
+
   create_table "stores", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
@@ -54,5 +66,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_25_141006) do
 
   add_foreign_key "events", "stores"
   add_foreign_key "login_codes", "users"
+  add_foreign_key "store_notifications", "stores"
+  add_foreign_key "store_notifications", "users"
   add_foreign_key "stores", "users"
 end

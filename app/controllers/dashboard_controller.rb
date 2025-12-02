@@ -3,6 +3,5 @@ class DashboardController < ApplicationController
 
   def index
     @user = current_user
-    # Placeholder for future: show upcoming orders the owner created
   end
 end

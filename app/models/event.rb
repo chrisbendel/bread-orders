@@ -6,6 +6,7 @@ class Event < ApplicationRecord
   validates :orders_close_at, presence: true
   validates :pickup_at, presence: true
 
+  scope :active, -> { where("orders_close_at > ?", Time.current) }
   # Optional future constraint:
   # validate :close_after_open
   #
