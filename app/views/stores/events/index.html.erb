@@ -12,6 +12,7 @@
     <th>Closes</th>
     <th>Pickup</th>
     <th></th>
+    <th></th>
   </tr>
   </thead>
   <tbody>
@@ -25,6 +26,12 @@
         <%= link_to edit_store_event_path(id: event) do %>
           <box-icon name="pencil" size="xs"></box-icon>
           Edit
+        <% end %>
+      </td>
+      <td>
+        <%= button_to store_event_path(event), method: :delete do %>
+          <box-icon name="trash" size="xs"></box-icon>
+          Delete
         <% end %>
       </td>
     </tr>

@@ -6,7 +6,7 @@ class StoreMailer < ApplicationMailer
 
     mail(
       to: notification.user.email,
-      subject: "#{store.name} has a new order available"
+      subject: "#{store.name} has a new event available"
     )
   end
 end

@@ -1,6 +1,4 @@
 class PublicUnsubscribesController < ApplicationController
-  skip_before_action :require_authentication!
-
   def unsubscribe
     notification = StoreNotification.find_by(unsubscribe_token: params[:token])
 
