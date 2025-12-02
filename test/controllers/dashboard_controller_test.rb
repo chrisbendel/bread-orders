@@ -11,7 +11,7 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "renders dashboard when signed in" do
-    sign_in_as(@user) # helper in test_helper.rb
+    sign_in_as(@user)
     get dashboard_path
     assert_response :success
     assert_select "h1", /Dashboard/
