@@ -1,4 +1,4 @@
-<h1><%= @store.name %> (<%= @store.slug %>)</h1>
+<h3><%= @store.name %> (<%= @store.slug %>)</h3>
 
 <% if @store.description.present? %>
   <pre><%= @store.description %></pre>
@@ -8,5 +8,5 @@
 
 <div class="group">
   <%= link_to "Edit store", edit_store_path %> |
-  <%= button_to "Delete store", store_path, method: :delete, data: { confirm: "Are you sure?" } %>
+  <%= button_to "Delete store", store_path, form: { data: { turbo_confirm: "Are you sure?" } }, method: :delete %>
 </div>

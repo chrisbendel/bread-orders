@@ -1,6 +1,10 @@
 /* Minimal utilities — keep HTML defaults, add only tiny helpers.
    Note: normalize.css is loaded via CDN in the application layout. */
 
+body {
+    font-family: Inter, sans-serif;
+}
+
 form {
     display: flex;
     flex-direction: column;
