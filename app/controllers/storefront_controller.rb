@@ -5,5 +5,7 @@ class StorefrontController < ApplicationController
     @notification = if authenticated?
       current_user.store_notifications.find_by(store: @store)
     end
+
+    #   TODO add QR code for downloading https://github.com/whomwah/rqrcode
   end
 end

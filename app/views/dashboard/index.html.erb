@@ -1,14 +1,16 @@
 <% content_for :title, "Dashboard" %>
 
-<h1>Dashboard</h1>
-
 <% if @user.store %>
   <section>
-    <p><%= link_to "View Public Storefront", storefront_path(@user.store.slug) %></p>
+    <p>
+      <%= link_to storefront_path(@user.store.slug), class: "flex items-center" do %>
+        <box-icon name="store" size="md"></box-icon>
+        Storefront
+      <% end %>
+    </p>
     <p><%= link_to "Manage Store", store_path %></p>
   </section>
 
-  <!--  TODO Move to partial?-->
   <section>
     <% @user.store.events.each do |event| %>
       <%= event.name %>

@@ -10,7 +10,7 @@
     <%= f.label :slug, "Store URL" %><br>
     <%= f.text_field :slug, disabled: @store.active_orders? %>
     <% if @store.active_orders? %>
-      <p class="text-muted">Slug cannot be changed while you have active orders.</p>
+      <p>Slug cannot be changed while you have active orders.</p>
     <% end %>
   </div>
 

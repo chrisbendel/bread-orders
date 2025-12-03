@@ -39,6 +39,10 @@ form {
     align-items: flex-start;
 }
 
+.items-baseline {
+    align-items: baseline;
+}
+
 .justify-between {
     justify-content: space-between;
 }

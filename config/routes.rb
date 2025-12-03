@@ -13,8 +13,10 @@ Rails.application.routes.draw do
   end
 
   # Singular store for member actions (a user owns at most one store)
-  resource :store, only: [:new, :create, :show, :edit, :update, :destroy] do
-    resources :events, module: :stores
+  resource :store, shallow: true, only: [:new, :create, :show, :edit, :update, :destroy] do
+    resources :events, shallow: true, module: :stores do
+      resources :event_products, shallow: true, only: [:new, :create, :edit, :update, :destroy]
+    end
   end
 
   get "unsub/:token", to: "public_unsubscribes#unsubscribe", as: :unsubscribe

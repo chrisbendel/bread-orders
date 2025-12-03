@@ -121,21 +121,7 @@ Project snapshot
 - Routes: bin/rails routes
 - Console: bin/rails c
 
-16) Product and roadmap
-
-- Keep a lightweight product doc at .junie/product.md that tracks:
-    - Product overview and target users
-    - Current feature list (with brief descriptions and status)
-    - Roadmap using Now / Next / Later buckets
-    - Decisions log for key product choices
-- Workflow
-    - For any user-facing change, update .junie/product.md in the same PR (or include a follow-up task).
-    - Link issues/PRs next to features or roadmap items.
-    - Junie should consult this file for context before implementing features.
-- Quick links
-    - Product doc: .junie/product.md
-
-17) UI and design direction
+16) UI and design direction
 
 - Default approach: raw HTML templates with minimal CSS. Prefer semantic HTML and Flexbox utilities from
   application.css. Keep components simple and composable.

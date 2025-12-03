@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_01_155223) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_02_181242) do
+  create_table "event_products", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "event_id", null: false
+    t.string "name"
+    t.integer "quantity"
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_products_on_event_id"
+  end
+
   create_table "events", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
@@ -64,6 +73,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_01_155223) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "event_products", "events"
   add_foreign_key "events", "stores"
   add_foreign_key "login_codes", "users"
   add_foreign_key "store_notifications", "stores"

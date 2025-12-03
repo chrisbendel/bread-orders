@@ -3,7 +3,35 @@
 <h4>Orders open <%= nice_date(@event.orders_open_at) %> - <%= nice_date(@event.orders_close_at) %></h4>
 <hr>
 
+<h3>Products Available</h3>
+
+<% if @event.event_products.any? %>
+  <ul>
+    <% @event.event_products.each do |product| %>
+      <li class="mb-2">
+        <strong><%= product.name %></strong>
+        (<%= product.quantity %> available)
+
+        <% if authenticated? && current_user == @store.user %>
+          • <%= link_to "Edit", edit_event_product_path(product) %>
+          • <%= link_to "Delete", event_product_path(product),
+                        data: { turbo_method: :delete, turbo_confirm: "Delete this product?" } %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No products added yet.</p>
+<% end %>
+
+<% if authenticated? && current_user == @store.user %>
+  <p>
+    <%= link_to "Add Product", new_event_event_product_path(@event) %>
+  </p>
+<% end %>
+
+
 <p>
-  <%= link_to "Edit Event", edit_store_event_path(id: @event) %> |
+  <%= link_to "Edit Event", edit_event_path(@event) %> |
   <%= link_to "Back to Events", store_events_path %>
 </p>

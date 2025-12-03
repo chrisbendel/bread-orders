@@ -1,7 +1,7 @@
 <h1><%= @store.name %> (<%= @store.slug %>)</h1>
 
 <% if @store.description.present? %>
-  <p><%= @store.description %></p>
+  <pre><%= @store.description %></pre>
 <% end %>
 
 <%= link_to "Events", store_events_path %>

@@ -51,3 +51,7 @@
 
 - `fly deploy` to deploy
 - `fly launch` to create a new instance
+
+## Roadmap
+
+- buy a domain (localbread.now ?)

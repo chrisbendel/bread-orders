@@ -21,7 +21,7 @@ class Stores::EventsController < ApplicationController
       @store.notifications.includes(:user).find_each do |notification|
         StoreMailer.new_event(@store, @event, notification).deliver_later
       end
-      redirect_to store_event_path(@event), notice: "Event created."
+      redirect_to event_path(@event), notice: "Event created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -32,7 +32,7 @@ class Stores::EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
-      redirect_to store_event_path(@event), notice: "Event updated."
+      redirect_to event_path(@event), notice: "Event updated."
     else
       render :edit, status: :unprocessable_entity
     end
