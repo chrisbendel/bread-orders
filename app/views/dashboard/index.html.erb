@@ -1,23 +1,55 @@
 <% content_for :title, "Dashboard" %>
 
 <% if @user.store %>
-  <section class="group items-start">
-    <%= link_to storefront_path(@user.store.slug), class: "group items-center" do %>
-      <box-icon name="store" size="sm"></box-icon>
-      Storefront
-    <% end %>
+  <div class="stack justify-between">
+    <section class="stack">
+      <h4>Quick Links</h4>
+      <%= link_to storefront_path(@user.store.slug), class: "group items-center" do %>
+        <box-icon name="store" size="sm"></box-icon>
+        Storefront
+      <% end %>
 
-    <%= link_to store_path, class: "group items-center" do %>
-      <box-icon name="store" size="sm"></box-icon>
-      Manage Store
-    <% end %>
-  </section>
+      <%= link_to store_path, class: "group items-center" do %>
+        <box-icon name="cog" size="sm"></box-icon>
+        Manage Store
+      <% end %>
+    </section>
 
-  <section>
-    <% @user.store.events.each do |event| %>
-      <%= event.name %>
-    <% end %>
-  </section>
+    <section class="stack">
+      <h4>Upcoming Events</h4>
+
+      <% if @user.store.events.any? %>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Opens</th>
+            <th>Closes</th>
+            <th>Pickup</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @user.store.events.each do |event| %>
+            <tr>
+              <td><%= event.name %></td>
+              <td><%= event.orders_open_at&.strftime("%b %-d") %></td>
+              <td><%= event.orders_close_at&.strftime("%b %-d") %></td>
+              <td><%= event.pickup_at&.strftime("%b %-d") %></td>
+              <td>
+                <%= link_to "Manage", event_path(event) %>
+              </td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <p>No events yet.</p>
+        <%= link_to "Create your first event", new_store_event_path(@user.store) %>
+      <% end %>
+    </section>
+
+  </div>
 <% else %>
   <section>
     <h2>Create Your Store</h2>
