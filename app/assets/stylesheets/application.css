@@ -1,10 +1,14 @@
 /* Minimal utilities — keep HTML defaults, add only tiny helpers.
    Note: normalize.css is loaded via CDN in the application layout. */
 
+body {
+    font-family: Inter, sans-serif;
+}
+
 form {
     display: flex;
     flex-direction: column;
-    gap: .25rem;
+    gap: .5rem;
 }
 
 /* Layout */
@@ -17,13 +21,13 @@ form {
 .stack {
     display: flex;
     flex-direction: column;
-    gap: .25rem;
+    gap: .5rem;
 }
 
 .group {
     display: flex;
     flex-direction: row;
-    gap: .25rem;
+    gap: .5rem;
 }
 
 /* Flex */
@@ -37,6 +41,10 @@ form {
 
 .items-start {
     align-items: flex-start;
+}
+
+.items-baseline {
+    align-items: baseline;
 }
 
 .justify-between {

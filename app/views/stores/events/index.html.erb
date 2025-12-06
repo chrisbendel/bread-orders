@@ -18,18 +18,18 @@
   <tbody>
   <% @events.each do |event| %>
     <tr>
-      <td><%= link_to event.name, store_event_path(id: event) %></td>
+      <td><%= link_to event.name, event_path(event) %></td>
       <td><%= nice_date(event.orders_open_at) %></td>
       <td><%= nice_date(event.orders_close_at) %></td>
       <td><%= nice_date(event.pickup_at) %></td>
       <td>
-        <%= link_to edit_store_event_path(id: event) do %>
+        <%= link_to edit_event_path(event) do %>
           <box-icon name="pencil" size="xs"></box-icon>
           Edit
         <% end %>
       </td>
       <td>
-        <%= button_to store_event_path(event), method: :delete do %>
+        <%= button_to event_path(event), method: :delete do %>
           <box-icon name="trash" size="xs"></box-icon>
           Delete
         <% end %>

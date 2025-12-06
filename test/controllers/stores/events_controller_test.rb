@@ -24,7 +24,7 @@ class Stores::EventsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "GET show displays the event" do
-    get store_event_path(@event)
+    get event_path(@event)
     assert_response :success
     assert_select "h2", @event.name
   end
@@ -49,7 +49,7 @@ class Stores::EventsControllerTest < ActionDispatch::IntegrationTest
     end
 
     new_event = @store.events.order(:created_at).last
-    assert_redirected_to store_event_path(new_event)
+    assert_redirected_to event_path(new_event)
     follow_redirect!
     assert_select ".notice", /Event created/i
   end
@@ -63,23 +63,23 @@ class Stores::EventsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "GET edit renders form" do
-    get edit_store_event_path(@event)
+    get edit_event_path(@event)
     assert_response :success
     assert_select "form"
   end
 
   test "PATCH update updates event and redirects" do
-    patch store_event_path(@event), params: {
+    patch event_path(@event), params: {
       event: {name: "Updated Name"}
     }
 
-    assert_redirected_to store_event_path(@event)
+    assert_redirected_to event_path(@event)
     @event.reload
     assert_equal "Updated Name", @event.name
   end
 
   test "PATCH update with invalid data renders edit with 422" do
-    patch store_event_path(@event), params: {
+    patch event_path(@event), params: {
       event: {name: ""}
     }
 
@@ -89,7 +89,7 @@ class Stores::EventsControllerTest < ActionDispatch::IntegrationTest
 
   test "DELETE destroy removes event and redirects" do
     assert_difference "@store.events.count", -1 do
-      delete store_event_path(@event)
+      delete event_path(@event)
     end
 
     assert_redirected_to store_events_path

@@ -29,6 +29,7 @@
 </head>
 
 <body class="container">
+
 <%= render "application/header" %>
 
 <main>
@@ -40,6 +41,7 @@
     </dialog>
 
     <script>
+        // Automatically closes dialogs
         (() => {
             const d = document.getElementById("flash-dialog");
             if (d) {

@@ -14,6 +14,6 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     sign_in_as(@user)
     get dashboard_path
     assert_response :success
-    assert_select "h1", /Dashboard/
+    assert_select "title", /Dashboard/
   end
 end
