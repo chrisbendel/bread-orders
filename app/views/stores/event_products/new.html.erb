@@ -1,5 +1,9 @@
 <h2>Add Product</h2>
 
+<div>
+  <%= link_to "Back to event", event_path(@event) %>
+</div>
+
 <%= form_with model: [@event, @event_product], local: true do |f| %>
   <div>
     <%= f.label :name %><br>
@@ -12,10 +16,15 @@
   </div>
 
   <div>
+    <%= f.label :price_cents, "Price ($)" %>
+    <br/>
+    <%= number_field_tag :price,
+                         (@event_product.price_cents || 0) / 100.0,
+                         step: 0.01,
+                         min: 0 %>
+  </div>
+
+  <div>
     <%= f.submit "Create Product" %>
   </div>
 <% end %>
-
-<div>
-  <%= link_to "Back to event", event_path(@event) %>
-</div>
