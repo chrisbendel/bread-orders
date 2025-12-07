@@ -1,6 +1,7 @@
 class Event < ApplicationRecord
   belongs_to :store
   has_many :event_products, dependent: :destroy
+  has_many :orders, dependent: :destroy
 
   validates :name, presence: true
   validates :orders_open_at, presence: true

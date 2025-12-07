@@ -25,6 +25,10 @@ Rails.application.routes.draw do
 
   scope "/s/:slug", module: :storefront, as: :storefront do
     resource :notification, only: [:create, :destroy]
+
+    resources :events, only: [:show] do
+      resources :order_items, only: [:create]
+    end
   end
 
   get "/dashboard", to: "dashboard#index", as: :dashboard

@@ -21,7 +21,11 @@
 <% end %>
 
 <h4>Upcoming Events</h4>
-<% @events.each do |event| %>
-  <p><%= event.name %></p>
-  <p>Pickup on <%= nice_date(event.pickup_at) %></p>
-<% end %>
+<ul>
+  <% @store.events.each do |event| %>
+    <li>
+      <a href="<%= storefront_event_path(@store.slug, event) %>"><%= event.name %></a>
+      – <%= nice_date(event.pickup_at) %>
+    </li>
+  <% end %>
+</ul>

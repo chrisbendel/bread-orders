@@ -5,6 +5,8 @@ class Order < ApplicationRecord
   has_many :order_items, dependent: :destroy
   has_many :event_products, through: :order_items
 
+  validates :user_id, uniqueness: {scope: :event_id}
+
   def total_price_cents
     order_items.sum { |item| item.quantity * item.unit_price_cents }
   end
