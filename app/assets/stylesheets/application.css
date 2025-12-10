@@ -70,28 +70,57 @@ details ul {
     border-radius: .5rem;
 }
 
+summary {
+    list-style: none;
+    cursor: pointer;
+}
+
+.dropdown-header {
+    padding: 0.5rem;
+    border-bottom: 1px solid #eee;
+    color: #666;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
 #flash-dialog {
-    margin: 0; /* override browser default dialog margins */
+    margin: 0;
     position: fixed;
-    bottom: 1rem;
+    bottom: 2rem;
     left: 50%;
     transform: translateX(-50%);
     border: none;
-    border-radius: .5rem;
-    background: rgba(0, 0, 0, .85);
-    color: white;
-    animation: fadeout 2.5s forwards;
+    border-radius: 9999px;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    animation: slideup 3s forwards;
+    width: 70vw;
 }
 
-@keyframes fadeout {
+#flash-dialog p {
+    margin: 0;
+}
+
+@keyframes slideup {
     0% {
-        opacity: 1;
+        opacity: 0;
+        transform: translate(-50%, 1rem);
     }
-    80% {
+
+    10% {
         opacity: 1;
+        transform: translate(-50%, 0);
     }
+
+    85% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+
     100% {
         opacity: 0;
+        transform: translate(-50%, 0);
     }
 }
 
