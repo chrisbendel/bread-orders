@@ -59,28 +59,24 @@ details {
     position: relative;
 }
 
-details ul {
-    position: absolute;
-    right: 0;
-    margin: 0;
-    padding: .5rem;
-    list-style: none;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: .5rem;
-}
-
-summary {
+/* Dropdown */
+details>summary {
     list-style: none;
     cursor: pointer;
 }
 
-.dropdown-header {
-    padding: 0.5rem;
-    border-bottom: 1px solid #eee;
-    color: #666;
-    font-size: 0.9rem;
-    white-space: nowrap;
+details>ul {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    width: max-content;
+    background: white;
+    border: 1px solid #ddd;
+    list-style: none;
+    padding: .5rem;
+    z-index: 50;
+    border-radius: .5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 #flash-dialog {
@@ -154,7 +150,6 @@ th:last-child {
 .field_with_errors textarea,
 .field_with_errors select {
     border-color: #ef4444;
-    /* red-500 */
 }
 
 .field_with_errors input:focus,

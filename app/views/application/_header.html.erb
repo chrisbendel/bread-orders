@@ -11,11 +11,17 @@
           </summary>
 
           <ul class="stack">
-            <li class="dropdown-header">
-              Logged in as<br>
-              <strong style="color: #333;"><%= current_user.email %></strong>
+            <li>
+              <small>
+                Logged in as
+                <br>
+                <strong style="color: #333;"><%= current_user.email %></strong>
+              </small>
             </li>
-            <li class="dropdown-action">
+            <li>
+              <hr/>
+            </li>
+            <li>
               <%= button_to "Sign out", session_path, method: :delete %>
             </li>
           </ul>
