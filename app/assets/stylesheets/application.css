@@ -144,3 +144,22 @@ th:last-child {
     text-align: right;
     white-space: nowrap;
 }
+
+/* Error Styling */
+.field_with_errors {
+    display: inline;
+}
+
+.field_with_errors input,
+.field_with_errors textarea,
+.field_with_errors select {
+    border-color: #ef4444;
+    /* red-500 */
+}
+
+.field_with_errors input:focus,
+.field_with_errors textarea:focus,
+.field_with_errors select:focus {
+    outline-color: #ef4444;
+    box-shadow: 0 0 0 1px #ef4444;
+}

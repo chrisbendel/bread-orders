@@ -1,7 +1,7 @@
 class StorefrontController < ApplicationController
   def show
     @store = Store.find_by!(slug: params[:slug])
-    @events = @store.events.active
+    @events = @store.events.published
     @notification = if authenticated?
       current_user.store_notifications.find_by(store: @store)
     end

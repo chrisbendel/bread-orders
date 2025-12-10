@@ -22,22 +22,20 @@
       <section class="stack">
         <h4>Upcoming Events</h4>
 
-        <% if @user.store.events.active.any? %>
+        <% if @user.store.events.published.any? %>
           <table>
             <thead>
             <tr>
               <th>Name</th>
-              <th>Orders Open</th>
               <th>Orders Close</th>
               <th>Pickup</th>
               <th></th>
             </tr>
             </thead>
             <tbody>
-            <% @user.store.events.active.each do |event| %>
+            <% @user.store.events.published.each do |event| %>
               <tr>
                 <td><%= event.name %></td>
-                <td><%= event.orders_open_at&.strftime("%b %-d") %></td>
                 <td><%= event.orders_close_at&.strftime("%b %-d") %></td>
                 <td><%= event.pickup_at&.strftime("%b %-d") %></td>
                 <td>

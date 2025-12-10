@@ -19,7 +19,7 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
 
   test "renders orders when user has orders" do
     store = Store.create!(user: User.create!(email: "store@example.com"), name: "Bakery", slug: "bakery")
-    event = store.events.create!(name: "Weekly Bake", orders_open_at: 1.day.ago, orders_close_at: 1.day.from_now, pickup_at: 2.days.from_now)
+    event = store.events.create!(name: "Weekly Bake", orders_close_at: 1.day.from_now, pickup_at: 2.days.from_now)
     product = event.event_products.create!(name: "Sourdough", price_cents: 1000, quantity: 10)
 
     order = @user.orders.create!(event: event)

@@ -1,6 +1,18 @@
-<h2><%= @event.name %></h2>
+<h2>
+  <%= @event.name %>
+  <% if @event.draft? %>
+    <span>(Draft)</span>
+  <% end %>
+</h2>
+
+<% if @event.draft? && current_user == @store.user %>
+  <div class="group">
+    <%= button_to "Publish Event", publish_event_path(@event), method: :post, data: { turbo_confirm: "Are you sure? This will email all subscribers." } %>
+  </div>
+<% end %>
+
 <h4><%= @event.description %></h4>
-<h4>Orders open <%= nice_date(@event.orders_open_at) %> - <%= nice_date(@event.orders_close_at) %></h4>
+<h4>Orders close <%= nice_date(@event.orders_close_at) %></h4>
 <hr>
 
 <h3>Products Available</h3>
