@@ -22,7 +22,7 @@
   <% end %>
 </ul>
 
-<% if @order.order_items.any? %>
+<% if @order&.order_items.present? %>
   <section class="order-summary">
     <h2>Your Order</h2>
 
