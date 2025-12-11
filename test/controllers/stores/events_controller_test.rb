@@ -53,7 +53,7 @@ class Stores::EventsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to event_path(new_event)
     follow_redirect!
     assert_select ".notice", /Event created \(Draft\)/i
-    
+
     # Assert NO email sent on create
     assert_no_enqueued_emails
   end
@@ -62,15 +62,15 @@ class Stores::EventsControllerTest < ActionDispatch::IntegrationTest
     # Ensure event is initially draft
     assert @event.draft?
     @event.event_products.create!(name: "Bread", price_cents: 1000, quantity: 10)
-    
+
     assert_difference "ActionMailer::Base.deliveries.size", 0 do # using deliver_later, so check enqueued
       post publish_event_path(@event)
     end
-    
+
     assert_redirected_to event_path(@event)
     follow_redirect!
     assert_select ".notice", /Event published/i
-    
+
     @event.reload
     assert @event.published?
   end
@@ -80,11 +80,11 @@ class Stores::EventsControllerTest < ActionDispatch::IntegrationTest
     assert @event.event_products.empty?
 
     post publish_event_path(@event)
-    
+
     assert_redirected_to event_path(@event)
     follow_redirect!
     assert_select ".alert", /at least one product/i
-    
+
     @event.reload
     assert @event.draft?
   end

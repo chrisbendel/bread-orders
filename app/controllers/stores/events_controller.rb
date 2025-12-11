@@ -68,7 +68,6 @@ class Stores::EventsController < ApplicationController
     params.require(:event).permit(
       :name,
       :description,
-
       :orders_close_at,
       :pickup_at
     )

@@ -8,7 +8,9 @@ class Order < ApplicationRecord
   validates :user_id, uniqueness: {scope: :event_id}
 
   def total_price_cents
-    order_items.sum { |item| item.quantity * item.unit_price_cents }
+    order_items.sum do |item|
+      item.quantity * item.unit_price_cents
+    end
   end
 
   def total_price

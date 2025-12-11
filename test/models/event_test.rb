@@ -22,8 +22,6 @@ class EventTest < ActiveSupport::TestCase
     assert_includes @event.errors[:name], "can't be blank"
   end
 
-
-
   test "requires orders_close_at" do
     @event.orders_close_at = nil
     refute @event.valid?

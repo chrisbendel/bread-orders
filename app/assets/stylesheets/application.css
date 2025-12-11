@@ -72,6 +72,7 @@ details>ul {
     list-style: none;
     padding: .5rem;
     border-radius: .5rem;
+    background: white;
 }
 
 #flash-dialog {

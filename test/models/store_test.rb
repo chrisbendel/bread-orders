@@ -86,17 +86,17 @@ class StoreTest < ActiveSupport::TestCase
 
   test "active_orders? checks for orders with future pickup times" do
     store = Store.create!(user: @user, name: "Test", slug: "test")
-    
+
     # Create past event (no active orders)
     past_event = store.events.create!(name: "Past", orders_close_at: 1.day.ago, pickup_at: 1.day.ago)
     past_event.orders.create!(user: User.create!(email: "customer1@example.com"))
-    
+
     assert_equal false, store.active_orders?
 
     # Create future event (should trigger active orders)
     future_event = store.events.create!(name: "Future", orders_close_at: 1.day.from_now, pickup_at: 2.days.from_now)
     future_event.orders.create!(user: User.create!(email: "customer2@example.com"))
-    
+
     assert_equal true, store.active_orders?
   end
 end

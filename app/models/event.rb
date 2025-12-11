@@ -23,6 +23,7 @@ class Event < ApplicationRecord
   def publish!
     update!(published_at: Time.current)
   end
+
   private
 
   def orders_close_before_pickup
