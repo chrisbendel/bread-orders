@@ -3,7 +3,7 @@
 <%= form_with model: [@store, @event], local: true do |form| %>
   <div>
     <%= form.label :name %><br>
-    <%= form.text_field :name %>
+    <%= form.text_field :name, required: true %>
   </div>
 
   <div>
@@ -12,20 +12,17 @@
   </div>
 
   <div class="group">
-    <div>
-      <%= form.label :orders_open_at, "Orders open at" %><br>
-      <%= form.date_field :orders_open_at %>
-    </div>
+
 
     <div>
       <%= form.label :orders_close_at, "Orders close at" %><br>
-      <%= form.date_field :orders_close_at %>
+      <%= form.date_field :orders_close_at, required: true, min: Date.current %>
     </div>
   </div>
 
   <div>
     <%= form.label :pickup_at, "Pickup date" %><br>
-    <%= form.date_field :pickup_at %>
+    <%= form.date_field :pickup_at, required: true, min: Date.current %>
   </div>
 
   <div>

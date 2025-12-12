@@ -1,21 +1,7 @@
 <h2>Add Product</h2>
 
-<%= form_with model: [@event, @event_product], local: true do |f| %>
-  <div>
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-
-  <div>
-    <%= f.label :quantity %><br>
-    <%= f.number_field :quantity %>
-  </div>
-
-  <div>
-    <%= f.submit "Create Product" %>
-  </div>
-<% end %>
-
 <div>
   <%= link_to "Back to event", event_path(@event) %>
 </div>
+
+<%= render "form", event: @event, event_product: @event_product %>

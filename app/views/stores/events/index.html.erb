@@ -8,7 +8,7 @@
   <thead>
   <tr>
     <th>Name</th>
-    <th>Opens</th>
+
     <th>Closes</th>
     <th>Pickup</th>
     <th></th>
@@ -19,7 +19,7 @@
   <% @events.each do |event| %>
     <tr>
       <td><%= link_to event.name, event_path(event) %></td>
-      <td><%= nice_date(event.orders_open_at) %></td>
+
       <td><%= nice_date(event.orders_close_at) %></td>
       <td><%= nice_date(event.pickup_at) %></td>
       <td>

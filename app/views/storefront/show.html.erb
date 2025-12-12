@@ -4,12 +4,12 @@
   <h4><%= @store.name %></h4>
 
   <% if @notification.present? %>
-    <%= button_to storefront_notification_path(@store.slug), method: :delete, class: "group items-center" do %>
-      <box-icon name="bell" type="solid" size="sm"></box-icon>
+    <%= button_to storefront_notification_path(@store.slug), method: :delete, class: "group items-center", title: "Unsubscribe from email updates" do %>
+      <box-icon name="bell-off" size="sm"></box-icon>
       <span class="font-medium">Unsubscribe</span>
     <% end %>
   <% else %>
-    <%= button_to storefront_notification_path(@store.slug), method: :post, class: "group items-center" do %>
+    <%= button_to storefront_notification_path(@store.slug), method: :post, class: "group items-center", title: "Subscribe to email updates" do %>
       <box-icon name="bell" size="sm"></box-icon>
       <span class="font-medium">Subscribe</span>
     <% end %>
@@ -21,7 +21,11 @@
 <% end %>
 
 <h4>Upcoming Events</h4>
-<% @events.each do |event| %>
-  <p><%= event.name %></p>
-  <p>Pickup on <%= nice_date(event.pickup_at) %></p>
-<% end %>
+<ul>
+  <% @store.events.published.each do |event| %>
+    <li>
+      <a href="<%= storefront_event_path(@store.slug, event) %>"><%= event.name %></a>
+      – <%= nice_date(event.pickup_at) %>
+    </li>
+  <% end %>
+</ul>
