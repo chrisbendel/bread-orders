@@ -20,15 +20,12 @@
   <pre><%= @store.description %></pre>
 <% end %>
 
-<h4>Events</h4>
+<h4>Upcoming Events</h4>
 <ul>
-  <% @store.events.each do |event| %>
+  <% @store.events.published.each do |event| %>
     <li>
       <a href="<%= storefront_event_path(@store.slug, event) %>"><%= event.name %></a>
       – <%= nice_date(event.pickup_at) %>
-      <% if event.draft? %>
-        <span> (Draft)</span>
-      <% end %>
     </li>
   <% end %>
 </ul>

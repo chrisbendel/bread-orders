@@ -14,10 +14,14 @@
       <strong><%= product.name %></strong>
       (<%= number_to_currency(product.price_cents.to_f / 100) %>)
 
-      <form action="<%= storefront_event_order_items_path(@store.slug, @event, event_product_id: product.id) %>" method="post" style="display:inline;">
-        <%= csrf_meta_tags %>
-        <button>Add</button>
-      </form>
+      <% if product.available? %>
+        <form action="<%= storefront_event_order_items_path(@store.slug, @event, event_product_id: product.id) %>" method="post" style="display:inline;">
+          <%= csrf_meta_tags %>
+          <button>Add (<%= product.remaining %>)</button>
+        </form>
+      <% else %>
+        <span style="color: red;">(Sold out)</span>
+      <% end %>
     </li>
   <% end %>
 </ul>
@@ -26,20 +30,49 @@
   <section class="order-summary">
     <h2>Your Order</h2>
 
-    <ul>
-      <% @order.order_items.includes(:event_product).each do |item| %>
-        <li>
-          <strong><%= item.event_product.name %></strong>
-          — qty: <%= item.quantity %>
-        </li>
-      <% end %>
-    </ul>
-
-    <p><strong>Total items:</strong> <%= @order.order_items.sum(:quantity) %></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Subtotal</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @order.order_items.includes(:event_product).each do |item| %>
+          <tr>
+            <td><%= item.event_product.name %></td>
+            <td>
+              <div class="group items-center">
+                <%= button_to "-", storefront_order_item_path(item), method: :patch, params: {order_item: {quantity: item.quantity - 1}} %>
+                <span><%= item.quantity %></span>
+                <%= button_to "+", storefront_order_item_path(item), method: :patch, params: {order_item: {quantity: item.quantity + 1}} %>
+              </div>
+            </td>
+            <td><%= item.event_product.price_formatted %></td>
+            <td><%= number_to_currency((item.quantity * item.unit_price_cents).to_f / 100) %></td>
+            <td></td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3"><strong>Total items:</strong></td>
+          <td><%= @order.order_items.sum(:quantity) %></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="3"><strong>Order Total:</strong></td>
+          <td><%= number_to_currency(@order.total_price_cents.to_f / 100) %></td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
   </section>
 <% else %>
   <p>No items in your order yet.</p>
 <% end %>
-
 
 <p><a href="<%= storefront_path(@store.slug) %>">Back to store</a></p>

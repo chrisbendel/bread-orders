@@ -2,6 +2,7 @@ class User < ApplicationRecord
   has_one :store, dependent: :destroy
   has_many :store_notifications, dependent: :destroy
   has_many :orders, dependent: :destroy
+  has_many :order_items, through: :orders
 
   before_validation :normalize_email
 
