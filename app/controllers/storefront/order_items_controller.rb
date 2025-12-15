@@ -60,7 +60,7 @@ module Storefront
       item = current_user.order_items.find(params[:id])
       @event = item.order.event
       @store = @event.store
-      
+
       item.destroy!
 
       redirect_to storefront_event_path(@store.slug, @event), notice: "Removed item."
