@@ -2,7 +2,7 @@ class OrderItem < ApplicationRecord
   belongs_to :order
   belongs_to :event_product
 
-  validates :quantity, numericality: {greater_than: 0}
+  validates :quantity, numericality: {greater_than: 0, less_than_or_equal_to: 1000}
 
   before_validation :set_unit_price, on: :create
 

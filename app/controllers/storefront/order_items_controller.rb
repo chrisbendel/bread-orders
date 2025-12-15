@@ -6,24 +6,30 @@ module Storefront
     before_action :set_product, only: [:create]
 
     def create
-      return if @event.draft?
-      order = Order.find_or_create_by!(user: current_user, event: @event)
-
-      item = order.order_items.find_or_initialize_by(event_product: @product)
-
-      if @product.remaining < 1
-        redirect_to storefront_event_path(@store.slug, @event), alert: "Sorry, that item is out of stock!"
+      if @event.draft?
+        redirect_to storefront_event_path(@store.slug, @event), alert: "Sorry, this event is not available."
         return
       end
 
-      if item.new_record?
-        item.quantity = 1
-        item.unit_price_cents = @product.price_cents
-      else
-        item.quantity += 1
-      end
+      order = Order.find_or_create_by!(user: current_user, event: @event)
 
-      item.save!
+      @product.with_lock do
+        if @product.remaining < 1
+          redirect_to storefront_event_path(@store.slug, @event), alert: "Sorry, that item is out of stock!"
+          return
+        end
+
+        item = order.order_items.find_or_initialize_by(event_product: @product)
+
+        if item.new_record?
+          item.quantity = 1
+          item.unit_price_cents = @product.price_cents
+        else
+          item.quantity += 1
+        end
+
+        item.save!
+      end
 
       redirect_to storefront_event_path(@store.slug, @event), notice: "Added!"
     end
@@ -40,13 +46,17 @@ module Storefront
         # Check stock if increasing
         if new_quantity > item.quantity
           required = new_quantity - item.quantity
-          if required > item.event_product.remaining
-            redirect_to storefront_event_path(@store.slug, @event), alert: "Sorry, we don't have enough stock for that quantity."
-            return
+          # Lock the event_product row to prevent race conditions
+          item.event_product.with_lock do
+            if required > item.event_product.remaining
+              redirect_to storefront_event_path(@store.slug, @event), alert: "Sorry, we don't have enough stock for that quantity."
+              return
+            end
+            item.update!(quantity: new_quantity)
           end
+        else
+          item.update!(quantity: new_quantity)
         end
-
-        item.update!(quantity: new_quantity)
         notice = "Updated quantity."
       else
         item.destroy!

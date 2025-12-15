@@ -64,13 +64,7 @@ class Stores::EventProductsController < ApplicationController
   end
 
   def event_product_params
-    permitted = params.require(:event_product)
-      .permit(:name, :quantity, :description)
-
-    if params[:price]
-      permitted[:price_cents] = (params[:price].to_f * 100).round
-    end
-
-    permitted
+    params.require(:event_product)
+      .permit(:name, :quantity, :description, :price)
   end
 end

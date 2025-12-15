@@ -38,8 +38,6 @@ class EventTest < ActiveSupport::TestCase
     assert_equal @store, @event.store
   end
 
-  # If you later enable close_after_open validation, uncomment this:
-  #
   test "orders_close_at must be before pickup_at" do
     @event.orders_close_at = @event.pickup_at + 1.hour
     refute @event.valid?

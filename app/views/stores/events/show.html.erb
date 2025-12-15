@@ -5,7 +5,7 @@
   <% end %>
 </h2>
 
-<% if @event.draft? && current_user == @store.user %>
+<% if @event.draft? && current_user == @store.user && @event.event_products.present? %>
   <div class="group">
     <%= button_to "Publish Event", publish_event_path(@event), method: :post, data: { turbo_confirm: "Are you sure? This will email all subscribers." } %>
   </div>

@@ -15,7 +15,7 @@ module Storefront
     end
 
     def set_event
-      @event = @store.events.find(params[:id])
+      @event = @store.events.published.find(params[:id])
     end
   end
 end

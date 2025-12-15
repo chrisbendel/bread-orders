@@ -11,17 +11,18 @@
 <ul>
   <% @products.each do |product| %>
     <li>
-      <strong><%= product.name %></strong>
-      (<%= number_to_currency(product.price_cents.to_f / 100) %>)
+      <div class="group items-center">
+        <strong><%= product.name %></strong>
+        (<%= number_to_currency(product.price_cents.to_f / 100) %>)
 
-      <% if product.available? %>
-        <form action="<%= storefront_event_order_items_path(@store.slug, @event, event_product_id: product.id) %>" method="post" style="display:inline;">
-          <%= csrf_meta_tags %>
-          <button>Add (<%= product.remaining %>)</button>
-        </form>
-      <% else %>
-        <span style="color: red;">(Sold out)</span>
-      <% end %>
+        <% if product.available? %>
+          <%= form_with url: storefront_event_order_items_path(@store.slug, @event, event_product_id: product.id), method: :post do %>
+            <button>Add (<%= product.remaining %> left)</button>
+          <% end %>
+        <% else %>
+          <span style="color: red;">(Sold out)</span>
+        <% end %>
+      </div>
     </li>
   <% end %>
 </ul>
@@ -46,9 +47,9 @@
             <td><%= item.event_product.name %></td>
             <td>
               <div class="group items-center">
-                <%= button_to "-", storefront_order_item_path(item), method: :patch, params: {order_item: {quantity: item.quantity - 1}} %>
+                <%= button_to "-", storefront_order_item_path(@store.slug, item), method: :patch, params: {order_item: {quantity: item.quantity - 1}} %>
                 <span><%= item.quantity %></span>
-                <%= button_to "+", storefront_order_item_path(item), method: :patch, params: {order_item: {quantity: item.quantity + 1}} %>
+                <%= button_to "+", storefront_order_item_path(@store.slug, item), method: :patch, params: {order_item: {quantity: item.quantity + 1}} %>
               </div>
             </td>
             <td><%= item.event_product.price_formatted %></td>
