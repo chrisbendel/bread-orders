@@ -14,7 +14,7 @@
 
           <%= link_to store_path, class: "group items-center button" do %>
             <box-icon name="cog" size="sm"></box-icon>
-            Manage Settings
+            Manage Store
           <% end %>
         </div>
       </section>
@@ -36,8 +36,8 @@
             <% @user.store.events.published.each do |event| %>
               <tr>
                 <td><%= event.name %></td>
-                <td><%= event.orders_close_at&.strftime("%b %-d") %></td>
-                <td><%= event.pickup_at&.strftime("%b %-d") %></td>
+                <td><%= nice_date(event.orders_close_at) %></td>
+                <td><%= pickup_datetime(event.pickup_at) %></td>
                 <td>
                   <%= link_to "Manage", event_path(event) %>
                 </td>
@@ -75,9 +75,9 @@
                   <%= link_to order.event.store.name, storefront_path(order.event.store.slug) %>
                 </td>
                 <td><%= order.event.name %></td>
-                <td><%= order.event.pickup_at.strftime("%b %-d, %Y") %></td>
+                <td><%= pickup_datetime(order.event.pickup_at) %></td>
                 <td><%= number_to_currency(order.total_price) %></td>
-                <td><%= order.created_at.strftime("%b %-d") %></td>
+                <td><%= nice_date(order.created_at) %></td>
               </tr>
             <% end %>
           </tbody>
