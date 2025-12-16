@@ -1,4 +1,4 @@
-<header class="">
+<header>
   <div class="flex items-center justify-between">
     <%= link_to dashboard_path do %>
       <box-icon size="lg" name="baguette"></box-icon>
@@ -6,12 +6,24 @@
     <nav>
       <% if authenticated? %>
         <details>
-          <summary>
-            <%= current_user.email %>
+          <summary class="flex items-center">
+            <box-icon name="user" size="md"></box-icon>
           </summary>
 
           <ul class="stack">
-            <li><%= button_to "Sign out", session_path, method: :delete %></li>
+            <li>
+              <small>
+                Logged in as
+                <br>
+                <strong style="color: #333;"><%= current_user.email %></strong>
+              </small>
+            </li>
+            <li>
+              <hr/>
+            </li>
+            <li>
+              <%= button_to "Sign out", session_path, method: :delete %>
+            </li>
           </ul>
         </details>
       <% else %>

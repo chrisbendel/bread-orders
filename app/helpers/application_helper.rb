@@ -3,7 +3,7 @@ module ApplicationHelper
     l(value, format: :nice_date) if value
   end
 
-  def nice_datetime(value)
-    l(value, format: :nice_datetime) if value
+  def pickup_datetime(value)
+    l(value, format: :pickup_datetime) if value
   end
 end

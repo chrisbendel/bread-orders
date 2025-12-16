@@ -16,4 +16,21 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "title", /Dashboard/
   end
+
+  test "renders orders when user has orders" do
+    store = Store.create!(user: User.create!(email: "store@example.com"), name: "Bakery", slug: "bakery")
+    event = store.events.create!(name: "Weekly Bake", orders_close_at: 1.day.from_now, pickup_at: 2.days.from_now)
+    product = event.event_products.create!(name: "Sourdough", price_cents: 1000, quantity: 10)
+
+    order = @user.orders.create!(event: event)
+    order.order_items.create!(event_product: product, quantity: 1)
+
+    sign_in_as(@user)
+    get dashboard_path
+
+    assert_response :success
+    assert_select "h4", "Your Orders"
+    assert_select "td", "Bakery"
+    assert_select "td", "Weekly Bake"
+  end
 end

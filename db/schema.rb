@@ -10,11 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_02_181242) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_10_150512) do
   create_table "event_products", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "event_id", null: false
     t.string "name"
+    t.integer "price_cents"
     t.integer "quantity"
     t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_event_products_on_event_id"
@@ -25,8 +26,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_02_181242) do
     t.text "description"
     t.string "name"
     t.datetime "orders_close_at"
-    t.datetime "orders_open_at"
     t.datetime "pickup_at"
+    t.datetime "published_at"
     t.integer "store_id", null: false
     t.datetime "updated_at", null: false
     t.index ["store_id"], name: "index_events_on_store_id"
@@ -41,6 +42,26 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_02_181242) do
     t.integer "user_id", null: false
     t.index ["user_id", "created_at"], name: "index_login_codes_on_user_id_and_created_at"
     t.index ["user_id"], name: "index_login_codes_on_user_id"
+  end
+
+  create_table "order_items", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "event_product_id", null: false
+    t.integer "order_id", null: false
+    t.integer "quantity"
+    t.integer "unit_price_cents"
+    t.datetime "updated_at", null: false
+    t.index ["event_product_id"], name: "index_order_items_on_event_product_id"
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "event_id", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["event_id"], name: "index_orders_on_event_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "store_notifications", force: :cascade do |t|
@@ -76,6 +97,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_02_181242) do
   add_foreign_key "event_products", "events"
   add_foreign_key "events", "stores"
   add_foreign_key "login_codes", "users"
+  add_foreign_key "order_items", "event_products"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "orders", "events"
+  add_foreign_key "orders", "users"
   add_foreign_key "store_notifications", "stores"
   add_foreign_key "store_notifications", "users"
   add_foreign_key "stores", "users"

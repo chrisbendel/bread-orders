@@ -1,8 +1,8 @@
 class Stores::EventProductsController < ApplicationController
   before_action :require_authentication!
   before_action :set_store
-  before_action :set_event
   before_action :set_event_product, only: [:edit, :update, :destroy]
+  before_action :set_event
   before_action :require_store_owner!
 
   def new
@@ -11,6 +11,7 @@ class Stores::EventProductsController < ApplicationController
 
   def create
     @event_product = @event.event_products.new(event_product_params)
+
     if @event_product.save
       redirect_to event_path(@event), notice: "Product added."
     else
@@ -40,12 +41,21 @@ class Stores::EventProductsController < ApplicationController
     @store = current_user.store
   end
 
-  def set_event
-    @event = @store.events.find(params[:event_id])
+  # Load @event_product only for shallow routes
+  def set_event_product
+    return unless params[:id]
+    @event_product = EventProduct.find(params[:id])
   end
 
-  def set_event_product
-    @event_product = @event.event_products.find(params[:id])
+  # Derive @event:
+  # - From nested routes → params[:event_id]
+  # - From shallow routes → @event_product.event
+  def set_event
+    @event = if params[:event_id]
+      @store.events.find(params[:event_id])
+    else
+      @event_product.event
+    end
   end
 
   def require_store_owner!
@@ -54,6 +64,7 @@ class Stores::EventProductsController < ApplicationController
   end
 
   def event_product_params
-    params.require(:event_product).permit(:name, :quantity)
+    params.require(:event_product)
+      .permit(:name, :quantity, :description, :price)
   end
 end
