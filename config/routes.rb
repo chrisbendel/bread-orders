@@ -15,6 +15,9 @@ Rails.application.routes.draw do
   # Singular store for member actions (a user owns at most one store)
   resource :store, shallow: true, only: [:new, :create, :show, :edit, :update, :destroy] do
     resources :events, shallow: true, module: :stores do
+      member do
+        post :publish
+      end
       resources :event_products, shallow: true, only: [:new, :create, :edit, :update, :destroy]
     end
   end
@@ -25,6 +28,10 @@ Rails.application.routes.draw do
 
   scope "/s/:slug", module: :storefront, as: :storefront do
     resource :notification, only: [:create, :destroy]
+
+    resources :events, only: [:show], shallow: true do
+      resources :order_items, only: [:create, :update, :destroy]
+    end
   end
 
   get "/dashboard", to: "dashboard#index", as: :dashboard

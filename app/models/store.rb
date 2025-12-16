@@ -2,6 +2,7 @@ class Store < ApplicationRecord
   belongs_to :user
   has_many :events, dependent: :destroy
   has_many :notifications, class_name: "StoreNotification", dependent: :destroy
+  has_many :orders, through: :events
 
   validates :name, presence: true
   validates :slug,
@@ -14,8 +15,7 @@ class Store < ApplicationRecord
     true
   end
 
-  # Placeholder for when orders are implemented
   def active_orders?
-    false
+    orders.joins(:event).where("events.pickup_at >= ?", Time.current).exists?
   end
 end

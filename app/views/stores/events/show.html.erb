@@ -1,35 +1,61 @@
-<h2><%= @event.name %></h2>
+<h2>
+  <%= @event.name %>
+  <% if @event.draft? %>
+    <span>(Draft)</span>
+  <% end %>
+</h2>
+
+<% if @event.draft? && current_user == @store.user && @event.event_products.present? %>
+  <div class="group">
+    <%= button_to "Publish Event", publish_event_path(@event), method: :post, data: { turbo_confirm: "Are you sure? This will email all subscribers." } %>
+  </div>
+<% end %>
+
 <h4><%= @event.description %></h4>
-<h4>Orders open <%= nice_date(@event.orders_open_at) %> - <%= nice_date(@event.orders_close_at) %></h4>
+<h4>Orders close <%= nice_date(@event.orders_close_at) %></h4>
 <hr>
 
 <h3>Products Available</h3>
 
 <% if @event.event_products.any? %>
-  <ul>
+  <table>
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Qty</th>
+      <th>Price</th>
+      <% if authenticated? && current_user == @store.user %>
+        <th></th>
+      <% end %>
+    </tr>
+    </thead>
+
+    <tbody>
     <% @event.event_products.each do |product| %>
-      <li class="mb-2">
-        <strong><%= product.name %></strong>
-        (<%= product.quantity %> available)
+      <tr>
+        <td><strong><%= product.name %></strong></td>
+        <td><%= product.quantity %></td>
+        <td><%= product.price_formatted %></td>
 
         <% if authenticated? && current_user == @store.user %>
-          • <%= link_to "Edit", edit_event_product_path(product) %>
-          • <%= link_to "Delete", event_product_path(product),
+          <td class="items-baseline group justify-end">
+            <%= link_to "Edit", edit_event_product_path(product) %>
+            <%= link_to "Delete",
+                        event_product_path(product),
                         data: { turbo_method: :delete, turbo_confirm: "Delete this product?" } %>
+          </td>
         <% end %>
-      </li>
+      </tr>
     <% end %>
-  </ul>
+    </tbody>
+  </table>
 <% else %>
   <p>No products added yet.</p>
 <% end %>
 
 <% if authenticated? && current_user == @store.user %>
-  <p>
-    <%= link_to "Add Product", new_event_event_product_path(@event) %>
-  </p>
+  <p><%= link_to "Add Product", new_event_event_product_path(@event) %></p>
 <% end %>
-
 
 <p>
   <%= link_to "Edit Event", edit_event_path(@event) %> |
