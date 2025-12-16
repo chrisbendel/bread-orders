@@ -1,58 +1,91 @@
 <% content_for :title, "Dashboard" %>
 
-<% if @user.store %>
-  <div class="stack justify-between">
-    <section class="stack">
-      <h4>Quick Links</h4>
-      <%= link_to storefront_path(@user.store.slug), class: "group items-center" do %>
-        <box-icon name="store" size="sm"></box-icon>
-        Storefront
-      <% end %>
+<% if @user.store || @orders.any? %>
+  <div class="stack justify-between" style="gap: 2rem;">
+    
+    <% if @user.store %>
+      <section class="stack">
+        <h4>Store Management</h4>
+        <div class="group">
+          <%= link_to storefront_path(@user.store.slug), class: "group items-center button" do %>
+            <box-icon name="store" size="sm"></box-icon>
+            View Storefront
+          <% end %>
 
-      <%= link_to store_path, class: "group items-center" do %>
-        <box-icon name="cog" size="sm"></box-icon>
-        Manage Store
-      <% end %>
-    </section>
+          <%= link_to store_path, class: "group items-center button" do %>
+            <box-icon name="cog" size="sm"></box-icon>
+            Manage Store
+          <% end %>
+        </div>
+      </section>
 
-    <section class="stack">
-      <h4>Upcoming Events</h4>
+      <section class="stack">
+        <h4>Upcoming Events</h4>
 
-      <% if @user.store.events.any? %>
+        <% if @user.store.events.published.any? %>
+          <table>
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Orders Close</th>
+              <th>Pickup</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @user.store.events.published.each do |event| %>
+              <tr>
+                <td><%= event.name %></td>
+                <td><%= nice_date(event.orders_close_at) %></td>
+                <td><%= pickup_datetime(event.pickup_at) %></td>
+                <td>
+                  <%= link_to "Manage", event_path(event) %>
+                </td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+          <%= link_to "Create Event", new_store_event_path %>
+        <% else %>
+          <div class="panel">
+            <p>No active events.</p>
+            <%= link_to "Create Event", new_store_event_path %>
+          </div>
+        <% end %>
+      </section>
+    <% end %>
+
+    <% if @orders.any? %>
+      <section class="stack">
+        <h4>Your Orders</h4>
         <table>
           <thead>
-          <tr>
-            <th>Name</th>
-            <th>Opens</th>
-            <th>Closes</th>
-            <th>Pickup</th>
-            <th></th>
-          </tr>
+            <tr>
+              <th>Store</th>
+              <th>Event</th>
+              <th>Pickup Date</th>
+              <th>Total</th>
+              <th>Placed On</th>
+            </tr>
           </thead>
           <tbody>
-          <% @user.store.events.each do |event| %>
-            <tr>
-              <td><%= event.name %></td>
-              <td><%= event.orders_open_at&.strftime("%b %-d") %></td>
-              <td><%= event.orders_close_at&.strftime("%b %-d") %></td>
-              <td><%= event.pickup_at&.strftime("%b %-d") %></td>
-              <td>
-                <%= link_to "Manage", event_path(event) %>
-              </td>
-            </tr>
-          <% end %>
+            <% @orders.each do |order| %>
+              <tr>
+                <td>
+                  <%= link_to order.event.store.name, storefront_path(order.event.store.slug) %>
+                </td>
+                <td><%= order.event.name %></td>
+                <td><%= pickup_datetime(order.event.pickup_at) %></td>
+                <td><%= number_to_currency(order.total_price) %></td>
+                <td><%= nice_date(order.created_at) %></td>
+              </tr>
+            <% end %>
           </tbody>
         </table>
-      <% else %>
-        <p>No events yet.</p>
-        <%= link_to "Create your first event", new_store_event_path(@user.store) %>
-      <% end %>
-    </section>
+      </section>
+    <% end %>
 
   </div>
 <% else %>
-  <section>
-    <h2>Create Your Store</h2>
-    <%= link_to "Set up your store", new_store_path %>
-  </section>
+  <%# Secret Route: Onboarding hidden for now %>
 <% end %>

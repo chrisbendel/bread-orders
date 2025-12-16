@@ -1,10 +1,10 @@
 class Stores::EventsController < ApplicationController
   before_action :require_authentication!
   before_action :set_store
-  before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :set_event, only: [:show, :edit, :update, :destroy, :publish]
 
   def index
-    @events = @store.events.order(orders_open_at: :asc)
+    @events = @store.events.order(pickup_at: :asc)
   end
 
   def show
@@ -18,13 +18,22 @@ class Stores::EventsController < ApplicationController
     @event = @store.events.new(event_params)
 
     if @event.save
-      @store.notifications.includes(:user).find_each do |notification|
-        StoreMailer.new_event(@store, @event, notification).deliver_later
-      end
-      redirect_to event_path(@event), notice: "Event created."
+      redirect_to event_path(@event), notice: "Event created (Draft)."
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def publish
+    @event.publish!
+
+    @store.notifications.includes(:user).find_each do |notification|
+      StoreMailer.new_event(@store, @event, notification).deliver_later
+    end
+
+    redirect_to event_path(@event), notice: "Event published and notifications sent!"
+  rescue ActiveRecord::RecordInvalid
+    redirect_to event_path(@event), alert: @event.errors.full_messages.to_sentence
   end
 
   def edit
@@ -57,7 +66,6 @@ class Stores::EventsController < ApplicationController
     params.require(:event).permit(
       :name,
       :description,
-      :orders_open_at,
       :orders_close_at,
       :pickup_at
     )

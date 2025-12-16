@@ -3,5 +3,6 @@ class DashboardController < ApplicationController
 
   def index
     @user = current_user
+    @orders = current_user.orders.includes(:order_items, event: :store).order(created_at: :desc)
   end
 end

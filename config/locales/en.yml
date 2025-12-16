@@ -31,7 +31,7 @@ en:
   time:
     formats:
       nice_date: "%a %b %-d"
-      nice_datetime: "%A %B %-d at %-l:%M %p"
+      pickup_datetime: "%b %-d after %-l:%M %p"
   date:
     formats:
       nice_date: "%A %B %-d"

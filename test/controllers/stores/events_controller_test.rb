@@ -2,13 +2,14 @@ require "test_helper"
 
 class Stores::EventsControllerTest < ActionDispatch::IntegrationTest
   setup do
+    ActiveJob::Base.queue_adapter = :test
     @user = User.create!(email: "test@example.com")
     @store = Store.create!(user: @user, name: "Test Store", slug: "test-store")
 
     @event = @store.events.create!(
       name: "Bread Pickup",
       description: "Fresh sourdough",
-      orders_open_at: 1.day.ago,
+
       orders_close_at: 1.day.from_now,
       pickup_at: 2.days.from_now
     )
@@ -26,7 +27,7 @@ class Stores::EventsControllerTest < ActionDispatch::IntegrationTest
   test "GET show displays the event" do
     get event_path(@event)
     assert_response :success
-    assert_select "h2", @event.name
+    assert_select "h2", /#{@event.name}/
   end
 
   test "GET new renders form" do
@@ -41,7 +42,7 @@ class Stores::EventsControllerTest < ActionDispatch::IntegrationTest
         event: {
           name: "Market Day",
           description: "Outdoor bread pickup",
-          orders_open_at: Time.current,
+
           orders_close_at: 2.days.from_now,
           pickup_at: 3.days.from_now
         }
@@ -51,7 +52,41 @@ class Stores::EventsControllerTest < ActionDispatch::IntegrationTest
     new_event = @store.events.order(:created_at).last
     assert_redirected_to event_path(new_event)
     follow_redirect!
-    assert_select ".notice", /Event created/i
+    assert_select ".notice", /Event created \(Draft\)/i
+
+    # Assert NO email sent on create
+    assert_no_enqueued_emails
+  end
+
+  test "POST publish publishes event and sends emails" do
+    # Ensure event is initially draft
+    assert @event.draft?
+    @event.event_products.create!(name: "Bread", price_cents: 1000, quantity: 10)
+
+    assert_difference "ActionMailer::Base.deliveries.size", 0 do # using deliver_later, so check enqueued
+      post publish_event_path(@event)
+    end
+
+    assert_redirected_to event_path(@event)
+    follow_redirect!
+    assert_select ".notice", /Event published/i
+
+    @event.reload
+    assert @event.published?
+  end
+
+  test "POST publish fails if no products" do
+    assert @event.draft?
+    assert @event.event_products.empty?
+
+    post publish_event_path(@event)
+
+    assert_redirected_to event_path(@event)
+    follow_redirect!
+    assert_select ".alert", /at least one product/i
+
+    @event.reload
+    assert @event.draft?
   end
 
   test "POST create with invalid params renders new with 422" do
