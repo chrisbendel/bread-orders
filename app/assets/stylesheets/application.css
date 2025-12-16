@@ -1,6 +1,3 @@
-/* Minimal utilities — keep HTML defaults, add only tiny helpers.
-   Note: normalize.css is loaded via CDN in the application layout. */
-
 body {
     font-family: Inter, sans-serif;
 }
@@ -11,7 +8,6 @@ form {
     gap: .5rem;
 }
 
-/* Layout */
 .container {
     max-width: 720px;
     margin-inline: auto;
@@ -30,7 +26,6 @@ form {
     gap: .5rem;
 }
 
-/* Flex */
 .flex {
     display: flex;
 }
@@ -59,39 +54,59 @@ details {
     position: relative;
 }
 
-details ul {
+details>summary {
+    list-style: none;
+    cursor: pointer;
+}
+
+details>ul {
     position: absolute;
     right: 0;
-    margin: 0;
-    padding: .5rem;
-    list-style: none;
-    background: white;
     border: 1px solid #ddd;
+    list-style: none;
+    padding: .5rem;
     border-radius: .5rem;
+    background: white;
 }
 
 #flash-dialog {
-    margin: 0; /* override browser default dialog margins */
+    margin: 0;
     position: fixed;
-    bottom: 1rem;
+    bottom: 2rem;
     left: 50%;
     transform: translateX(-50%);
     border: none;
-    border-radius: .5rem;
-    background: rgba(0, 0, 0, .85);
-    color: white;
-    animation: fadeout 2.5s forwards;
+    border-radius: 9999px;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    animation: slideup 3s forwards;
+    width: 70vw;
 }
 
-@keyframes fadeout {
+#flash-dialog p {
+    margin: 0;
+}
+
+@keyframes slideup {
     0% {
-        opacity: 1;
+        opacity: 0;
+        transform: translate(-50%, 1rem);
     }
-    80% {
+
+    10% {
         opacity: 1;
+        transform: translate(-50%, 0);
     }
+
+    85% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+
     100% {
         opacity: 0;
+        transform: translate(-50%, 0);
     }
 }
 
@@ -114,4 +129,22 @@ td:last-child,
 th:last-child {
     text-align: right;
     white-space: nowrap;
+}
+
+/* Error Styling */
+.field_with_errors {
+    display: inline;
+}
+
+.field_with_errors input,
+.field_with_errors textarea,
+.field_with_errors select {
+    border-color: #ef4444;
+}
+
+.field_with_errors input:focus,
+.field_with_errors textarea:focus,
+.field_with_errors select:focus {
+    outline-color: #ef4444;
+    box-shadow: 0 0 0 1px #ef4444;
 }

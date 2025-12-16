@@ -71,8 +71,8 @@ class StoreTest < ActiveSupport::TestCase
 
   test "has many events (dependent destroy)" do
     store = Store.create!(user: @user, name: "A", slug: "a")
-    store.events.create!(name: "E1", orders_open_at: Time.current, orders_close_at: 2.hours.from_now, pickup_at: 3.days.from_now)
-    store.events.create!(name: "E2", orders_open_at: Time.current, orders_close_at: 2.hours.from_now, pickup_at: 3.days.from_now)
+    store.events.create!(name: "E1", orders_close_at: 2.hours.from_now, pickup_at: 3.days.from_now)
+    store.events.create!(name: "E2", orders_close_at: 2.hours.from_now, pickup_at: 3.days.from_now)
 
     assert_difference("Event.count", -2) do
       store.destroy
@@ -84,8 +84,19 @@ class StoreTest < ActiveSupport::TestCase
     assert_equal true, store.monetization_allowed?
   end
 
-  test "active_orders? placeholder returns false" do
+  test "active_orders? checks for orders with future pickup times" do
     store = Store.create!(user: @user, name: "Test", slug: "test")
+
+    # Create past event (no active orders)
+    past_event = store.events.create!(name: "Past", orders_close_at: 1.day.ago, pickup_at: 1.day.ago)
+    past_event.orders.create!(user: User.create!(email: "customer1@example.com"))
+
     assert_equal false, store.active_orders?
+
+    # Create future event (should trigger active orders)
+    future_event = store.events.create!(name: "Future", orders_close_at: 1.day.from_now, pickup_at: 2.days.from_now)
+    future_event.orders.create!(user: User.create!(email: "customer2@example.com"))
+
+    assert_equal true, store.active_orders?
   end
 end
