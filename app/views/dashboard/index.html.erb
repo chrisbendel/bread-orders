@@ -87,5 +87,12 @@
 
   </div>
 <% else %>
-  <%# Secret Route: Onboarding hidden for now %>
+  <section class="stack align-center text-center" style="padding: 4rem 2rem; border: 2px dashed #ccc; border-radius: 8px;">
+    <h2>Welcome to Bread Orders!</h2>
+    <p>This is your dashboard where you can see orders you've placed or manage your own bakery.</p>
+    <div style="margin-top: 2rem;">
+      <p>Want to sell your own bread?</p>
+      <%= link_to "Create your Store", new_store_path, class: "button" %>
+    </div>
+  </section>
 <% end %>

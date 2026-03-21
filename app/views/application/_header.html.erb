@@ -1,31 +1,13 @@
 <header>
   <div class="flex items-center justify-between">
-    <%= link_to dashboard_path do %>
+    <%= link_to dashboard_path, class: "flex items-center", style: "text-decoration: none; color: inherit;" do %>
       <box-icon size="lg" name="baguette"></box-icon>
+      <strong style="margin-left: 0.5rem;">Bread Orders</strong>
     <% end %>
-    <nav>
-      <% if authenticated? %>
-        <details>
-          <summary class="flex items-center">
-            <box-icon name="user" size="md"></box-icon>
-          </summary>
 
-          <ul class="stack">
-            <li>
-              <small>
-                Logged in as
-                <br>
-                <strong style="color: #333;"><%= current_user.email %></strong>
-              </small>
-            </li>
-            <li>
-              <hr/>
-            </li>
-            <li>
-              <%= button_to "Sign out", session_path, method: :delete %>
-            </li>
-          </ul>
-        </details>
+    <nav class="group" style="align-items: center; gap: 1.5rem;">
+      <% if authenticated? %>
+        <%= button_to "Sign out", session_path, method: :delete, class: "button-link" %>
       <% else %>
         <%= link_to "Sign in", new_session_path %>
       <% end %>

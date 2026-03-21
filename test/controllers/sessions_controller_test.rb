@@ -33,6 +33,24 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal user.id, session[:user_id]
   end
 
+  test "confirm signs in and redirects to dashboard for existing store owner" do
+    user = User.create!(email: "owner@example.com")
+    user.create_store!(name: "My Bakery", slug: "my-bakery")
+
+    # Request code
+    ActionMailer::Base.deliveries.clear
+    post session_path, params: {email: user.email}
+    mail = ActionMailer::Base.deliveries.last
+    body_text = [mail.subject, mail.text_part&.body&.to_s, mail.html_part&.body&.to_s, mail.body&.to_s].compact.join("\n")
+    code = body_text[/\b\d{6}\b/]
+
+    # Confirm code
+    post confirm_session_path, params: {email: user.email, code: code}
+    assert_redirected_to root_path
+    assert_equal "Signed in!", flash[:notice]
+    assert_equal user.id, session[:user_id]
+  end
+
   test "confirm fails with wrong code" do
     user = User.create!(email: "nope@example.com")
 

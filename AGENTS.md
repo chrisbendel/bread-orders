@@ -15,6 +15,12 @@ This project is a Ruby on Rails 8.1.1 application for managing bread orders.
 - **Security**: bundler-audit, brakeman
 - **Deployment**: fly.io
 
+## Project Ethos
+
+- **Simple UI**: The UI should be as bare bones as possible, utilizing standard HTML elements.
+- **Web Standards**: Prioritize native browser features over custom components or complex JavaScript.
+- **No Dropdowns**: Avoid complex UI patterns like dropdowns that require extra JavaScript for "click outside" behavior. Keep navigation simple and direct.
+
 ## Coding Conventions
 
 - **Style**: Follow StandardRB for Ruby style.
