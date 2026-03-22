@@ -186,6 +186,7 @@ pre {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  white-space: nowrap;
 }
 
 .badge.available { background: var(--success-bg); color: var(--success); }

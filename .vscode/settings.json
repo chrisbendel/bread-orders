@@ -1,0 +1,8 @@
+{
+  "editor.formatOnSave": true,
+  "standard.autoFixOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.standard": "explicit"
+  },
+  "ruby.lsp": "standard"
+}

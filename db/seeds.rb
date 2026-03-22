@@ -56,10 +56,10 @@ future_event = store.events.create!(
 puts "Adding products..."
 
 products_data = [
-  { name: "Classic Sourdough", price: 8.50, quantity: 20 },
-  { name: "Olive & Rosemary Focaccia", price: 12.00, quantity: 10 },
-  { name: "French Baguette", price: 4.00, quantity: 30 },
-  { name: "Whole Wheat Rye", price: 9.00, quantity: 15 }
+  {name: "Classic Sourdough", price: 8.50, quantity: 20},
+  {name: "Olive & Rosemary Focaccia", price: 12.00, quantity: 10},
+  {name: "French Baguette", price: 4.00, quantity: 30},
+  {name: "Whole Wheat Rye", price: 9.00, quantity: 15}
 ]
 
 [past_event, active_event, future_event].each do |event|
