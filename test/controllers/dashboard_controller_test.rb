@@ -7,7 +7,7 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
 
   test "redirects when not authenticated" do
     get dashboard_path
-    assert_redirected_to root_path
+    assert_redirected_to new_session_path
   end
 
   test "renders dashboard when signed in" do
@@ -29,8 +29,8 @@ class DashboardControllerTest < ActionDispatch::IntegrationTest
     get dashboard_path
 
     assert_response :success
-    assert_select "h4", "Your Orders"
-    assert_select "td", "Bakery"
-    assert_select "td", "Weekly Bake"
+    assert_select "h3", "Your Orders"
+    assert_select ".card", /Bakery/
+    assert_select ".card", /Weekly Bake/
   end
 end

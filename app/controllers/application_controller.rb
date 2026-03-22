@@ -21,8 +21,10 @@ class ApplicationController < ActionController::Base
   end
 
   def sign_in(user)
+    return_to = session[:return_to]
     reset_session
     session[:user_id] = user.id
+    session[:return_to] = return_to if return_to.present?
   end
 
   def sign_out
@@ -30,6 +32,15 @@ class ApplicationController < ActionController::Base
   end
 
   def require_authentication!
-    redirect_to root_path, alert: "You must sign in to access that." unless authenticated?
+    unless authenticated?
+      session[:return_to] = request.fullpath
+      redirect_to new_session_path, alert: "Sign in to continue."
+    end
+  end
+
+  def after_sign_in_path
+    path = session.delete(:return_to)
+    # Only redirect to internal paths to prevent open redirect attacks
+    (path&.start_with?("/") && path != new_session_path) ? path : root_path
   end
 end

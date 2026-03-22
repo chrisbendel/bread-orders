@@ -1,63 +1,132 @@
-<h2>
-  <%= @event.name %>
-  <% if @event.draft? %>
-    <span>(Draft)</span>
-  <% end %>
-</h2>
+<% content_for :title, @event.name %>
+<div class="group justify-between items-baseline">
+  <h2>
+    <%= @event.name %>
+    <% if @event.draft? %>
+      <span class="badge draft">Draft</span>
+    <% end %>
+  </h2>
 
-<% if @event.draft? && current_user == @store.user && @event.event_products.present? %>
-  <div class="group">
-    <%= button_to "Publish Event", publish_event_path(@event), method: :post, data: { turbo_confirm: "Are you sure? This will email all subscribers." } %>
-  </div>
+  <% if @event.draft? && current_user == @store.user && @event.event_products.present? %>
+    <%= button_to "Publish Event", publish_event_path(@event), method: :post,
+        class: "primary",
+        data: { turbo_confirm: "Are you sure? This will email all subscribers." } %>
+  <% end %>
+</div>
+
+<% if @event.description.present? %>
+  <p><%= @event.description %></p>
 <% end %>
 
-<h4><%= @event.description %></h4>
-<h4>Orders close <%= nice_date(@event.orders_close_at) %></h4>
-<hr>
+<p class="text-muted">
+  Orders close <%= nice_date(@event.orders_close_at) %> &middot;
+  Pickup <%= pickup_datetime(@event.pickup_at) %>
+</p>
 
-<h3>Products Available</h3>
+<hr style="border: none; border-top: 1px solid var(--border); margin-block: var(--sp-lg);">
+
+<div class="group justify-between items-baseline">
+  <h3>Products</h3>
+  <% if authenticated? && current_user == @store.user %>
+    <%= link_to "+ Add Product", new_event_event_product_path(@event) %>
+  <% end %>
+</div>
 
 <% if @event.event_products.any? %>
-  <table>
+  <table class="responsive-table">
     <thead>
-    <tr>
-      <th>Name</th>
-      <th>Qty</th>
-      <th>Price</th>
-      <% if authenticated? && current_user == @store.user %>
-        <th></th>
-      <% end %>
-    </tr>
-    </thead>
-
-    <tbody>
-    <% @event.event_products.each do |product| %>
       <tr>
-        <td><strong><%= product.name %></strong></td>
-        <td><%= product.quantity %></td>
-        <td><%= product.price_formatted %></td>
-
+        <th>Name</th>
+        <th>Qty</th>
+        <th>Price</th>
         <% if authenticated? && current_user == @store.user %>
-          <td class="items-baseline group justify-end">
-            <%= link_to "Edit", edit_event_product_path(product) %>
-            <%= link_to "Delete",
-                        event_product_path(product),
-                        data: { turbo_method: :delete, turbo_confirm: "Delete this product?" } %>
-          </td>
+          <th></th>
         <% end %>
       </tr>
-    <% end %>
+    </thead>
+    <tbody>
+      <% @event.event_products.each do |product| %>
+        <tr>
+          <td data-label="Name">
+            <div class="group items-center" style="gap: var(--sp-sm);">
+              <% if product.image.attached? %>
+                <%= image_tag product.image.variant(resize_to_limit: [40, 40]), style: "width: 40px; height: 40px; object-fit: cover; border-radius: 4px; flex-shrink: 0;" %>
+              <% end %>
+              <strong><%= product.name %></strong>
+            </div>
+          </td>
+          <td data-label="Qty"><%= product.quantity %></td>
+          <td data-label="Price"><%= product.price_formatted %></td>
+          <% if authenticated? && current_user == @store.user %>
+            <td class="group justify-end items-center">
+              <%= link_to "Edit", edit_event_product_path(product) %>
+              <%= link_to "Delete",
+                          event_product_path(product),
+                          data: { turbo_method: :delete, turbo_confirm: "Delete this product?" },
+                          class: "text-danger" %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
     </tbody>
   </table>
 <% else %>
-  <p>No products added yet.</p>
+  <div class="nudge">
+    <span>
+      No products yet.
+      <%= link_to "Add your first product", new_event_event_product_path(@event) %>
+      before you can publish this event.
+    </span>
+  </div>
 <% end %>
 
-<% if authenticated? && current_user == @store.user %>
-  <p><%= link_to "Add Product", new_event_event_product_path(@event) %></p>
+<hr style="border: none; border-top: 1px solid var(--border); margin-block: var(--sp-lg);">
+
+<div class="group justify-between items-baseline">
+  <h3>Orders <% if @orders.any? %><span class="text-muted text-sm">(<%= @orders.count %>)</span><% end %></h3>
+</div>
+
+<% if @orders.any? %>
+  <%# Prep summary: total sold per product %>
+  <div class="panel stack-sm" style="margin-bottom: var(--sp-md);">
+    <p class="text-sm font-bold">Prep summary</p>
+    <% @event.event_products.each do |product| %>
+      <div class="group justify-between text-sm">
+        <span><%= product.name %></span>
+        <span><strong><%= product.sold %></strong> / <%= product.quantity %></span>
+      </div>
+    <% end %>
+  </div>
+
+  <table class="responsive-table">
+    <thead>
+      <tr>
+        <th>Customer</th>
+        <th>Items</th>
+        <th>Total</th>
+        <th>Placed</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @orders.each do |order| %>
+        <tr>
+          <td data-label="Customer"><%= order.user.email %></td>
+          <td data-label="Items">
+            <% order.order_items.each do |item| %>
+              <div class="text-sm"><%= item.event_product.name %> &times; <%= item.quantity %></div>
+            <% end %>
+          </td>
+          <td data-label="Total"><%= number_to_currency(order.total_price) %></td>
+          <td data-label="Placed"><%= nice_date(order.created_at) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="text-muted text-sm">No orders yet.</p>
 <% end %>
 
-<p>
-  <%= link_to "Edit Event", edit_event_path(@event) %> |
-  <%= link_to "Back to Events", store_events_path %>
+<p class="text-muted text-sm" style="margin-top: var(--sp-lg);">
+  <%= link_to "Edit event", edit_event_path(@event) %> &middot;
+  <%= link_to "All events", store_events_path %>
 </p>

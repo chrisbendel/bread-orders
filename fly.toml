@@ -10,34 +10,18 @@ console_command = '/rails/bin/rails console'
 [build]
 
 [env]
-  PORT = '8080'
-
-[processes]
-  app = './bin/rails server'
+  PORT = "3000"
 
 [[mounts]]
   source = 'data'
   destination = '/data'
 
 [http_service]
-  internal_port = 8080
+  internal_port = 3000
   force_https = true
   auto_stop_machines = 'stop'
   auto_start_machines = true
   min_machines_running = 0
-  processes = ['app']
-
-  [[http_service.checks]]
-    interval = '10s'
-    timeout = '2s'
-    grace_period = '5s'
-    method = 'GET'
-    path = '/up'
-    protocol = 'http'
-    tls_skip_verify = false
-
-    [http_service.checks.headers]
-      X-Forwarded-Proto = 'https'
 
   [[http_service.checks]]
     interval = '10s'

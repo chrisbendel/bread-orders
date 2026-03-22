@@ -1,31 +1,16 @@
 <header>
   <div class="flex items-center justify-between">
-    <%= link_to dashboard_path do %>
-      <box-icon size="lg" name="baguette"></box-icon>
+    <%= link_to dashboard_path, style: "text-decoration: none; line-height: 0;" do %>
+      <img src="/baguette.svg" height="28" alt="Bread Orders">
     <% end %>
-    <nav>
-      <% if authenticated? %>
-        <details>
-          <summary class="flex items-center">
-            <box-icon name="user" size="md"></box-icon>
-          </summary>
 
-          <ul class="stack">
-            <li>
-              <small>
-                Logged in as
-                <br>
-                <strong style="color: #333;"><%= current_user.email %></strong>
-              </small>
-            </li>
-            <li>
-              <hr/>
-            </li>
-            <li>
-              <%= button_to "Sign out", session_path, method: :delete %>
-            </li>
-          </ul>
-        </details>
+    <nav class="group items-center group-lg">
+      <% if authenticated? %>
+        <% if (store = current_user.store)&.persisted? %>
+          <%= link_to "Storefront", storefront_path(store.slug) %>
+          <%= link_to "Manage", store_path %>
+        <% end %>
+        <%= button_to "Sign out", session_path, method: :delete, class: "button-link" %>
       <% else %>
         <%= link_to "Sign in", new_session_path %>
       <% end %>
