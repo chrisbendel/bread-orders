@@ -14,6 +14,9 @@ jobs:
     name: Deploy app
     runs-on: ubuntu-latest
     concurrency: deploy-group
+    environment:
+      name: production
+      url: https://bread-orders.fly.dev
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v6
