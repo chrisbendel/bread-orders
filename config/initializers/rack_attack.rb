@@ -11,6 +11,6 @@ class Rack::Attack
 
   # Return 429 for throttled requests
   self.throttled_responder = lambda do |req|
-    [429, { "Content-Type" => "text/plain" }, ["Too many requests. Please try again later."]]
+    [429, {"Content-Type" => "text/plain"}, ["Too many requests. Please try again later."]]
   end
 end
