@@ -1,4 +1,4 @@
-# Project: Bread Orders (Rails 8.1.1)
+# Project: LocalBaker (Rails 8.1.1)
 
 A Ruby on Rails SaaS application for small home bakeries to manage pickup events and customer orders.
 
@@ -129,10 +129,10 @@ Key controllers:
 /store                     → StoresController (singular resource)
   /events                  → Stores::EventsController
     /event_products        → Stores::EventProductsController (shallow)
-/s/:slug                   → StorefrontController#show (public)
-  /s/:slug/events/:id      → Storefront::EventsController#show
-    /order_items           → Storefront::OrderItemsController
-  /s/:slug/notification    → Storefront::NotificationsController
+/shop/:slug                   → StorefrontController#show (public)
+  /shop/:slug/events/:id      → Storefront::EventsController#show
+    /order_items              → Storefront::OrderItemsController
+  /shop/:slug/notification    → Storefront::NotificationsController
 /unsub/:token              → PublicUnsubscribesController#unsubscribe
 /test/sign_in/:user_id     → Test::AuthController#create (test env only)
 ```
@@ -157,7 +157,7 @@ Every view sets a contextual `content_for :title`. Convention:
 - Public event: `Event Name — Store Name`
 - Baker management: `Store Name — Context` (e.g. `Morning Loaf — Events`)
 - Auth pages: `Sign in`
-- Fallback (layout default): `Bread Orders`
+- Fallback (layout default): `LocalBaker`
 
 ## Authentication
 
