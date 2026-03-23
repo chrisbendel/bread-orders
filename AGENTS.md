@@ -129,10 +129,10 @@ Key controllers:
 /store                     → StoresController (singular resource)
   /events                  → Stores::EventsController
     /event_products        → Stores::EventProductsController (shallow)
-/s/:slug                   → StorefrontController#show (public)
-  /s/:slug/events/:id      → Storefront::EventsController#show
-    /order_items           → Storefront::OrderItemsController
-  /s/:slug/notification    → Storefront::NotificationsController
+/shop/:slug                   → StorefrontController#show (public)
+  /shop/:slug/events/:id      → Storefront::EventsController#show
+    /order_items              → Storefront::OrderItemsController
+  /shop/:slug/notification    → Storefront::NotificationsController
 /unsub/:token              → PublicUnsubscribesController#unsubscribe
 /test/sign_in/:user_id     → Test::AuthController#create (test env only)
 ```
