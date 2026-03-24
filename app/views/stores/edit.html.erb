@@ -21,6 +21,23 @@
   </div>
 
   <div>
-    <%= f.submit "Save changes" %>
+    <%= f.submit "Save Changes" %>
   </div>
 <% end %>
+
+<hr style="border: none; border-top: 1px solid var(--border); margin-block: var(--sp-lg);">
+
+<div class="stack-sm">
+  <p class="text-sm font-bold text-danger">Danger Zone</p>
+  <p class="text-muted text-sm">Deleting your store will permanently remove all events, products, and order history.</p>
+  <div class="group">
+    <%= button_to "Delete Store", store_path,
+        method: :delete,
+        class: "button danger small",
+        data: { turbo_confirm: "Are you sure? This will permanently delete your entire store and all its history. This cannot be undone." } %>
+  </div>
+</div>
+
+<p style="margin-top: var(--sp-lg);">
+  <%= link_to "← Back to store", store_path %>
+</p>

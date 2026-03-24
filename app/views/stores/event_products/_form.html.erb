@@ -40,6 +40,6 @@
   </div>
 
   <div>
-    <%= f.submit %>
+    <%= f.submit event_product.new_record? ? "Add Product" : "Save Changes" %>
   </div>
 <% end %>

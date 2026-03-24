@@ -1,22 +1,19 @@
 <% content_for :title, "#{@store.name} — Store" %>
 <div class="stack">
-  <div>
-    <h2><%= @store.name %></h2>
-    <p class="text-muted text-sm">localbaker.app/shop/<%= @store.slug %></p>
+  <div class="group justify-between items-start">
+    <div class="stack-xs">
+      <h2 style="margin: 0;"><%= @store.name %></h2>
+      <p class="text-muted text-sm">localbaker.app/shop/<%= @store.slug %></p>
+    </div>
+
+    <div class="group items-center">
+      <%= link_to "Edit Store", edit_store_path, class: "button small secondary" %>
+    </div>
   </div>
 
   <% if @store.description.present? %>
-    <pre><%= @store.description %></pre>
+    <pre style="margin-top: var(--sp-sm);"><%= @store.description %></pre>
   <% end %>
-
-  <div class="group">
-    <%= link_to "View Storefront", storefront_path(@store.slug) %>
-    <%= link_to "Edit Store", edit_store_path %>
-    <%= button_to "Delete Store", store_path,
-        form: { data: { turbo_confirm: "Are you sure? This cannot be undone." } },
-        method: :delete,
-        class: "button-link text-danger" %>
-  </div>
 
   <hr style="border: none; border-top: 1px solid var(--border);">
 

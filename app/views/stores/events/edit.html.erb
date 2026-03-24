@@ -26,11 +26,25 @@
   </div>
 
   <div>
-    <%= form.submit %>
+    <%= form.submit "Save Changes" %>
   </div>
 <% end %>
 
+<hr style="border: none; border-top: 1px solid var(--border); margin-block: var(--sp-lg);">
 
-<p>
-  <%= link_to "Back", event_path(@event) %>
+<div class="stack-sm">
+  <p class="text-sm font-bold text-danger">Danger Zone</p>
+  <% if @event.orders.any? %>
+    <p class="text-muted text-sm">This event has <%= pluralize(@event.orders.count, "order") %>. Deleting it will also delete all associated orders.</p>
+  <% end %>
+  <div class="group">
+    <%= button_to "Delete Event", event_path(@event), 
+        method: :delete, 
+        class: "button danger small",
+        data: { turbo_confirm: "Are you sure? This will permanently delete the event and all associated orders." } %>
+  </div>
+</div>
+
+<p style="margin-top: var(--sp-lg);">
+  <%= link_to "← Back to event", event_path(@event) %>
 </p>

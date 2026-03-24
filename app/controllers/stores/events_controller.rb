@@ -1,7 +1,7 @@
 class Stores::EventsController < ApplicationController
   before_action :require_authentication!
   before_action :set_store
-  before_action :set_event, only: [:show, :edit, :update, :destroy, :publish]
+  before_action :set_event, only: [:show, :edit, :update, :destroy, :publish, :duplicate]
 
   def index
     @events = @store.events.order(pickup_at: :asc)
@@ -22,6 +22,28 @@ class Stores::EventsController < ApplicationController
       redirect_to event_path(@event), notice: "Event created (Draft)."
     else
       render :new, status: :unprocessable_entity
+    end
+  end
+
+  def duplicate
+    new_event = @event.dup
+    new_event.name = "Copy of #{new_event.name}"
+    new_event.published_at = nil
+    new_event.pickup_at = @event.pickup_at + 1.week if @event.pickup_at
+    new_event.orders_close_at = @event.orders_close_at + 1.week if @event.orders_close_at
+
+    if new_event.save(validate: false)
+      @event.event_products.each do |ep|
+        new_ep = ep.dup
+        new_ep.event = new_event
+        if ep.image.attached?
+          new_ep.image.attach(ep.image.blob)
+        end
+        new_ep.save!
+      end
+      redirect_to edit_event_path(new_event), notice: "Event duplicated. Please update your dates."
+    else
+      redirect_to store_events_path, alert: "Could not duplicate event."
     end
   end
 

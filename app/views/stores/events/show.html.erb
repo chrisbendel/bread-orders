@@ -1,24 +1,38 @@
 <% content_for :title, @event.name %>
-<div class="group justify-between items-baseline">
-  <h2>
-    <%= @event.name %>
-    <% if @event.draft? %>
-      <span class="badge draft">Draft</span>
-    <% end %>
-  </h2>
+<div class="group justify-between items-start">
+  <div class="stack-xs">
+    <div class="group items-center" style="gap: var(--sp-sm);">
+      <h2 style="margin: 0;"><%= @event.name %></h2>
+      <% if @event.draft? %>
+        <span class="badge draft">Draft</span>
+      <% end %>
+    </div>
+    
+    <div class="group items-center" style="margin-top: var(--sp-xs);">
+      <% if @event.draft? && current_user == @store.user && @event.event_products.present? %>
+        <%= button_to "Publish Event", publish_event_path(@event), method: :post,
+            class: "button small primary",
+            data: { turbo_confirm: "Are you sure? This will email all subscribers." } %>
+      <% end %>
+    </div>
+  </div>
 
-  <% if @event.draft? && current_user == @store.user && @event.event_products.present? %>
-    <%= button_to "Publish Event", publish_event_path(@event), method: :post,
-        class: "primary",
-        data: { turbo_confirm: "Are you sure? This will email all subscribers." } %>
-  <% end %>
+  <div class="group items-center">
+    <% if current_user == @store.user %>
+      <%= button_to "Duplicate", duplicate_event_path(@event), 
+          method: :post, 
+          class: "button small secondary",
+          data: { turbo_confirm: "Duplicate this event? All products and images will be copied to a new draft." } %>
+      <%= link_to "Edit Event", edit_event_path(@event), class: "button small secondary" %>
+    <% end %>
+  </div>
 </div>
 
 <% if @event.description.present? %>
-  <p><%= @event.description %></p>
+  <p style="margin-top: var(--sp-md);"><%= @event.description %></p>
 <% end %>
 
-<p class="text-muted">
+<p class="text-muted" style="margin-top: var(--sp-sm);">
   Orders close <%= nice_date(@event.orders_close_at) %> &middot;
   Pickup <%= pickup_datetime(@event.pickup_at) %>
 </p>
@@ -127,6 +141,5 @@
 <% end %>
 
 <p class="text-muted text-sm" style="margin-top: var(--sp-lg);">
-  <%= link_to "Edit event", edit_event_path(@event) %> &middot;
   <%= link_to "All events", store_events_path %>
 </p>
