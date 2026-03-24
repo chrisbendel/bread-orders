@@ -31,6 +31,11 @@
 <% end %>
 
 
-<p>
+<div class="group items-center justify-between" style="margin-top: var(--sp-2xl);">
   <%= link_to "Back", event_path(@event) %>
-</p>
+
+  <%= button_to "Delete Event", event_path(@event),
+      form: { data: { turbo_confirm: "Are you sure? This will delete all products belonging to this event." } },
+      method: :delete,
+      class: "button-link text-danger text-sm" %>
+</div>

@@ -50,7 +50,7 @@
           <td data-label="Name">
             <div class="group items-center" style="gap: var(--sp-sm);">
               <% if product.image.attached? %>
-                <%= image_tag product.image.variant(resize_to_limit: [40, 40]), style: "width: 40px; height: 40px; object-fit: cover; border-radius: 4px; flex-shrink: 0;" %>
+                <%= image_tag product.image.variant(resize_to_limit: [40, 40], format: :webp), style: "width: 40px; height: 40px; object-fit: cover; border-radius: 4px; flex-shrink: 0;" %>
               <% end %>
               <strong><%= product.name %></strong>
             </div>
@@ -60,10 +60,6 @@
           <% if authenticated? && current_user == @store.user %>
             <td class="group justify-end items-center">
               <%= link_to "Edit", edit_event_product_path(product) %>
-              <%= link_to "Delete",
-                          event_product_path(product),
-                          data: { turbo_method: :delete, turbo_confirm: "Delete this product?" },
-                          class: "text-danger" %>
             </td>
           <% end %>
         </tr>

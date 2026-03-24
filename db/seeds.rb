@@ -1,3 +1,5 @@
+abort "Seeding is only for development environments." unless Rails.env.development?
+
 # Clear existing data to ensure a fresh start in development
 if Rails.env.development?
   puts "Cleaning database..."
