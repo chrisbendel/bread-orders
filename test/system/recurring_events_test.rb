@@ -12,11 +12,11 @@ class RecurringEventsTest < ApplicationSystemTestCase
 
     click_on "New Event"
     fill_in "Name", with: "Weekly Sourdough"
-    
+
     # Use execute_script to set the value directly
     execute_script("document.getElementById('event_orders_close_at').value = '2026-03-30'")
     execute_script("document.getElementById('event_pickup_at').value = '2026-04-01'")
-    
+
     select "Weekly", from: "Repeat cadence"
     click_on "Create Event"
 
