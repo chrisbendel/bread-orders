@@ -123,10 +123,12 @@ class BakerLifecycleTest < ApplicationSystemTestCase
     # ----------------------------------------------------------------
     product_row_count_before = all("tbody tr").count
 
+    within find("tr", text: "Olive Focaccia") do
+      click_on "Edit"
+    end
+
     accept_confirm do
-      within find("tr", text: "Olive Focaccia") do
-        click_on "Delete"
-      end
+      click_on "Delete Product"
     end
 
     assert_text "Product removed"
@@ -154,9 +156,6 @@ class BakerLifecycleTest < ApplicationSystemTestCase
     assert_text "Event updated"
     assert_text "Saturday Bake (Updated)"
 
-    # ----------------------------------------------------------------
-    # 11. Header store nav works from any page
-    # ----------------------------------------------------------------
     click_on "Storefront"
     assert_text "Morning Loaf"
     assert_text "Upcoming Bakes"

@@ -27,6 +27,10 @@ class StoresController < ApplicationController
   end
 
   def update
+    if params[:store][:remove_banner_image] == "1"
+      @store.banner_image.purge
+    end
+
     if @store.update(store_params)
       redirect_to store_path, notice: "Store updated!"
     else
@@ -54,6 +58,6 @@ class StoresController < ApplicationController
   end
 
   def store_params
-    params.require(:store).permit(:name, :slug, :description)
+    params.require(:store).permit(:name, :slug, :description, :banner_image)
   end
 end

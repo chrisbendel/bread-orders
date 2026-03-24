@@ -71,8 +71,11 @@ class Stores::EventsController < ApplicationController
   end
 
   def destroy
-    @event.destroy
-    redirect_to store_events_path, notice: "Event deleted."
+    if @event.destroy
+      redirect_to store_events_path, notice: "Event deleted."
+    else
+      redirect_to event_path(@event), alert: "Cannot delete event: #{@event.errors.full_messages.to_sentence}"
+    end
   end
 
   private
