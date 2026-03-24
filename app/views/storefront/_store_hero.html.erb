@@ -1,6 +1,6 @@
-<header class="stack-sm" style="margin-bottom: var(--sp-lg);">
+<header class="stack-sm">
   <% if store.banner_image.attached? %>
-    <%= image_tag store.banner_image.variant(resize_to_limit: [1200, 800], format: :webp), style: "width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--radius); margin-bottom: var(--sp-sm);" %>
+    <%= image_tag store.banner_image.variant(resize_to_limit: [1200, 800], format: :webp), class: "img-banner" %>
   <% end %>
   <div class="group justify-between items-baseline">
     <h1><%= store.name %></h1>
