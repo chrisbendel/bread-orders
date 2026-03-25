@@ -6,8 +6,8 @@ module Storefront
     before_action :set_product, only: [:create]
 
     def create
-      if @event.draft?
-        redirect_to storefront_event_path(@store.slug, @event), alert: "Sorry, this event is not available."
+      unless @event.orders_open?
+        redirect_to storefront_event_path(@store.slug, @event), alert: "Sorry, orders for this event are closed."
         return
       end
 
@@ -40,6 +40,11 @@ module Storefront
       @event = item.order.event
       @store = @event.store
 
+      unless @event.orders_open?
+        redirect_to storefront_event_path(@store.slug, @event), alert: "Sorry, orders for this event are closed."
+        return
+      end
+
       new_quantity = params.dig(:order_item, :quantity).to_i
 
       if new_quantity > 0
@@ -70,6 +75,11 @@ module Storefront
       item = current_user.order_items.find(params[:id])
       @event = item.order.event
       @store = @event.store
+
+      unless @event.orders_open?
+        redirect_to storefront_event_path(@store.slug, @event), alert: "Sorry, orders for this event are closed."
+        return
+      end
 
       item.destroy!
 

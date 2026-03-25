@@ -11,6 +11,7 @@ class Event < ApplicationRecord
   validate :must_have_products, if: :published?
   scope :published, -> { where.not(published_at: nil) }
   scope :draft, -> { where(published_at: nil) }
+  scope :current, -> { published.where("pickup_at >= ?", 3.days.ago) }
 
   attribute :repeat_interval, :integer
   enum :repeat_interval, {no_repeat: 0, weekly: 1, biweekly: 2}, default: :no_repeat
@@ -21,6 +22,18 @@ class Event < ApplicationRecord
 
   def draft?
     !published?
+  end
+
+  def orders_open?
+    published? && Time.current < orders_close_at
+  end
+
+  def orders_closed?
+    published? && Time.current >= orders_close_at
+  end
+
+  def past?
+    Time.current > pickup_at
   end
 
   def publish!

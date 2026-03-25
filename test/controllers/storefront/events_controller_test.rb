@@ -33,5 +33,13 @@ module Storefront
       get storefront_event_url(@store.slug, draft_event)
       assert_response :not_found
     end
+
+    test "should still be viewable after orders close" do
+      # Close the order window without going through validations
+      @event.update_columns(orders_close_at: 1.hour.ago)
+
+      get storefront_event_url(@store.slug, @event)
+      assert_response :success
+    end
   end
 end

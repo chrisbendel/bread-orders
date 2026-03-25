@@ -320,16 +320,12 @@ pre {
 
 /* Order confirmed callout */
 .order-confirmed {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--sp-sm);
   border: 1px solid var(--success-border);
   background: var(--success-bg);
   color: var(--success);
-  padding: var(--sp-sm) var(--sp-md);
+  padding: var(--sp-sm);
   border-radius: var(--radius);
   font-size: 0.875rem;
-  line-height: 1.5;
 }
 
 /* Next-step nudge */
