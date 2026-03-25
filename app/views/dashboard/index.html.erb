@@ -7,7 +7,7 @@
       <section class="stack">
         <div class="group justify-between items-baseline">
           <h3>Events</h3>
-          <%= link_to "+ New Event", new_store_event_path %>
+          <%= link_to "+ New Event", new_store_event_path, class: "button primary" %>
         </div>
 
         <% events = @user.store.events.order(pickup_at: :desc) %>
