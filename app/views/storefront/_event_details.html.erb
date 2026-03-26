@@ -1,7 +1,13 @@
 <section class="card-accent stack-sm">
   <div class="group justify-between items-center">
     <h2><%= event.name %></h2>
-    <span class="badge <%= event.published? ? 'available' : 'draft' %>"><%= event.published? ? "Open for Orders" : "Draft" %></span>
+    <% if event.orders_open? %>
+      <span class="badge available">Open for Orders</span>
+    <% elsif event.orders_closed? %>
+      <span class="badge closed">Orders Closed</span>
+    <% else %>
+      <span class="badge draft">Draft</span>
+    <% end %>
   </div>
 
   <% if event.description.present? %>

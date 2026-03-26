@@ -88,5 +88,61 @@ module Storefront
       assert_redirected_to storefront_event_path(@store.slug, @event)
       assert_equal "Sorry, that item is out of stock!", flash[:alert]
     end
+
+    test "should block adding to order for draft event" do
+      draft_event = @store.events.create!(name: "Draft Event", orders_close_at: 1.day.from_now, pickup_at: 2.days.from_now)
+      draft_product = draft_event.event_products.create!(name: "Item", price: 10, quantity: 10)
+      sign_in_as(@customer)
+
+      assert_no_difference("OrderItem.count") do
+        post storefront_event_order_items_url(@store.slug, draft_event), params: {event_product_id: draft_product.id}
+      end
+
+      assert_redirected_to storefront_event_path(@store.slug, draft_event)
+      assert_equal "Sorry, orders for this event are closed.", flash[:alert]
+    end
+
+    # --- Closed order window ---
+
+    test "should block adding to order when orders are closed" do
+      @event.update_columns(orders_close_at: 1.hour.ago)
+      sign_in_as(@customer)
+
+      assert_no_difference("OrderItem.count") do
+        post storefront_event_order_items_url(@store.slug, @event), params: {event_product_id: @product.id}
+      end
+
+      assert_redirected_to storefront_event_path(@store.slug, @event)
+      assert_equal "Sorry, orders for this event are closed.", flash[:alert]
+    end
+
+    test "should block updating order item when orders are closed" do
+      sign_in_as(@customer)
+      post storefront_event_order_items_url(@store.slug, @event), params: {event_product_id: @product.id}
+      item = OrderItem.last
+
+      @event.update_columns(orders_close_at: 1.hour.ago)
+
+      patch storefront_order_item_url(@store.slug, item), params: {order_item: {quantity: 3}}
+
+      assert_redirected_to storefront_event_path(@store.slug, @event)
+      assert_equal "Sorry, orders for this event are closed.", flash[:alert]
+      assert_equal 1, item.reload.quantity
+    end
+
+    test "should block destroying order item when orders are closed" do
+      sign_in_as(@customer)
+      post storefront_event_order_items_url(@store.slug, @event), params: {event_product_id: @product.id}
+      item = OrderItem.last
+
+      @event.update_columns(orders_close_at: 1.hour.ago)
+
+      assert_no_difference("OrderItem.count") do
+        delete storefront_order_item_url(@store.slug, item)
+      end
+
+      assert_redirected_to storefront_event_path(@store.slug, @event)
+      assert_equal "Sorry, orders for this event are closed.", flash[:alert]
+    end
   end
 end

@@ -58,4 +58,63 @@ class EventTest < ActiveSupport::TestCase
     @event.save!
     assert @event.destroy
   end
+
+  test "orders_open? is true when published and before orders_close_at" do
+    @event.save!
+    @event.event_products.create!(name: "Item", price: 10, quantity: 10)
+    @event.publish!
+    assert @event.orders_open?
+  end
+
+  test "orders_open? is false when orders_close_at has passed" do
+    @event.orders_close_at = 1.hour.ago
+    @event.pickup_at = 1.hour.from_now
+    @event.save!(validate: false)
+    @event.event_products.create!(name: "Item", price: 10, quantity: 10)
+    @event.publish!
+    refute @event.orders_open?
+  end
+
+  test "orders_open? is false for draft events" do
+    @event.save!
+    refute @event.orders_open?
+  end
+
+  test "orders_closed? is true when published and orders_close_at has passed" do
+    @event.orders_close_at = 1.hour.ago
+    @event.pickup_at = 1.hour.from_now
+    @event.save!(validate: false)
+    @event.event_products.create!(name: "Item", price: 10, quantity: 10)
+    @event.publish!
+    assert @event.orders_closed?
+  end
+
+  test "past? is true when pickup_at has passed" do
+    @event.orders_close_at = 2.days.ago
+    @event.pickup_at = 1.day.ago
+    @event.save!(validate: false)
+    assert @event.past?
+  end
+
+  test "past? is false when pickup_at is in the future" do
+    refute @event.past?
+  end
+
+  test ":current scope excludes events with pickup_at older than 3 days" do
+    @event.orders_close_at = 4.days.ago
+    @event.pickup_at = 4.days.ago + 1.hour
+    @event.save!(validate: false)
+    @event.event_products.create!(name: "Item", price: 10, quantity: 10)
+    @event.publish!
+    refute_includes Event.current, @event
+  end
+
+  test ":current scope includes events with pickup_at within 3 days ago" do
+    @event.orders_close_at = 2.days.ago
+    @event.pickup_at = 2.days.ago + 1.hour
+    @event.save!(validate: false)
+    @event.event_products.create!(name: "Item", price: 10, quantity: 10)
+    @event.publish!
+    assert_includes Event.current, @event
+  end
 end

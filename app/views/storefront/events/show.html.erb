@@ -1,5 +1,10 @@
 <% content_for :title, "#{@event.name} — #{@store.name}" %>
-<%= render "storefront/store_hero", store: @store, show_back_link: true %>
+
+<nav class="breadcrumbs">
+  <%= link_to @store.name, storefront_path(@store.slug) %>
+  <span class="sep"></span>
+  <%= @event.name %>
+</nav>
 
 <div class="stack">
   <%= render "storefront/event_details", event: @event %>
