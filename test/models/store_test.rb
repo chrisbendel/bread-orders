@@ -113,14 +113,21 @@ class StoreTest < ActiveSupport::TestCase
   test "address normalization: malformed or unrecognized stays as is" do
     store = Store.create!(user: @user, name: "Bread House", slug: "bread-house", address: "Somewhere over the rainbow")
     assert_equal "Somewhere over the rainbow", store.address
-    assert_nil store.location_display
+    assert_equal "Somewhere over the rainbow", store.location_display
   end
 
   test "address normalization: city and state only stays as is (gem limitation)" do
     # StreetAddress gem returns nil for city/state only, so it remains un-normalized
+    # but we now fallback to the raw string for display
     store = Store.create!(user: @user, name: "Bread House", slug: "bread-house", address: "colchester vt")
     assert_equal "colchester vt", store.address
-    assert_nil store.location_display
+    assert_equal "colchester vt", store.location_display
+  end
+
+  test "address normalization: handles full state names via fallback" do
+    store = Store.create!(user: @user, name: "Bread House", slug: "bread-house", address: "Colchester, Vermont")
+    assert_equal "Colchester, Vermont", store.address
+    assert_equal "Colchester, Vermont", store.location_display
   end
 
   test "active_orders? checks for orders with future pickup times" do

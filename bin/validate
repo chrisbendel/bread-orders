@@ -4,7 +4,7 @@
 set -e
 
 echo "--- 🧼 Running Linter (StandardRB) ---"
-bundle exec standardrb
+bundle exec standardrb --fix
 
 echo "--- 🏗️ Preparing Database ---"
 bin/rails db:prepare
