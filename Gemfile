@@ -55,6 +55,7 @@ group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
   gem "letter_opener"
+  gem "dockerfile-rails", ">= 1.7"
 end
 
 group :test do
@@ -64,9 +65,6 @@ group :test do
 end
 
 gem "standard"
-
-gem "dockerfile-rails", ">= 1.7", group: :development
-
 gem "resend", "~> 1.0"
-
 gem "rack-attack"
+gem "StreetAddress", "~> 1.0", require: "street_address"

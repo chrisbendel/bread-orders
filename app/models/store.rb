@@ -13,6 +13,8 @@ class Store < ApplicationRecord
     uniqueness: true,
     format: {with: /\A[a-z0-9-]+\z/i}
 
+  before_validation { self.address = AddressParser.normalize(address) }
+
   # eventually check `user.subscription_active?` when integrating payments
   def monetization_allowed?
     true
@@ -20,5 +22,9 @@ class Store < ApplicationRecord
 
   def active_orders?
     orders.joins(:event).where("events.pickup_at >= ?", Time.current).exists?
+  end
+
+  def location_display
+    AddressParser.city_state(address)
   end
 end

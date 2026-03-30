@@ -209,7 +209,7 @@ class BakerLifecycleTest < ApplicationSystemTestCase
     click_on "Manage"
     click_on "Edit Store"
     fill_in "Description", with: "Updated store description."
-    fill_in "Store Address", with: "123 Home Bakery Lane, Portland, OR"
+    fill_in "Store Address", with: "123 Home Bakery Ln, Portland, OR"
     click_on "Save Changes"
     assert_text "Store updated!"
     assert_text "Updated store description."

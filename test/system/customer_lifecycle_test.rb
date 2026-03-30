@@ -9,7 +9,7 @@ class CustomerLifecycleTest < ApplicationSystemTestCase
   setup do
     # Seed a published bakery with two products
     baker = User.create!(email: "baker@breadbarn.com")
-    @store = Store.create!(name: "The Bread Barn", slug: "bread-barn", user: baker, address: "123 Home Bakery Lane, Portland, OR")
+    @store = Store.create!(name: "The Bread Barn", slug: "bread-barn", user: baker, address: "123 Home Bakery Ln, Portland, OR")
     @event = @store.events.create!(
       name: "Sunday Bake",
       description: "Sourdough and focaccia.",
@@ -31,7 +31,7 @@ class CustomerLifecycleTest < ApplicationSystemTestCase
     sign_in_via_browser(@customer)
     visit storefront_event_url(@store.slug, @event)
 
-    assert_link "123 Home Bakery Lane, Portland, OR"
+    assert_link "123 Home Bakery Ln, Portland, OR"
     assert_no_text "The Climbing Gym"
   end
 
@@ -84,7 +84,7 @@ class CustomerLifecycleTest < ApplicationSystemTestCase
 
     # Event-specific pickup location is shown; store address is not
     assert_link "The Climbing Gym, 456 Oak Ave, Portland, OR"
-    assert_no_text "123 Home Bakery Lane"
+    assert_no_text "123 Home Bakery Ln"
 
     # ----------------------------------------------------------------
     # 5. Add sourdough to order

@@ -7,6 +7,8 @@ class Event < ApplicationRecord
   validates :orders_close_at, presence: true
   validates :pickup_at, presence: true
 
+  before_validation { self.pickup_address = AddressParser.normalize(pickup_address) }
+
   validate :orders_close_before_pickup
   validate :must_have_products, if: :published?
   scope :published, -> { where.not(published_at: nil) }

@@ -77,7 +77,7 @@ class StoresControllerTest < ActionDispatch::IntegrationTest
         address: "123 Baker Lane, Portland, OR"
       }
     }
-    assert_equal "123 Baker Lane, Portland, OR", Store.last.address
+    assert_equal "123 Baker Ln, Portland, OR", Store.last.address
   end
 
   test "update can save address" do
