@@ -13,20 +13,12 @@
         <span class="badge draft">Draft</span>
       <% end %>
     </div>
-    
-    <div class="group items-center">
-      <% if @event.draft? && current_user == @store.user && @event.event_products.present? %>
-        <%= button_to "Publish Event", publish_event_path(@event), method: :post,
-            class: "button small primary",
-            data: { turbo_confirm: "Are you sure? This will email all subscribers." } %>
-      <% end %>
-    </div>
   </div>
 
   <div class="group items-center">
     <% if current_user == @store.user %>
-      <%= button_to "Duplicate", duplicate_event_path(@event), 
-          method: :post, 
+      <%= button_to "Duplicate", duplicate_event_path(@event),
+          method: :post,
           class: "button small secondary",
           data: { turbo_confirm: "Duplicate this event? All products and images will be copied to a new draft." } %>
       <%= link_to "Edit Event", edit_event_path(@event), class: "button small secondary" %>
@@ -34,15 +26,12 @@
   </div>
 </div>
 
-<% if @event.description.present? %>
-  <p style="margin-top: var(--sp-md);"><%= @event.description %></p>
-<% end %>
-
 <div class="stack-sm" style="margin-top: var(--sp-sm);">
   <p class="text-muted">
     Orders close <%= nice_date(@event.orders_close_at) %> &middot;
     Pickup <%= pickup_datetime(@event.pickup_at) %>
   </p>
+  <%= render "application/address_line", model: @event, show_full: true %>
   <% if @event.repeat_interval.present? && !@event.no_repeat? %>
     <p class="text-success text-sm font-bold">
       Repeats <%= @event.repeat_interval.humanize %>
@@ -50,11 +39,15 @@
   <% end %>
 </div>
 
+<% if @event.description.present? %>
+  <p style="margin-top: var(--sp-md);"><%= @event.description %></p>
+<% end %>
+
 <hr class="divider">
 
 <div class="group justify-between items-baseline">
   <h3>Products</h3>
-  <% if authenticated? && current_user == @store.user %>
+  <% if current_user == @store.user %>
     <%= link_to "+ Add Product", new_event_event_product_path(@event), class: "button primary" %>
   <% end %>
 </div>
@@ -66,7 +59,7 @@
         <th>Name</th>
         <th>Qty</th>
         <th>Price</th>
-        <% if authenticated? && current_user == @store.user %>
+        <% if current_user == @store.user %>
           <th></th>
         <% end %>
       </tr>
@@ -84,7 +77,7 @@
           </td>
           <td data-label="Qty"><%= product.quantity %></td>
           <td data-label="Price"><%= product.price_formatted %></td>
-          <% if authenticated? && current_user == @store.user %>
+          <% if current_user == @store.user %>
             <td class="group justify-end items-center">
               <%= link_to "Edit", edit_event_product_path(product) %>
             </td>
@@ -97,54 +90,68 @@
   <div class="nudge">
     <span>
       No products yet.
-      <%= link_to "Add your first product", new_event_event_product_path(@event) %>
-      before you can publish this event.
+      <% if current_user == @store.user %>
+        <%= link_to "Add your first product", new_event_event_product_path(@event) %>
+        before you can publish this event.
+      <% end %>
     </span>
   </div>
 <% end %>
 
-<hr class="divider">
+<% if @event.draft? && current_user == @store.user && @event.event_products.present? %>
+  <div class="nudge" style="margin-top: var(--sp-md);">
+    <div class="group justify-between items-center">
+      <span>Ready to go? Publishing will notify all subscribers.</span>
+      <%= button_to "Publish Event", publish_event_path(@event), method: :post,
+          class: "button primary",
+          data: { turbo_confirm: "Are you sure? This will email all subscribers." } %>
+    </div>
+  </div>
+<% end %>
 
-<div class="group justify-between items-baseline">
-  <h3>Orders <% if @orders.any? %><span class="text-muted text-sm">(<%= @orders.count %>)</span><% end %></h3>
-</div>
+<% if @event.published? %>
+  <hr class="divider">
 
-<% if @orders.any? %>
-  <%# Prep summary: total sold per product %>
-  <div class="panel stack-sm" style="margin-bottom: var(--sp-md);">
-    <p class="text-sm font-bold">Prep summary</p>
-    <% @event.event_products.each do |product| %>
-      <div class="group justify-between text-sm">
-        <span><%= product.name %></span>
-        <span><strong><%= product.sold %></strong> / <%= product.quantity %></span>
-      </div>
-    <% end %>
+  <div class="group justify-between items-baseline">
+    <h3>Orders <% if @orders.any? %><span class="text-muted text-sm">(<%= @orders.count %>)</span><% end %></h3>
   </div>
 
-  <table class="responsive-table">
-    <thead>
-      <tr>
-        <th>Customer</th>
-        <th>Items</th>
-        <th>Total</th>
-        <th>Placed</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @orders.each do |order| %>
-        <tr>
-          <td data-label="Customer"><%= order.user.email %></td>
-          <td data-label="Items">
-            <% order.order_items.each do |item| %>
-              <div class="text-sm"><%= item.event_product.name %> &times; <%= item.quantity %></div>
-            <% end %>
-          </td>
-          <td data-label="Total"><%= number_to_currency(order.total_price) %></td>
-          <td data-label="Placed"><%= nice_date(order.created_at) %></td>
-        </tr>
+  <% if @orders.any? %>
+    <div class="panel stack-sm" style="margin-bottom: var(--sp-md);">
+      <p class="text-sm font-bold">Prep summary</p>
+      <% @event.event_products.each do |product| %>
+        <div class="group justify-between text-sm">
+          <span><%= product.name %></span>
+          <span><strong><%= product.sold %></strong> / <%= product.quantity %></span>
+        </div>
       <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <p class="text-muted text-sm">No orders yet.</p>
+    </div>
+
+    <table class="responsive-table">
+      <thead>
+        <tr>
+          <th>Customer</th>
+          <th>Items</th>
+          <th>Total</th>
+          <th>Placed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @orders.each do |order| %>
+          <tr>
+            <td data-label="Customer"><%= order.user.email %></td>
+            <td data-label="Items">
+              <% order.order_items.each do |item| %>
+                <div class="text-sm"><%= item.event_product.name %> &times; <%= item.quantity %></div>
+              <% end %>
+            </td>
+            <td data-label="Total"><%= number_to_currency(order.total_price) %></td>
+            <td data-label="Placed"><%= nice_date(order.created_at) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="text-muted text-sm">No orders yet.</p>
+  <% end %>
 <% end %>
