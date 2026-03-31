@@ -89,19 +89,19 @@ body {
 }
 
 h1 {
-  font-size: 1.75rem;
+  font-size: 1.25rem;
 }
 
 h2 {
-  font-size: 1.35rem;
-}
-
-h3 {
   font-size: 1.1rem;
 }
 
-h4 {
+h3 {
   font-size: 1rem;
+}
+
+h4 {
+  font-size: 0.9rem;
 }
 
 h1,
