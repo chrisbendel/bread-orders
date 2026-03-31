@@ -13,9 +13,13 @@ class RecurringEventsTest < ApplicationSystemTestCase
     click_on "New Event"
     fill_in "Name", with: "Weekly Sourdough"
 
+    orders_close_date = 1.day.from_now.to_date
+    pickup_date = 2.days.from_now.to_date
+    next_pickup_date = pickup_date + 1.week
+
     # Use execute_script to set the value directly
-    execute_script("document.getElementById('event_orders_close_at').value = '2026-03-30'")
-    execute_script("document.getElementById('event_pickup_at').value = '2026-04-01'")
+    execute_script("document.getElementById('event_orders_close_at').value = '#{orders_close_date}'")
+    execute_script("document.getElementById('event_pickup_at').value = '#{pickup_date}'")
 
     select "Weekly", from: "Repeat cadence"
     click_on "Create Event"
@@ -42,7 +46,7 @@ class RecurringEventsTest < ApplicationSystemTestCase
     # Verify dates of the new draft
     click_on "Copy of Weekly Sourdough"
     # The new draft should be Apr 1 + 1 week = Apr 8
-    assert_text "Apr 8"
+    assert_text next_pickup_date.strftime("%b %-d")
     assert_text "Repeats Weekly"
   end
 end
