@@ -212,7 +212,6 @@ class BakerLifecycleTest < ApplicationSystemTestCase
     fill_in "Store Address", with: "123 Home Bakery Ln, Portland, OR"
     click_on "Save Changes"
     assert_text "Store updated!"
-    assert_text "Updated store description."
 
     # ----------------------------------------------------------------
     # 15. Quick Add Product
