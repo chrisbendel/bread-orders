@@ -9,16 +9,15 @@
       <% order.order_items.includes(:event_product).each do |item| %>
         <div class="group justify-between items-center">
           <span class="text-sm"><%= item.event_product.name %></span>
-          <% if event.orders_open? %>
-            <%= form_with url: storefront_order_item_path(store.slug, item), method: :patch do |f| %>
-              <%= f.select :quantity,
-                (0..(item.quantity + item.event_product.remaining)).map { |n| [n == 0 ? "Remove" : n.to_s, n] },
-                { selected: item.quantity },
-                { class: "qty-select", onchange: "this.form.requestSubmit()" } %>
-            <% end %>
-          <% else %>
+          <span class="group items-center">
             <span class="text-sm text-muted">×<%= item.quantity %></span>
-          <% end %>
+            <% if event.orders_open? %>
+              <%= button_to "✕", storefront_order_item_path(store.slug, item),
+                  method: :delete,
+                  class: "button-link text-muted text-sm",
+                  aria: { label: "Remove #{item.event_product.name}" } %>
+            <% end %>
+          </span>
         </div>
       <% end %>
     </div>
