@@ -5,7 +5,7 @@
       <span class="font-bold"><%= number_to_currency(order.total_price) %></span>
     </div>
 
-    <div class="stack-sm">
+    <div class="order-items">
       <% order.order_items.includes(:event_product).each do |item| %>
         <div class="group justify-between items-center">
           <span class="text-sm"><%= item.event_product.name %></span>
@@ -15,6 +15,7 @@
               <%= button_to storefront_order_item_path(store.slug, item),
                   method: :delete,
                   class: "btn-icon",
+                  form: { data: { turbo_confirm: "Remove #{item.event_product.name} from your order?" } },
                   aria: { label: "Remove #{item.event_product.name}" } do %>
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <polyline points="3 6 5 6 21 6"/>
@@ -29,7 +30,7 @@
       <% end %>
     </div>
 
-    <p class="text-sm text-muted" style="border-top: 1px solid var(--border); padding-top: var(--sp-sm);">
+    <p class="text-sm text-muted">
       Pickup <%= pickup_datetime(event.pickup_at) %>
     </p>
   <% else %>

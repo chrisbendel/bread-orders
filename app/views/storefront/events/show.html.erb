@@ -30,7 +30,10 @@
   <% end %>
 
   <% if @event.orders_open? %>
-    <h2 class="section-title">Products</h2>
+    <div class="group justify-between items-baseline">
+      <h2 class="section-title">Products</h2>
+      <span class="text-sm text-success">Order by <%= nice_date(@event.orders_close_at) %></span>
+    </div>
     <div class="grid grid-sidebar">
       <div class="stack-sm">
         <% @products.each do |product| %>

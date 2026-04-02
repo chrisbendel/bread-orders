@@ -573,6 +573,16 @@ a.nav-icon:hover {
   color: var(--text);
 }
 
+/* Order summary item rows */
+.order-items > div {
+  padding: var(--sp-sm) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.order-items > div:first-child {
+  border-top: 1px solid var(--border);
+}
+
 /* Quantity select in order summary */
 .qty-select {
   width: auto;
