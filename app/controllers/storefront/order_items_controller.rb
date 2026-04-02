@@ -31,7 +31,7 @@ module Storefront
         item.save!
       end
 
-      redirect_to storefront_event_path(@store.slug, @event), notice: "Added!"
+      redirect_to storefront_event_path(@store.slug, @event), notice: "Added #{@product.name}"
     end
 
     def update

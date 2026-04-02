@@ -23,18 +23,37 @@
 <div class="stack">
   <%= render "storefront/event_details", event: @event %>
 
-  <div class="grid grid-sidebar">
+  <% if @event.orders_closed? %>
+    <div class="nudge">
+      Orders for this bake have closed.<% if @order&.order_items&.any? %> Your confirmed order is shown below.<% end %>
+    </div>
+  <% end %>
+
+  <% if @event.orders_open? %>
+    <div class="grid grid-sidebar">
+      <section class="stack">
+        <h2 class="section-title">Products</h2>
+        <div class="stack-sm">
+          <% @products.each do |product| %>
+            <%= render "storefront/product_card", product: product, store: @store, event: @event %>
+          <% end %>
+        </div>
+      </section>
+      <aside>
+        <%= render "storefront/order_summary", order: @order, store: @store, event: @event %>
+      </aside>
+    </div>
+  <% else %>
     <section class="stack">
-      <h2 class="section-title">Products Available</h2>
+      <h2 class="section-title">Products</h2>
       <div class="stack-sm">
         <% @products.each do |product| %>
           <%= render "storefront/product_card", product: product, store: @store, event: @event %>
         <% end %>
       </div>
     </section>
-
-    <aside>
+    <% if @order&.order_items&.any? %>
       <%= render "storefront/order_summary", order: @order, store: @store, event: @event %>
-    </aside>
-  </div>
+    <% end %>
+  <% end %>
 </div>

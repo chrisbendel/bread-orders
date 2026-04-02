@@ -57,12 +57,12 @@ class BakerLifecycleTest < ApplicationSystemTestCase
     # Publish button hidden until products exist
     assert_no_button "Publish Event"
     # Nudge to add first product
-    assert_text "Add your first product"
+    assert_text "Add a product"
 
     # ----------------------------------------------------------------
     # 4. Add first product
     # ----------------------------------------------------------------
-    click_on "Add your first product"
+    click_on "Add a product"
     assert_text "Add Product"
 
     fill_in "Name", with: "Sourdough Loaf"
@@ -108,7 +108,7 @@ class BakerLifecycleTest < ApplicationSystemTestCase
     within "table" do
       click_on "Edit", match: :first
     end
-    assert_text "Edit Product"
+    assert_text "Edit Sourdough Loaf"
 
     fill_in "Quantity", with: "12"
     click_on "Save Changes"
@@ -222,7 +222,7 @@ class BakerLifecycleTest < ApplicationSystemTestCase
     fill_in "Pickup date", with: 7.days.from_now.strftime("%Y-%m-%d")
     find("main [type='submit']").click
 
-    click_on "Add your first product"
+    click_on "Add a product"
     assert_text "Quick add from past bakes"
 
     click_on "+ Sourdough Loaf ($14.00)"

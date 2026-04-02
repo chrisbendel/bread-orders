@@ -24,7 +24,7 @@ class RecurringEventsTest < ApplicationSystemTestCase
     select "Weekly", from: "Repeat cadence"
     click_on "Create Event"
 
-    click_on "Add your first product"
+    click_on "Add a product"
     fill_in "Name", with: "Loaf"
     fill_in "Quantity", with: "10"
     fill_in "Price ($)", with: "10.00"
