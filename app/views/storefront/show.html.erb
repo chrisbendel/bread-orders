@@ -17,17 +17,8 @@
   <% if @store.banner_image.attached? %>
     <%= image_tag @store.banner_image.variant(resize_to_limit: [1200, 800], format: :webp), class: "img-banner" %>
   <% end %>
-  <h1><%= @store.name %></h1>
-  <%= render "application/address_line", model: @store %>
-  <% if @store.description.present? %>
-    <p class="text-muted"><%= @store.description %></p>
-  <% end %>
-</header>
-
-<section class="stack">
   <div class="group justify-between items-center">
-    <h2 class="section-title">Upcoming Bakes</h2>
-    
+  <h1><%= @store.name %></h1>
     <% if @notification.present? %>
       <%= button_to storefront_notification_path(@store.slug), method: :delete, class: "button secondary", title: "Unsubscribe from email updates" do %>
         Unsubscribe
@@ -38,6 +29,14 @@
       <% end %>
     <% end %>
   </div>
+  <%= render "application/address_line", model: @store %>
+  <% if @store.description.present? %>
+    <p class="text-muted"><%= @store.description %></p>
+  <% end %>
+</header>
+
+<section class="stack">
+  <h2 class="section-title">Upcoming Bakes</h2>
 
   <div class="grid grid-cols-2">
     <% @events.each do |event| %>

@@ -1,49 +1,102 @@
 <% content_for :title, "#{@store.name} — Store" %>
 <div class="stack">
+  <% unless session[:onboarding_dismissed] || @store.onboarding_complete? %>
+    <% steps = @store.onboarding_steps %>
+    <div class="card stack-sm">
+      <div class="group justify-between items-baseline">
+        <p class="font-bold">Getting started</p>
+        <%= button_to "Dismiss", dismiss_onboarding_store_path, method: :post, class: "button-link text-muted text-sm" %>
+      </div>
+      <div class="stack-sm">
+        <% [
+          [steps[:store_setup],     "Add your store address and description", edit_store_path],
+          [steps[:event_created],   "Create your first event",                new_store_event_path],
+          [steps[:products_added],  "Add products to an event",               store_events_path],
+          [steps[:event_published], "Publish and share your store",           store_events_path]
+        ].each do |done, label, path| %>
+          <div class="group items-center">
+            <% if done %>
+              <span class="text-success">✓</span>
+              <span class="text-muted"><%= label %></span>
+            <% else %>
+              <span class="text-muted">○</span>
+              <%= link_to label, path %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
   <div class="group justify-between items-center">
     <h2><%= @store.name %></h2>
-    <div class="group items-center">
-      <%= link_to "Storefront", storefront_path(@store.slug), class: "button secondary" %>
-      <%= link_to "Edit Store", edit_store_path, class: "button secondary" %>
-    </div>
+    <%= link_to "Edit Store", edit_store_path, class: "button secondary" %>
   </div>
-  <div></div>
 
   <div class="group justify-between items-center">
     <h3>Events</h3>
     <%= link_to "+ New Event", new_store_event_path, class: "button primary" %>
   </div>
 
-  <% if @drafts.any? || @upcoming.any? || @past.any? %>
+  <% live   = @upcoming.select(&:orders_open?) %>
+  <% prep   = @upcoming.select(&:orders_closed?) %>
+
+  <% if @drafts.any? || live.any? || prep.any? || @past.any? %>
     <div class="stack">
 
+      <%# Drafts — need products + publishing before they go live %>
       <% if @drafts.any? %>
         <div class="stack-sm">
           <h4 class="text-muted">Drafts</h4>
           <% @drafts.each do |event| %>
             <%= link_to event_path(event), class: "card" do %>
-              <div class="group justify-between items-center">
-                <strong><%= event.name %></strong>
-                <span class="badge draft">Draft</span>
-              </div>
+              <strong><%= event.name %></strong>
               <p class="text-muted text-sm">
-                Pickup <%= nice_date(event.pickup_at) %> &middot; Orders close <%= nice_date(event.orders_close_at) %>
+                <% if event.event_products.empty? %>
+                  No products yet &middot; pickup <%= nice_date(event.pickup_at) %>
+                <% else %>
+                  <%= pluralize(event.event_products.size, "product") %> &middot; pickup <%= nice_date(event.pickup_at) %>
+                <% end %>
               </p>
             <% end %>
           <% end %>
         </div>
       <% end %>
 
-      <% if @upcoming.any? %>
+      <%# Taking orders — published and orders currently open %>
+      <% if live.any? %>
+        <div class="stack-sm">
+          <h4 class="text-muted">Taking orders</h4>
+          <% live.each do |event| %>
+            <%= link_to event_path(event), class: "card" do %>
+              <div class="group justify-between items-baseline">
+                <strong><%= event.name %></strong>
+                <span class="text-sm text-muted">
+                  <% if event.orders.any? %>
+                    <%= pluralize(event.orders.size, "order") %>
+                  <% else %>
+                    No orders yet
+                  <% end %>
+                </span>
+              </div>
+              <p class="text-muted text-sm">Closes <%= nice_date(event.orders_close_at) %> &middot; Pickup <%= nice_date(event.pickup_at) %></p>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <%# Upcoming — orders closed, pickup hasn't happened yet, time to prep %>
+      <% if prep.any? %>
         <div class="stack-sm">
           <h4 class="text-muted">Upcoming</h4>
-          <% @upcoming.each do |event| %>
-            <%= link_to event_path(event), class: "card" do %>
-              <strong><%= event.name %></strong>
-              <p class="text-muted text-sm">
-                Pickup <%= nice_date(event.pickup_at) %> &middot; Orders close <%= nice_date(event.orders_close_at) %>
-              </p>
-            <% end %>
+          <% prep.each do |event| %>
+            <div class="card">
+              <div class="group justify-between items-center">
+                <%= link_to event.name, event_path(event), class: "font-bold" %>
+                <%= link_to "Prep list →", prep_event_path(event), target: "_blank", class: "text-sm" %>
+              </div>
+              <p class="text-muted text-sm"><%= pluralize(event.orders.size, "order") %> &middot; pickup <%= nice_date(event.pickup_at) %></p>
+            </div>
           <% end %>
         </div>
       <% end %>

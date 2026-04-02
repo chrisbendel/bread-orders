@@ -21,8 +21,8 @@ class StoresController < ApplicationController
   end
 
   def show
-    @drafts = @store.events.draft.order(pickup_at: :asc)
-    @upcoming = @store.events.published.where("pickup_at >= ?", Date.current).order(pickup_at: :asc)
+    @drafts = @store.events.draft.includes(:event_products).order(pickup_at: :asc)
+    @upcoming = @store.events.published.where("pickup_at >= ?", Date.current).includes(:orders).order(pickup_at: :asc)
     @past = @store.events.published.where("pickup_at < ?", Date.current).order(pickup_at: :desc)
     @orders = current_user.orders.includes(:order_items, event: :store).order(created_at: :desc)
   end
@@ -40,6 +40,11 @@ class StoresController < ApplicationController
     else
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  def dismiss_onboarding
+    session[:onboarding_dismissed] = true
+    redirect_to store_path
   end
 
   def destroy

@@ -27,4 +27,17 @@ class Store < ApplicationRecord
   def location_display
     AddressParser.city_state(address)
   end
+
+  def onboarding_complete?
+    onboarding_steps.values.all?
+  end
+
+  def onboarding_steps
+    {
+      store_setup: address.present? && description.present?,
+      event_created: events.any?,
+      products_added: events.joins(:event_products).exists?,
+      event_published: events.published.exists?
+    }
+  end
 end

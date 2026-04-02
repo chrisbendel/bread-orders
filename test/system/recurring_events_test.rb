@@ -24,7 +24,7 @@ class RecurringEventsTest < ApplicationSystemTestCase
     select "Weekly", from: "Repeat cadence"
     click_on "Create Event"
 
-    click_on "Add your first product"
+    click_on "Add a product"
     fill_in "Name", with: "Loaf"
     fill_in "Quantity", with: "10"
     fill_in "Price ($)", with: "10.00"
@@ -41,7 +41,7 @@ class RecurringEventsTest < ApplicationSystemTestCase
     visit store_path
     assert_text "Weekly Sourdough"
     assert_text "Copy of Weekly Sourdough"
-    assert_css ".badge.draft"
+    assert_text "Drafts"
 
     # Verify dates of the new draft
     click_on "Copy of Weekly Sourdough"

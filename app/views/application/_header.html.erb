@@ -10,6 +10,26 @@
           <%= link_to "Storefront", storefront_path(store.slug) %>
           <%= link_to "Manage", store_path %>
         <% end %>
+
+        <% upcoming_orders = current_user.orders
+                                         .joins(:event)
+                                         .where("events.pickup_at >= ?", Time.current)
+                                         .includes(event: :store)
+                                         .order("events.pickup_at ASC") %>
+        <% if upcoming_orders.any? %>
+          <% orders_path = upcoming_orders.count == 1 \
+               ? storefront_event_path(upcoming_orders.first.event.store.slug, upcoming_orders.first.event) \
+               : dashboard_path %>
+          <%= link_to orders_path, class: "nav-icon nav-orders", aria: { label: "#{upcoming_orders.count} upcoming #{upcoming_orders.count == 1 ? 'order' : 'orders'}" } do %>
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 01-8 0"/>
+            </svg>
+            <span class="nav-order-count"><%= upcoming_orders.count %></span>
+          <% end %>
+        <% end %>
+
         <%= link_to profile_path, class: "nav-icon", aria: { label: "Profile" } do %>
           <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="12" cy="8" r="4"/>

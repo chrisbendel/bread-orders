@@ -26,7 +26,7 @@ module Storefront
       end
 
       assert_redirected_to storefront_event_path(@store.slug, @event)
-      assert_equal "Added!", flash[:notice]
+      assert_equal "Added #{@product.name}", flash[:notice]
     end
 
     test "should update quantity" do
