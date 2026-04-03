@@ -4,10 +4,8 @@
   <h1>Profile</h1>
 
   <% unless current_user.store %>
-    <hr class="divider"/>
-    <div class="stack-sm">
-      <p class="text-muted text-sm">Want to sell your own baked goods?</p>
-      <%= link_to "Create your store", new_store_path %>
+    <div>
+      <small class="text-muted">Want to sell your own baked goods? <%= link_to "Create your store", new_store_path %></small> 
     </div>
   <% end %>
 
