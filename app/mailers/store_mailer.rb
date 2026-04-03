@@ -6,6 +6,7 @@ class StoreMailer < ApplicationMailer
 
     mail(
       to: notification.user.email,
+      from: "#{store.name} <noreply@localbaker.app>",
       subject: "#{store.name} has a new event available"
     )
   end

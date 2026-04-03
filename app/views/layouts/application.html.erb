@@ -1,7 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= content_for(:title) || "LocalBaker" %></title>
+  <title><%= content_for(:title) || "LocalBaker | Find a local bakery near me" %></title>
+  <meta name="description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : 'LocalBaker: Simple pre-orders for home bakeries. Find a local baker near you, order fresh bread, and discover the best local bakery goods in your community.' %>">
+
+  <meta property="og:title" content="<%= content_for(:title) || 'LocalBaker | Find a local bakery near me' %>">
+  <meta property="og:description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : 'LocalBaker: Simple pre-orders for home bakeries. Find a local baker near you, order fresh bread, and discover the best local bakery goods in your community.' %>">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="LocalBaker">
+  <meta property="og:url" content="<%= request.original_url %>">
+  <% if content_for?(:og_image) %>
+    <meta property="og:image" content="<%= yield(:og_image) %>">
+  <% end %>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="application-name" content="LocalBaker">
@@ -52,7 +62,14 @@
 </main>
 
 <footer>
-  <span>LocalBaker</span>
+  <div class="group justify-between items-center">
+    <span>&copy; <%= Time.current.year %> LocalBaker</span>
+    <nav class="group">
+      <%= link_to "Home", root_path %>
+      <span class="text-muted" aria-hidden="true">&middot;</span>
+      <%= link_to "Our Ethos", about_path %>
+    </nav>
+  </div>
 </footer>
 </body>
 </html>

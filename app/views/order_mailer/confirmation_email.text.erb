@@ -1,0 +1,21 @@
+Order confirmed: <%= @event.name %>
+
+Hi <%= @order.user.email %>,
+
+Your order for <%= @store.name %> has been confirmed!
+
+Pickup Details:
+When: <%= @event.pickup_at.strftime("%A, %b %-d at %-I:%M%P") %>
+Where: <%= @event.effective_pickup_address %>
+
+Your Order Summary:
+<% @order.order_items.includes(:event_product).each do |item| %>
+- <%= item.quantity %> × <%= item.event_product.name %>
+<% end %>
+
+Total: <%= number_to_currency(@order.total_price) %>
+
+View your order here: <%= dashboard_url %>
+
+Thanks for supporting a local baker!
+— The LocalBaker Team

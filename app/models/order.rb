@@ -15,4 +15,16 @@ class Order < ApplicationRecord
   def total_price
     total_price_cents / 100.0
   end
+
+  def confirmed?
+    confirmed_at.present?
+  end
+
+  def confirm!
+    update!(confirmed_at: Time.current)
+  end
+
+  def unconfirm!
+    update!(confirmed_at: nil)
+  end
 end

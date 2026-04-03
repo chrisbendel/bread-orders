@@ -6,7 +6,6 @@
   <% end %>
 
   <div class="stack-sm text-muted text-sm">
-    <span><%= pickup_datetime(event.pickup_at) %></span>
     <% if event.location_display.present? %>
       <%= render "application/address_line", model: event, show_full: true %>
     <% end %>

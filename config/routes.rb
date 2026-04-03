@@ -35,6 +35,11 @@ Rails.application.routes.draw do
     resource :notification, only: [:create, :destroy]
 
     resources :events, only: [:show], shallow: true do
+      member do
+        post :confirm, controller: "orders"
+        post :unconfirm, controller: "orders"
+        get :calendar
+      end
       resources :order_items, only: [:create, :destroy]
     end
   end
@@ -43,7 +48,8 @@ Rails.application.routes.draw do
 
   get "/dashboard", to: "dashboard#index", as: :dashboard
 
-  root to: "sessions#new"
+  root to: "pages#home"
+  get "about", to: "pages#about", as: :about
 
   # Test-only: direct sign-in without OTP (used by system tests to bypass email auth)
   if Rails.env.test?

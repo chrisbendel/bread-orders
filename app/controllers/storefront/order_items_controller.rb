@@ -29,6 +29,7 @@ module Storefront
         end
 
         item.save!
+        order.unconfirm!
       end
 
       redirect_to storefront_event_path(@store.slug, @event), notice: "Added #{@product.name}"
@@ -45,6 +46,7 @@ module Storefront
         return
       end
 
+      item.order.unconfirm!
       item.destroy!
 
       redirect_to storefront_event_path(@store.slug, @event), notice: "Removed #{product_name}"
