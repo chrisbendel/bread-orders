@@ -1,7 +1,9 @@
 <section class="panel stack-sm">
   <% if order&.order_items&.any? %>
     <div class="group justify-between items-baseline">
-      <span class="text-sm font-bold"><%= event.orders_closed? ? "Order confirmed" : "Your order" %></span>
+      <span class="text-sm font-bold">
+        <%= order.confirmed? ? "Order confirmed" : "Your order" %>
+      </span>
       <span class="font-bold"><%= number_to_currency(order.total_price) %></span>
     </div>
 
@@ -11,7 +13,7 @@
           <span class="text-sm"><%= item.event_product.name %></span>
           <span class="group items-center">
             <span class="text-sm text-muted">×<%= item.quantity %></span>
-            <% if event.orders_open? %>
+            <% if event.orders_open? && !order.confirmed? %>
               <%= button_to storefront_order_item_path(store.slug, item),
                   method: :delete,
                   class: "button-link text-muted",
@@ -33,6 +35,20 @@
     <p class="text-sm text-muted">
       Pickup <%= pickup_datetime(event.pickup_at) %>
     </p>
+
+    <% if event.orders_open? %>
+      <% if order.confirmed? %>
+        <div class="stack-sm">
+          <div class="group">
+            <%= link_to "Add to Google Calendar", google_calendar_url(event), class: "button secondary small", target: "_blank", rel: "noopener" %>
+            <%= link_to "Download .ics", calendar_storefront_event_path(store.slug, event), class: "button secondary small" %>
+          </div>
+          <%= button_to "Edit Order", unconfirm_storefront_event_path(store.slug, event), method: :post, class: "button-link text-muted text-sm" %>
+        </div>
+      <% else %>
+        <%= button_to "Complete Order", confirm_storefront_event_path(store.slug, event), method: :post, class: "button primary w-full" %>
+      <% end %>
+    <% end %>
   <% else %>
     <p class="text-sm text-muted">No items yet.</p>
   <% end %>

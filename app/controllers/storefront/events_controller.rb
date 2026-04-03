@@ -3,9 +3,18 @@ module Storefront
     before_action :set_store
     before_action :set_event
 
+    include CalendarHelper
+
     def show
       @products = @event.event_products
       @order = @event.orders.find_by(user: current_user)
+    end
+
+    def calendar
+      send_data ics_export(@event),
+        filename: "#{@event.name.parameterize}-pickup.ics",
+        type: "text/calendar",
+        disposition: "attachment"
     end
 
     private

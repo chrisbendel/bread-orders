@@ -35,6 +35,11 @@ Rails.application.routes.draw do
     resource :notification, only: [:create, :destroy]
 
     resources :events, only: [:show], shallow: true do
+      member do
+        post :confirm, controller: "orders"
+        post :unconfirm, controller: "orders"
+        get :calendar
+      end
       resources :order_items, only: [:create, :destroy]
     end
   end
