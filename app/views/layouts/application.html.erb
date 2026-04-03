@@ -7,6 +7,7 @@
   <meta property="og:title" content="<%= content_for(:title) || 'LocalBaker' %>">
   <meta property="og:description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : 'LocalBaker: Simple pre-orders for home bakeries.' %>">
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="LocalBaker">
   <meta property="og:url" content="<%= request.original_url %>">
   <% if content_for?(:og_image) %>
     <meta property="og:image" content="<%= yield(:og_image) %>">
@@ -61,7 +62,14 @@
 </main>
 
 <footer>
-  <span>LocalBaker</span>
+  <div class="group justify-between items-center">
+    <span>&copy; <%= Time.current.year %> LocalBaker</span>
+    <nav class="group">
+      <%= link_to "Home", root_path %>
+      <span class="text-muted" aria-hidden="true">&middot;</span>
+      <%= link_to "Our Ethos", about_path %>
+    </nav>
+  </div>
 </footer>
 </body>
 </html>
