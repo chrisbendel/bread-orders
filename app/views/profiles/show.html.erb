@@ -3,6 +3,14 @@
 <div class="stack">
   <h1>Profile</h1>
 
+  <% unless current_user.store %>
+    <hr class="divider"/>
+    <div class="stack-sm">
+      <p class="text-muted text-sm">Want to sell your own baked goods?</p>
+      <%= link_to "Create your store", new_store_path %>
+    </div>
+  <% end %>
+
   <%= form_with model: current_user, url: profile_path, method: :patch, class: "stack" do |f| %>
     <div>
       <%= f.label :email, "Email" %>
@@ -15,14 +23,6 @@
     </div>
 
     <%= f.submit "Save", class: "button primary", style: "align-self: flex-start" %>
-  <% end %>
-
-  <% unless current_user.store %>
-    <hr class="divider"/>
-    <div class="stack-sm">
-      <p class="text-muted text-sm">Want to sell your own baked goods?</p>
-      <%= link_to "Create your store", new_store_path %>
-    </div>
   <% end %>
 
   <hr class="divider"/>
