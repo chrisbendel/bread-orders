@@ -1,0 +1,40 @@
+<% content_for :title, "LocalBaker — Ethos & Mission" %>
+<% content_for :meta_description, "Learn about the ethos and mission behind LocalBaker. We believe in simplicity, web standards, and escaping the bloat." %>
+
+<div class="stack container" style="max-width: 600px; padding-block: var(--sp-lg);">
+  <h1 style="font-size: 2rem;">Our Ethos</h1>
+  <p class="text-lg text-muted">
+    Software should get out of your way. That's why LocalBaker exists.
+  </p>
+
+  <hr class="divider" style="margin-block: var(--sp-md)" />
+
+  <div class="stack">
+    <h2 class="font-bold">1. Simple by Design</h2>
+    <p>
+      If you look around the web, everything is heavy. Popups, infinite scrolls, massive javascript bundles just to show a form. LocalBaker takes inspiration from the early-2000s web. It relies on native browser features. No dropdown menus that break on mobile, no bloated frameworks. Just clean, fast, reliable HTML.
+    </p>
+
+    <h2 class="font-bold">2. Built for the Home Baker</h2>
+    <p>
+      You don't need a complex inventory management system if you're baking 20 loaves of sourdough out of your kitchen. You need a way to tell your neighborhood what you're making, a way for them to claim it, and a clean list of who gets what and when. We build specifically for this scale. Everything else is noise.
+    </p>
+
+    <h2 class="font-bold">3. No Passwords, No Friction</h2>
+    <p>
+      Your customers shouldn't have to remember another password just to buy bread. We use magic links and native session management to keep the purchasing experience as smooth as possible. They click your link, pick their items, and check out.
+    </p>
+
+    <h2 class="font-bold">4. Community Supported</h2>
+    <p>
+      We believe the best communities are built offline. Our goal is to provide the digital plumbing necessary for you to build real, human connections with your neighbors through the sharing of food.
+    </p>
+  </div>
+
+  <div class="panel text-center stack-sm" style="margin-top: var(--sp-lg)">
+    <p class="font-bold">Ready to start baking?</p>
+    <div>
+      <%= link_to "Open your storefront", new_session_path, class: "button primary" %>
+    </div>
+  </div>
+</div>

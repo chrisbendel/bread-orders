@@ -1,0 +1,32 @@
+<% content_for :title, "LocalBaker — Connect with neighborhood bakers" %>
+<% content_for :meta_description, "Connect with local home bakers to order fresh bread, or start your own neighborhood bakery." %>
+
+<div class="stack-lg">
+  <div class="stack text-center items-center" style="padding-block: var(--sp-lg)">
+    <h1 style="font-size: 2.5rem; max-width: 500px;">Fresh bread, fresh from the neighborhood.</h1>
+    <p class="text-lg text-muted" style="max-width: 550px;">
+      LocalBaker connects artisan home bakers with their community. Whether you're baking twenty loaves a week or just looking for great bread down the street, everything works seamlessly.
+    </p>
+    <div style="margin-top: var(--sp-sm);">
+      <%= link_to "Sign in / Join", new_session_path, class: "button primary", style: "font-size: 1.1rem; padding: 0.6rem 1.2rem;" %>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2" style="margin-top: var(--sp-lg);">
+    <div class="card card-accent stack-sm">
+      <h3 class="font-bold">For Neighborhood Bakers</h3>
+      <p class="text-muted">Post your upcoming bakes and share a simple link. We organize your list so you know exactly who gets what and when, letting you focus on the dough.</p>
+    </div>
+
+    <div class="card card-accent stack-sm">
+      <h3 class="font-bold">For the Community</h3>
+      <p class="text-muted">Find amazing bread right in your neighborhood. Claim a loaf and pick it up hot from the oven—no passwords to remember or apps to download.</p>
+    </div>
+  </div>
+
+  <div class="stack items-center empty-state" style="margin-top: var(--sp-lg); padding-block: 3rem;">
+    <h2>Community-first, software second</h2>
+    <p class="text-muted text-center" style="max-width: 400px;">LocalBaker is built to stay out of your way. Learn more about our mission and why we keep things intentionally simple.</p>
+    <%= link_to "Read our Ethos", about_path, class: "button secondary" %>
+  </div>
+</div>

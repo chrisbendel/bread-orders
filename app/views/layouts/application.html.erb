@@ -2,6 +2,15 @@
 <html>
 <head>
   <title><%= content_for(:title) || "LocalBaker" %></title>
+  <meta name="description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : 'LocalBaker: Simple pre-orders for home bakeries.' %>">
+
+  <meta property="og:title" content="<%= content_for(:title) || 'LocalBaker' %>">
+  <meta property="og:description" content="<%= content_for?(:meta_description) ? yield(:meta_description) : 'LocalBaker: Simple pre-orders for home bakeries.' %>">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<%= request.original_url %>">
+  <% if content_for?(:og_image) %>
+    <meta property="og:image" content="<%= yield(:og_image) %>">
+  <% end %>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="application-name" content="LocalBaker">

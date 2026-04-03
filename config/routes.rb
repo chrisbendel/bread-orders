@@ -43,7 +43,8 @@ Rails.application.routes.draw do
 
   get "/dashboard", to: "dashboard#index", as: :dashboard
 
-  root to: "sessions#new"
+  root to: "pages#home"
+  get "about", to: "pages#about", as: :about
 
   # Test-only: direct sign-in without OTP (used by system tests to bypass email auth)
   if Rails.env.test?

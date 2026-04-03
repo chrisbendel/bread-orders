@@ -1,16 +1,10 @@
 <%= content_for(:title, @store.name) %>
 
-<% content_for :head do %>
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="LocalBaker">
-  <meta property="og:title" content="<%= @store.name %>">
-  <meta property="og:description" content="Order fresh baked goods from <%= @store.name %> on LocalBaker.">
-  <meta property="og:url" content="<%= request.url %>">
-  <% if @store.banner_image.attached? %>
-    <meta property="og:image" content="<%= url_for(@store.banner_image) %>">
-  <% else %>
-    <meta property="og:image" content="<%= root_url.chomp("/") + "/baguette-solid.png" %>">
-  <% end %>
+<% content_for(:meta_description, @store.description.presence || "Order fresh baked goods from #{@store.name} on LocalBaker.") %>
+<% if @store.banner_image.attached? %>
+  <% content_for(:og_image, url_for(@store.banner_image)) %>
+<% else %>
+  <% content_for(:og_image, root_url.chomp("/") + "/baguette-solid.png") %>
 <% end %>
 
 <header class="stack-sm">
