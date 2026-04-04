@@ -1,6 +1,6 @@
 <header>
   <div class="flex items-center justify-between">
-    <%= link_to dashboard_path, style: "text-decoration: none; line-height: 0;" do %>
+    <%= link_to root_path, style: "text-decoration: none; line-height: 0;" do %>
       <img src="/baguette.svg" height="28" alt="LocalBaker">
     <% end %>
 
@@ -17,9 +17,6 @@
                                          .includes(event: :store)
                                          .order("events.pickup_at ASC") %>
         <% if upcoming_orders.any? %>
-          <% orders_path = upcoming_orders.count == 1 \
-               ? storefront_event_path(upcoming_orders.first.event.store.slug, upcoming_orders.first.event) \
-               : dashboard_path %>
           <%= link_to orders_path, class: "nav-icon nav-orders", aria: { label: "#{upcoming_orders.count} upcoming #{upcoming_orders.count == 1 ? 'order' : 'orders'}" } do %>
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>

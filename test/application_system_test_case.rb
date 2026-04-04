@@ -13,6 +13,6 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   # Using Capybara's built-in session-aware form submission via visit+form.
   def sign_in_via_browser(user)
     visit test_sign_in_path(user.id)
-    visit dashboard_path
+    visit orders_path
   end
 end

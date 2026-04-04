@@ -99,7 +99,7 @@ class StoresControllerTest < ActionDispatch::IntegrationTest
       delete store_path
     end
 
-    assert_redirected_to dashboard_path
+    assert_redirected_to root_path
   end
 
   # --- QR plan gate ---

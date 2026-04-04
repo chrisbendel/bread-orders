@@ -24,7 +24,6 @@ class StoresController < ApplicationController
     @drafts = @store.events.draft.includes(:event_products).order(pickup_at: :asc)
     @upcoming = @store.events.published.where("pickup_at >= ?", Date.current).includes(:orders).order(pickup_at: :asc)
     @past = @store.events.published.where("pickup_at < ?", Date.current).order(pickup_at: :desc)
-    @orders = current_user.orders.includes(:order_items, event: :store).order(created_at: :desc)
   end
 
   def edit
@@ -64,7 +63,7 @@ class StoresController < ApplicationController
 
   def destroy
     @store.destroy
-    redirect_to dashboard_path, notice: "Store removed."
+    redirect_to root_path, notice: "Store removed."
   end
 
   private
