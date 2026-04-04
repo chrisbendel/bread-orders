@@ -16,7 +16,7 @@ class Store < ApplicationRecord
   before_validation { self.address = AddressParser.normalize(address) }
 
   def monetization_allowed?
-    true
+    user.pro?
   end
 
   def active_orders?
