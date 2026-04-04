@@ -181,4 +181,48 @@ class Stores::EventsControllerTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_select ".notice", /deleted/i
   end
+
+  # --- plan limit ---
+
+  test "POST publish is blocked when free user is at event limit" do
+    @event.event_products.create!(name: "Bread", price_cents: 1000, quantity: 10)
+
+    # Fill up the free limit with already-active events
+    User::FREE_EVENT_LIMIT.times do |i|
+      e = @store.events.create!(name: "Active #{i}", orders_close_at: 1.day.from_now, pickup_at: 2.days.from_now)
+      e.update_column(:published_at, Time.current)
+    end
+
+    post publish_event_path(@event)
+
+    assert_redirected_to billing_upgrade_path
+    @event.reload
+    assert @event.draft?
+  end
+
+  test "POST publish is allowed when free user is below the event limit" do
+    @event.event_products.create!(name: "Bread", price_cents: 1000, quantity: 10)
+
+    post publish_event_path(@event)
+
+    assert_redirected_to event_path(@event)
+    @event.reload
+    assert @event.published?
+  end
+
+  test "POST publish is allowed for pro user regardless of active event count" do
+    @user.update!(plan: :pro)
+    @event.event_products.create!(name: "Bread", price_cents: 1000, quantity: 10)
+
+    User::FREE_EVENT_LIMIT.times do |i|
+      e = @store.events.create!(name: "Active #{i}", orders_close_at: 1.day.from_now, pickup_at: 2.days.from_now)
+      e.update_column(:published_at, Time.current)
+    end
+
+    post publish_event_path(@event)
+
+    assert_redirected_to event_path(@event)
+    @event.reload
+    assert @event.published?
+  end
 end
