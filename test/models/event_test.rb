@@ -118,6 +118,28 @@ class EventTest < ActiveSupport::TestCase
     assert_includes Event.current, @event
   end
 
+  # --- active_published scope ---
+
+  test "active_published includes published events with future pickup" do
+    @event.save!
+    @event.event_products.create!(name: "Item", price_cents: 1000, quantity: 5)
+    @event.publish!
+    assert_includes Event.active_published, @event
+  end
+
+  test "active_published excludes draft events" do
+    @event.save!
+    refute_includes Event.active_published, @event
+  end
+
+  test "active_published excludes published events with past pickup" do
+    @event.orders_close_at = 2.days.ago
+    @event.pickup_at = 1.day.ago
+    @event.save!(validate: false)
+    @event.update_column(:published_at, Time.current)
+    refute_includes Event.active_published, @event
+  end
+
   # --- pickup_address / effective_pickup_address ---
 
   test "pickup_address is optional" do

@@ -44,10 +44,13 @@ Rails.application.routes.draw do
     end
   end
 
+  get "billing/upgrade", to: "billing#upgrade"
+
+  resource :contact, only: [:new, :create]
+
   resource :profile, only: [:show, :update]
 
-  get "/dashboard", to: "dashboard#index", as: :dashboard
-
+  resources :orders, only: [:index]
   root to: "pages#home"
   get "about", to: "pages#about", as: :about
 

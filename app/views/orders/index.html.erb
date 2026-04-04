@@ -1,0 +1,25 @@
+<% content_for :title, "Your Orders" %>
+
+<% if @orders.any? %>
+  <section class="stack">
+    <h3>Your Orders</h3>
+    <div class="stack-sm">
+      <% @orders.each do |order| %>
+        <%= link_to storefront_event_path(order.event.store.slug, order.event), class: "card" do %>
+          <div class="group justify-between items-baseline">
+            <strong><%= order.event.store.name %></strong>
+            <span class="text-muted text-sm"><%= number_to_currency(order.total_price) %></span>
+          </div>
+          <p class="text-muted text-sm">
+            <%= order.event.name %> &middot; Pickup <%= nice_date(order.event.pickup_at) %>
+          </p>
+        <% end %>
+      <% end %>
+    </div>
+  </section>
+<% else %>
+  <div class="empty-state stack-sm">
+    <p>You don't have any orders yet.</p>
+    <p class="text-muted">Visit a baker's storefront to place an order.</p>
+  </div>
+<% end %>

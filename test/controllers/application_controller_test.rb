@@ -2,7 +2,7 @@ require "test_helper"
 
 class ApplicationControllerTest < ActionDispatch::IntegrationTest
   test "require_authentication! redirects when not signed in" do
-    get dashboard_path
+    get orders_path
     assert_redirected_to new_session_path
     assert_equal "Sign in to continue.", flash[:alert]
   end
@@ -18,7 +18,7 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
     # Simulate successful login with code from email:
     post confirm_session_path, params: {email: user.email, code: code}
 
-    get dashboard_path
+    get orders_path
     assert_response :success
   end
 end

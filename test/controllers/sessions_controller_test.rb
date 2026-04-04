@@ -6,7 +6,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     sign_in_as(user)
 
     get new_session_path
-    assert_redirected_to dashboard_path
+    assert_redirected_to orders_path
   end
 
   test "create sends login code and redirects to verify" do
@@ -33,7 +33,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal user.id, session[:user_id]
   end
 
-  test "confirm signs in and redirects to dashboard for existing store owner" do
+  test "confirm signs in and redirects to root_path for existing store owner" do
     user = User.create!(email: "owner@example.com")
     user.create_store!(name: "My Bakery", slug: "my-bakery")
 

@@ -15,9 +15,8 @@ class Store < ApplicationRecord
 
   before_validation { self.address = AddressParser.normalize(address) }
 
-  # eventually check `user.subscription_active?` when integrating payments
   def monetization_allowed?
-    true
+    user.pro?
   end
 
   def active_orders?

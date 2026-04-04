@@ -13,7 +13,7 @@ class BakerLifecycleTest < ApplicationSystemTestCase
     # 1. Sign in
     # ----------------------------------------------------------------
     sign_in_via_browser(@baker)
-    assert_current_path dashboard_path
+    assert_current_path orders_path
 
     # Empty state is customer-focused — no "Create your Store" prompt here
     assert_text "You don't have any orders yet"
@@ -140,9 +140,9 @@ class BakerLifecycleTest < ApplicationSystemTestCase
     assert_equal product_row_count_before - 1, all("tbody tr").count
 
     # ----------------------------------------------------------------
-    # 9. Dashboard shows event card (not table)
+    # 9. Store shows event card (not table)
     # ----------------------------------------------------------------
-    visit dashboard_path
+    visit store_path
 
     assert_text "Events"
     assert_css ".card", text: "Saturday Bake"

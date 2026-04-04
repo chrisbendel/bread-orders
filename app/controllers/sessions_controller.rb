@@ -1,6 +1,8 @@
 class SessionsController < ApplicationController
   def new
-    redirect_to dashboard_path if authenticated?
+    if authenticated?
+      redirect_to current_user.store ? store_path : orders_path
+    end
     session[:return_to] = params[:return_to] if params[:return_to].present?
   end
 

@@ -47,9 +47,15 @@ module Storefront
       end
 
       item.order.unconfirm!
+      order = item.order
       item.destroy!
 
-      redirect_to storefront_event_path(@store.slug, @event), notice: "Removed #{product_name}"
+      if order.order_items.reload.empty?
+        order.destroy!
+        redirect_to storefront_event_path(@store.slug, @event), notice: "Removed #{product_name}. Your order is now empty."
+      else
+        redirect_to storefront_event_path(@store.slug, @event), notice: "Removed #{product_name}"
+      end
     end
 
     private

@@ -53,7 +53,21 @@ module Storefront
       end
 
       assert_redirected_to storefront_event_path(@store.slug, @event)
-      assert_equal "Removed #{@product.name}", flash[:notice]
+      assert_match(/Removed #{@product.name}/, flash[:notice])
+    end
+
+    test "should destroy order when last item is removed" do
+      sign_in_as(@customer)
+
+      post storefront_event_order_items_url(@store.slug, @event), params: {event_product_id: @product.id}
+      item = @customer.order_items.last
+
+      assert_difference(["OrderItem.count", "Order.count"], -1) do
+        delete storefront_order_item_url(@store.slug, item)
+      end
+
+      assert_redirected_to storefront_event_path(@store.slug, @event)
+      assert_match(/Your order is now empty/, flash[:notice])
     end
 
     test "should prevent adding more than stock" do

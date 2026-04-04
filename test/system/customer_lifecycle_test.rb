@@ -51,7 +51,7 @@ class CustomerLifecycleTest < ApplicationSystemTestCase
     # 1. Sign in
     # ----------------------------------------------------------------
     sign_in_via_browser(@customer)
-    assert_current_path dashboard_path
+    assert_current_path orders_path
 
     # No orders yet — customer-focused empty state
     assert_text "You don't have any orders yet"
@@ -160,9 +160,9 @@ class CustomerLifecycleTest < ApplicationSystemTestCase
     end
 
     # ----------------------------------------------------------------
-    # 11. Dashboard shows order cards (not a table)
+    # 11. Orders page shows order cards (not a table)
     # ----------------------------------------------------------------
-    visit dashboard_path
+    visit orders_path
 
     assert_text "Your Orders"
     assert_css ".card", text: "The Bread Barn"
